@@ -20,7 +20,11 @@ public class MovieData {
     private final String mOverview;
     private final String mReleaseDate;
 
-    public MovieData(int ID, int voteCount, boolean video, Double voteAverage, String title, Double popularity, String posterPath, String originalLanguage, String originalTitle, JSONArray genreIDs, String backdropPath, boolean adult, String overview, String releaseDate) {
+    public MovieData(int ID, int voteCount, boolean video, Double voteAverage, String title,
+                     Double popularity, String posterPath, String originalLanguage,
+                     String originalTitle, JSONArray genreIDs, String backdropPath,
+                     boolean adult, String overview, String releaseDate) {
+
         //check numbers(int / double) and JSONArray objects and replace error values;
         //Boolean and String error already replaced by default
         this.mID = checkNumber(ID);
@@ -129,7 +133,9 @@ public class MovieData {
     }
 
     public String getBackdropPath() {
-        return SearchPreferences.IMAGE_BASE_URL + SearchPreferences.BACKDROP_IMAGE_SIZE + mBackdropPath;
+        return SearchPreferences.IMAGE_BASE_URL +
+                SearchPreferences.BACKDROP_IMAGE_SIZE +
+                mBackdropPath;
     }
 
     public boolean isAdult() {

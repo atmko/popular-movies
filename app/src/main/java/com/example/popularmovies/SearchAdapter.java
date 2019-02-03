@@ -27,7 +27,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdap
         void onItemClick(int position);
     }
 
-    public class SearchAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class SearchAdapterViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
+
         final ImageView moviePosterImageView;
 
         private SearchAdapterViewHolder(@NonNull View itemView) {
@@ -58,8 +60,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchAdapterViewHolder searchAdapterViewHolder, int position) {
-        Context context = searchAdapterViewHolder.moviePosterImageView.getContext();
+    public void onBindViewHolder(@NonNull SearchAdapterViewHolder adapterViewHolder, int position) {
+        Context context = adapterViewHolder.moviePosterImageView.getContext();
         //get current MovieData
         MovieData currentMovieData = mAdapterData.get(position);
 
@@ -67,7 +69,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdap
         NetworkFunctions.loadImage(
                 context,
                 currentMovieData.getPosterPath(),
-                searchAdapterViewHolder.moviePosterImageView);
+                adapterViewHolder.moviePosterImageView);
     }
 
     @Override

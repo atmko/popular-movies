@@ -49,8 +49,10 @@ public class DetailActivity extends AppCompatActivity {
         //get selected movie using index
         MovieData currentMovieData = MainActivity.searchAdapter.getMovieData(index);
         //load images into ImageViews using glide
-        NetworkFunctions.loadImage(this, currentMovieData.getBackdropPath(), backdropImageView);
-        NetworkFunctions.loadImage(this, currentMovieData.getPosterPath(), posterImageView);
+        NetworkFunctions
+                .loadImage(this, currentMovieData.getBackdropPath(), backdropImageView);
+        NetworkFunctions
+                .loadImage(this, currentMovieData.getPosterPath(), posterImageView);
 
         //set text in TextViews
         titleTextView.setText(currentMovieData.getTitle());

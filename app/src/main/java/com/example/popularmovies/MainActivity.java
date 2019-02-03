@@ -11,7 +11,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity implements SearchAdapter.OnListItemClickListener{
+public class MainActivity extends AppCompatActivity
+        implements SearchAdapter.OnListItemClickListener{
 
     static SearchPreferences searchPreferences;
     static SearchAdapter searchAdapter;
@@ -24,13 +25,16 @@ public class MainActivity extends AppCompatActivity implements SearchAdapter.OnL
         //---configure recyclerVIew
         RecyclerView mSearchPosterRecyclerView = findViewById(R.id.searchPosterRecyclerView);
         mSearchPosterRecyclerView.setHasFixedSize(true);
-        mSearchPosterRecyclerView.setLayoutManager(configureLayoutManager());//configureLayoutManager returns a LayoutManager
+        //configureLayoutManager returns a LayoutManager
+        mSearchPosterRecyclerView.setLayoutManager(configureLayoutManager());
 
         //--configure load on scroll
         mSearchPosterRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
+                    throws java.lang.NullPointerException {
+
                 super.onScrolled(recyclerView, dx, dy);
 
                 int currentPage = searchPreferences.getCurrentPage();
@@ -39,10 +43,12 @@ public class MainActivity extends AppCompatActivity implements SearchAdapter.OnL
                 int totalNumOfItems = searchAdapter.getItemCount();
                 int lastItemIndex = totalNumOfItems - 1;
 
-                //catches possible NullPointerException when invoking (GridLayoutManager)recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition()
-                try {
-                    int lastShown = ((GridLayoutManager)recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                    boolean lastItem = lastShown == lastItemIndex;//lastVis == lastItemIndex makes sure we are at the end of list
+                //error caught in throw when invoking findLastCompletelyVisibleItemPosition()
+                    int lastShown = ((GridLayoutManager)recyclerView.getLayoutManager())
+                                    .findLastCompletelyVisibleItemPosition();
+
+                //lastVis == lastItemIndex makes sure we are at the end of list
+                boolean lastItem = lastShown == lastItemIndex;
                     boolean morePagesAvailable = currentPage < availablePages;
 
                     //if at lastItem && if morePagesAvailable
@@ -50,11 +56,6 @@ public class MainActivity extends AppCompatActivity implements SearchAdapter.OnL
                         //load next page
                         searchPreferences.loadNextPage();
                     }
-
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-
             }
 
         });
@@ -90,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements SearchAdapter.OnL
         //-------------sort by popularity / votes
         //get menu item
         MenuItem popularityItem = menu.findItem(R.id.sort_by_popularity);
-        popularityItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {//set click listener
+        //set click listener
+        popularityItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 //SET SORT BY POPULARITY
@@ -103,7 +105,8 @@ public class MainActivity extends AppCompatActivity implements SearchAdapter.OnL
         });
         //get menu item
         MenuItem votesItem = menu.findItem(R.id.sort_by_vote);
-        votesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {//set click listener
+        //set click listener
+        votesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 //SET SORT BY POPULARITY
@@ -116,6 +119,5 @@ public class MainActivity extends AppCompatActivity implements SearchAdapter.OnL
 
         return true;
     }
-
 
 }
