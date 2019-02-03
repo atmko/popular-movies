@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+
+    <!--api key-->
+    <string name="api_key">INSERT API KEY HERE</string>
+    <!--menu labels-->
+    <string name="sort_by_popularity">sort by popularity</string>
+    <string name="sort_by_vote">sort by vote</string>
+
+    <!--textview placeholder text-->
+    <string name="detail_title_text">title</string>
+    <string name="detail_rating_text">rating</string>
+    <string name="detail_release_date_text">release date</string>
+    <string name="detail_overview_text">overview</string>
+
+    content descriptions?
+    <string name="poster_description">poster image</string>
+    <string name="backdrop_description">backdrop image</string>
+</resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/backdropImageView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_backdrop_height"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/backdrop_description" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/detail_layout_margin">
+
+            <ImageView
+                android:id="@+id/posterImageView"
+                android:layout_width="@dimen/detail_poster_width"
+                android:layout_height="@dimen/detail_poster_height"
+                android:layout_marginLeft="@dimen/detail_layout_margin"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/poster_description"
+                android:layout_marginStart="@dimen/detail_layout_margin" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/detail_layout_margin"
+                android:layout_marginRight="@dimen/detail_layout_margin"
+                android:layout_toRightOf="@id/posterImageView"
+                android:orientation="vertical"
+                android:layout_toEndOf="@id/posterImageView">
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/detail_title_text_size"
+                    android:textAlignment="center"
+                    android:text="@string/detail_title_text"/>
+
+                <TextView
+                    android:id="@+id/voteAverageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/detail_rating_text"
+                    android:textSize="@dimen/detail_rating_text_size" />
+
+                <TextView
+                    android:id="@+id/releaseDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/detail_release_date_text_size"
+                    android:text="@string/detail_release_date_text"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/overviewTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/detail_layout_margin"
+            android:text="@string/detail_overview_text"
+            android:textSize="@dimen/detail_overview_text_size"/>
+
+    </LinearLayout>
+
+</ScrollView>

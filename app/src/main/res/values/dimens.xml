@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--margins-->
+    <dimen name="detail_layout_margin">20dp</dimen>
+    <dimen name="main_layout_margin">8dp</dimen>
+    <!--text sizes-->
+    <dimen name="detail_title_text_size">25sp</dimen>
+    <dimen name="detail_rating_text_size">50sp</dimen>
+    <dimen name="detail_release_date_text_size">20sp</dimen>
+    <dimen name="detail_overview_text_size">14sp</dimen>
+    <!--view dimensions-->
+    <dimen name="detail_backdrop_height">200dp</dimen>
+    <dimen name="detail_poster_width">120dp</dimen>
+    <dimen name="detail_poster_height">170dp</dimen>
+</resources>
