@@ -5,7 +5,7 @@ import android.net.Uri;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class SearchPreferences {
+public final class SearchPreferences {
 
     //urls & paths
     private URL mQueryURL;//final url used by MovieLoader

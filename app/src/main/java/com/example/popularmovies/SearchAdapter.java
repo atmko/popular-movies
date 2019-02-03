@@ -13,7 +13,7 @@ import com.example.popularmovies.Models.MovieData;
 
 import java.util.ArrayList;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdapterViewHolder> {
+public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdapterViewHolder> {
 
     private static ArrayList<MovieData> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;

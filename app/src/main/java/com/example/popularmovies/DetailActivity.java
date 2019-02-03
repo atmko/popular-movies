@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.popularmovies.Models.MovieData;
 
-public class DetailActivity extends AppCompatActivity {
+public final class DetailActivity extends AppCompatActivity {
 
     private int index;
 

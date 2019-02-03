@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 //gets movie titles, posters, backdrops, overviews etc
-class MovieLoader extends AsyncTask<URL, Void, String> {
+final class MovieLoader extends AsyncTask<URL, Void, String> {
     //start reference-----------------------------
     //source: https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
     //user: Levit

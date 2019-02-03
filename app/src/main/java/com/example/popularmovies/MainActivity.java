@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
+public final class MainActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener{
 
     static SearchPreferences searchPreferences;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         mSearchPosterRecyclerView.setAdapter(searchAdapter);
 
         //create searchPreferences with api key and execute search
-        String apiKey = getString(R.string.api_key);
+        String apiKey = BuildConfig.apiKey;
         searchPreferences = new SearchPreferences(apiKey);//takes api key
         searchPreferences.executeMovieSearch(true);
     }

@@ -4,7 +4,7 @@ import com.example.popularmovies.SearchPreferences;
 
 import org.json.JSONArray;
 
-public class MovieData {
+public final class MovieData {
     private final String mID;
     private final String  mVoteCount;
     private final boolean mVideo;

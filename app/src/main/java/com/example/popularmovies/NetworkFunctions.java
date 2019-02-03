@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-class NetworkFunctions {
+final class NetworkFunctions {
 
     static String connectURL(URL url)throws IOException {
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
