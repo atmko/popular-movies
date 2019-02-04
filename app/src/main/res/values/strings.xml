@@ -2,8 +2,8 @@
     <string name="app_name">Popular Movies</string>
 
     <!--menu labels-->
-    <string name="sort_by_popularity">sort by popularity</string>
-    <string name="sort_by_vote">sort by vote</string>
+    <string name="menu_popular_title">most popular movies</string>
+    <string name="menu_top_rated_title">top rated movies</string>
 
     <!--textview placeholder text-->
     <string name="detail_title_text">title</string>

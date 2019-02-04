@@ -1,4 +1,4 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -66,7 +66,7 @@ public final class MainActivity extends AppCompatActivity
         //create searchPreferences with api key and execute search
         String apiKey = BuildConfig.apiKey;
         searchPreferences = new SearchPreferences(apiKey);//takes api key
-        searchPreferences.executeMovieSearch(true);
+        searchPreferences.executePresetMovieSearch(true);//defaults to popular movies
     }
 
     private GridLayoutManager configureLayoutManager() {
@@ -90,29 +90,29 @@ public final class MainActivity extends AppCompatActivity
 
         //-------------sort by popularity / votes
         //get menu item
-        MenuItem popularityItem = menu.findItem(R.id.sort_by_popularity);
+        MenuItem popularityItem = menu.findItem(R.id.popular_movies);
         //set click listener
         popularityItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //SET SORT BY POPULARITY
-                searchPreferences.setSortParameter(SearchPreferences.SORT_BY_POPULARITY);
+                //SHOW POPULAR
+                searchPreferences.setPresetParameter(SearchPreferences.POPULAR_PRESET);
                 //execute search
-                searchPreferences.executeMovieSearch(true);
+                searchPreferences.executePresetMovieSearch(true);
                 return true;
-
             }
         });
+
         //get menu item
-        MenuItem votesItem = menu.findItem(R.id.sort_by_vote);
+        MenuItem ratingItem = menu.findItem(R.id.top_rated_movies);
         //set click listener
-        votesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        ratingItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //SET SORT BY POPULARITY
-                searchPreferences.setSortParameter(SearchPreferences.SORT_BY_VOTE);
+                //SHOW ROP RATED
+                searchPreferences.setPresetParameter(SearchPreferences.TOP_RATED_PRESET);
                 //execute search
-                searchPreferences.executeMovieSearch(true);
+                searchPreferences.executePresetMovieSearch(true);
                 return true;
             }
         });

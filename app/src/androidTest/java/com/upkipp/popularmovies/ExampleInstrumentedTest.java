@@ -1,4 +1,4 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

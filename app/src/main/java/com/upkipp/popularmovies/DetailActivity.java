@@ -1,14 +1,13 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.Models.MovieData;
 
 public final class DetailActivity extends AppCompatActivity {
 

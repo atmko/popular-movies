@@ -1,11 +1,11 @@
-package com.example.popularmovies.Models;
+package com.upkipp.popularmovies.Models;
 
-import com.example.popularmovies.SearchPreferences;
+import com.upkipp.popularmovies.SearchPreferences;
 
 import org.json.JSONArray;
 
 public final class MovieData {
-    private final String mID;
+    private final String mId;
     private final String  mVoteCount;
     private final boolean mVideo;
     private final String mVoteAverage;
@@ -14,20 +14,20 @@ public final class MovieData {
     private final String mPosterPath;
     private final String mOriginalLanguage;
     private final String mOriginalTitle;
-    private final JSONArray mGenreIDs;
+    private final JSONArray mGenreIds;
     private final String mBackdropPath;
     private final boolean mAdult;
     private final String mOverview;
     private final String mReleaseDate;
 
-    public MovieData(int ID, int voteCount, boolean video, Double voteAverage, String title,
+    public MovieData(int Id, int voteCount, boolean video, Double voteAverage, String title,
                      Double popularity, String posterPath, String originalLanguage,
-                     String originalTitle, JSONArray genreIDs, String backdropPath,
+                     String originalTitle, JSONArray genreIds, String backdropPath,
                      boolean adult, String overview, String releaseDate) {
 
         //check numbers(int / double) and JSONArray objects and replace error values;
         //Boolean and String error already replaced by default
-        this.mID = checkNumber(ID);
+        this.mId = checkNumber(Id);
         this.mVoteCount = checkNumber(voteCount);
         this.mVideo = video;
         this.mVoteAverage = checkNumber(voteAverage);
@@ -36,7 +36,7 @@ public final class MovieData {
         this.mPosterPath = posterPath;
         this.mOriginalLanguage = originalLanguage;
         this.mOriginalTitle = originalTitle;
-        this.mGenreIDs = checkJSONArray(genreIDs);
+        this.mGenreIds = checkJSONArray(genreIds);
         this.mBackdropPath = backdropPath;
         this.mAdult = adult;
         this.mOverview = overview;
@@ -92,8 +92,8 @@ public final class MovieData {
         }
     }
 
-    public String getID() {
-        return mID;
+    public String getId() {
+        return mId;
     }
 
     public String getVoteCount() {
@@ -128,8 +128,8 @@ public final class MovieData {
         return mOriginalTitle;
     }
 
-    public JSONArray getGenreIDs() {
-        return mGenreIDs;
+    public JSONArray getGenreIds() {
+        return mGenreIds;
     }
 
     public String getBackdropPath() {

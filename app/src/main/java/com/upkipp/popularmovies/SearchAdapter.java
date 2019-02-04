@@ -1,4 +1,4 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.Models.MovieData;
 
 import java.util.ArrayList;
 

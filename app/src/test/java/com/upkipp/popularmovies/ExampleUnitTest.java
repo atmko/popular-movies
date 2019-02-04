@@ -1,4 +1,4 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import org.junit.Test;
 

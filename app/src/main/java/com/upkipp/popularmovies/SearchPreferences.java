@@ -1,4 +1,4 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import android.net.Uri;
 
@@ -7,22 +7,24 @@ import java.net.URL;
 
 public final class SearchPreferences {
 
+    private final String mApiKey;
+
     //urls & paths
-    private URL mQueryURL;//final url used by MovieLoader
-    private final String mApiURL;
-    private final String BASE_URL = "https://api.themoviedb.org/3/discover/movie?api_key=";
+    private URL mQueryUrl;//final url used by MovieLoader
+    private final String PRESET_BASE_URL = "https://api.themoviedb.org/3/movie/";
     public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 
-    //image size values
+    //image values
     public static final String POSTER_IMAGE_SIZE = "w185";
     public static final String BACKDROP_IMAGE_SIZE = "w780";
 
-    //sort parameters
-    private static final String SORT_PARAM_KEY = "sort_by";
-    private String mSortParamVal;
+    //preset parameters---------------------------------------------------------------
+    private String mPresetApiUrl;
 
-    static final String SORT_BY_POPULARITY = "popularity.desc";
-    static final String SORT_BY_VOTE = "vote_count.desc";
+    private String mPresetParamVal;
+    static final String POPULAR_PRESET = "popular";
+    static final String TOP_RATED_PRESET = "top_rated";
+    //---------------------------------------------------------
 
     //paging parameters
     private final String PAGE_PARAM_KEY = "page";
@@ -30,14 +32,23 @@ public final class SearchPreferences {
     private int mCurrentPage;
     private int mTotalPages;
 
+    //language parameters
+    private String mLanguageVal;
+    private final String LANGUAGE_PARAM_KEY = "language";
+    static final String ENG_US = "en-US";
+
     SearchPreferences(String apiKey) {
-        mApiURL = BASE_URL + apiKey;
-        mSortParamVal = SORT_BY_POPULARITY;
+        //presets config
+        mPresetParamVal = POPULAR_PRESET;
+        mPresetApiUrl =  PRESET_BASE_URL + mPresetParamVal + "?api_key=" + apiKey;
+        //general//
+        mApiKey = apiKey;
         mPageParamVal = 1;
+        mLanguageVal = ENG_US;
     }
 
-    void setSortParameter(String sort) {
-        mSortParamVal = sort;
+    void setPresetParameter(String preset) {
+        mPresetParamVal = preset;
         mPageParamVal = 1;
     }
 
@@ -61,13 +72,15 @@ public final class SearchPreferences {
         mCurrentPage = pageNum;
     }
 
-    public URL getQueryURL() {
-        return mQueryURL;
+    public URL getQueryUrl() {
+        return mQueryUrl;
     }
 
-    private void buildQueryUrl() {
-        Uri builtUri = Uri.parse(mApiURL).buildUpon()
-                .appendQueryParameter(SORT_PARAM_KEY, mSortParamVal)
+    private void buildPresetUrl() {
+        mPresetApiUrl = PRESET_BASE_URL + mPresetParamVal + "?api_key=" + mApiKey;
+
+        Uri builtUri = Uri.parse(mPresetApiUrl).buildUpon()
+                .appendQueryParameter(LANGUAGE_PARAM_KEY, mLanguageVal)
                 .appendQueryParameter(PAGE_PARAM_KEY, String.valueOf(mPageParamVal))
                 .build();
 
@@ -78,11 +91,11 @@ public final class SearchPreferences {
             e.printStackTrace();
         }
 
-        mQueryURL = url;
+        mQueryUrl = url;
     }
 
-    void executeMovieSearch(boolean newSearch) {
-        buildQueryUrl();
+    void executePresetMovieSearch(boolean newSearch) {
+        buildPresetUrl();
 
         //newSearch value indicates if to overwrite Adapter Data
         //false value used in paging to not overwrite, but append
@@ -90,11 +103,12 @@ public final class SearchPreferences {
             MainActivity.searchAdapter.clearData();
         }
         MovieLoader movieLoader = new MovieLoader();
-        movieLoader.execute(mQueryURL);
+        movieLoader.execute(mQueryUrl);
     }
 
     void loadNextPage() {
         mPageParamVal++;
-        executeMovieSearch(false);
+        executePresetMovieSearch(false);
     }
+
 }

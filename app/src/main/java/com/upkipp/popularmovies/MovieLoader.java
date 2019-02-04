@@ -1,9 +1,9 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.Models.MovieData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,8 +50,8 @@ final class MovieLoader extends AsyncTask<URL, Void, String> {
         String returnedJSONString = "";
 
         try {
-            //NetworkFunctions.connectURL(url) returns a JSON String
-            returnedJSONString = NetworkFunctions.connectURL(urls[0]);
+            //NetworkFunctions.connectUri(url) returns a JSON String
+            returnedJSONString = NetworkFunctions.connectUrl(urls[0]);
         } catch (IOException e) {
             e.printStackTrace();
         }

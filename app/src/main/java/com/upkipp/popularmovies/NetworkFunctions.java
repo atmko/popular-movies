@@ -1,4 +1,4 @@
-package com.example.popularmovies;
+package com.upkipp.popularmovies;
 
 import android.content.Context;
 import android.util.Log;
@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 final class NetworkFunctions {
 
-    static String connectURL(URL url)throws IOException {
+    static String connectUrl(URL url)throws IOException {
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         try {
             Log.i("Opening url", url.toString());
