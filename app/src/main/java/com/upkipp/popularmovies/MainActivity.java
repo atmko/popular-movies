@@ -109,7 +109,7 @@ public final class MainActivity extends AppCompatActivity
         ratingItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //SHOW ROP RATED
+                //SHOW TOP RATED
                 searchPreferences.setPresetParameter(SearchPreferences.TOP_RATED_PRESET);
                 //execute search
                 searchPreferences.executePresetMovieSearch(true);
