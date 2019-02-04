@@ -9,4 +9,4 @@ example:
 
          Api_Key               =     "abcdefg"
 
-("Api_Key" is the actual key)     value(your api key)
+("Api_Key" is the actual key)  =   value(your api key)
