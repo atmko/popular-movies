@@ -49,13 +49,17 @@ public final class MainActivity extends AppCompatActivity
 
                 //lastVis == lastItemIndex makes sure we are at the end of list
                 boolean lastItem = lastShown == lastItemIndex;
-                    boolean morePagesAvailable = currentPage < availablePages;
+                boolean morePagesAvailable = currentPage < availablePages;
+                //!emptyAdapter prevents unwanted page load when clearing adapter data because lastItem is considered true
+                boolean emptyAdapter = searchAdapter.isEmpty();
 
-                    //if at lastItem && if morePagesAvailable
-                    if (lastItem && morePagesAvailable) {
-                        //load next page
-                        searchPreferences.loadNextPage();
-                    }
+                //if at lastItem && if morePagesAvailable && if adapter not empty
+                if (lastItem && morePagesAvailable && !emptyAdapter) {
+                    //load next page
+                    int targetPage = searchPreferences.getTargetPage();
+                    searchPreferences.loadNextPage();
+
+                }
             }
 
         });

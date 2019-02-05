@@ -81,6 +81,10 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
         }
     }
 
+    boolean isEmpty() {
+        return getItemCount() == 0;
+    }
+
     void addAdapterData(ArrayList<MovieData> movieDataList) {
         for(int count = 0 ; count<movieDataList.size(); count++) {
             MovieData currentMovieData = movieDataList.get(count);
