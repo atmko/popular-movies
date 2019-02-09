@@ -69,7 +69,7 @@ public final class MainActivity extends AppCompatActivity
 
         //create searchPreferences with api key and execute search
         String apiKey = BuildConfig.apiKey;
-        searchPreferences = new SearchPreferences(apiKey);//takes api key
+        searchPreferences = new SearchPreferences(apiKey, this);//takes api key and context
         searchPreferences.executePresetMovieSearch(true);//defaults to popular movies
     }
 

@@ -1,66 +1,15 @@
 package com.upkipp.popularmovies;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
+import java.util.ArrayList;
 import com.upkipp.popularmovies.Models.MovieData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.URL;
-import java.util.ArrayList;
+class MovieDataParser {
 
-//gets movie titles, posters, backdrops, overviews etc
-final class MovieLoader extends AsyncTask<URL, Void, String> {
-    //start reference-----------------------------
-    //source: https://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
-    //user: Levit
-    //date: 12/05/2014
-    private boolean isOnline() {
-        try {
-            int timeoutMs = 1500;
-            Socket sock = new Socket();
-            SocketAddress socketAddress = new InetSocketAddress("8.8.8.8", 53);
-
-            sock.connect(socketAddress, timeoutMs);
-            sock.close();
-
-            return true;
-
-        } catch (IOException e) {
-            return false;
-        }
-    }
-    //end reference-----------------------------
-
-    @Override
-    protected String doInBackground(URL... urls) {
-        if (!isOnline()) {
-            Log.i("INTERNET ACCESS", "internet access unavailable");
-            return null;
-        }
-        Log.i("INTERNET ACCESS", "internet access available");
-
-        String returnedJSONString = "";
-
-        try {
-            //NetworkFunctions.connectUri(url) returns a JSON String
-            returnedJSONString = NetworkFunctions.connectUrl(urls[0]);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return returnedJSONString;
-    }
-
-    @Override
-    protected void onPostExecute(String returnedJSONString) {
+    static void parseData(String returnedJSONString) {
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
             return;
