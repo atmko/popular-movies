@@ -10,7 +10,6 @@ import com.androidnetworking.interfaces.StringRequestListener;
 
 public final class SearchPreferences {
 
-    private final String mApiKey;
     private Context mContext;
 
     //urls & paths
@@ -22,24 +21,34 @@ public final class SearchPreferences {
     public static final String POSTER_IMAGE_SIZE = "w185";
     public static final String BACKDROP_IMAGE_SIZE = "w780";
 
+    private final String mApiKey;
+    private static final String API_PARAM_KEY = "api_key";
+    private static final String API_QUERY_FORMAT = "?" + API_PARAM_KEY + "=";
+    private static final String API_PLACEHOLDER_FORMAT = "{"+ API_PARAM_KEY +"}";
+
     //preset parameters---------------------------------------------------------------
     private String mPresetApiUrl;
 
     private String mPresetParamVal;
-    private final String PRESET_PARAM_KEY = "preset";
+    private static final String PRESET_PARAM_KEY = "preset";
+    private static final String PRESET_PLACEHOLDER_FORMAT = "{"+ PRESET_PARAM_KEY +"}";
     static final String POPULAR_PRESET = "popular";
     static final String TOP_RATED_PRESET = "top_rated";
     //---------------------------------------------------------
 
     //paging parameters
-    private final String PAGE_PARAM_KEY = "page";
     private int mPageParamVal;//the target/desired page and not necessarily the current page
+    private static final String PAGE_PARAM_KEY = "page";
+    private static final String PAGE_QUERY_FORMAT = "&" + PAGE_PARAM_KEY + "=";
+    private static  final String PAGE_PLACEHOLDER_FORMAT = "{"+ PAGE_PARAM_KEY +"}";
     private int mCurrentPage;
     private int mTotalPages;
 
     //language parameters
     private String mLanguageVal;
-    private final String LANGUAGE_PARAM_KEY = "language";
+    private static final String LANGUAGE_PARAM_KEY = "language";
+    private static final String LANGUAGE_QUERY_FORMAT = "&" + LANGUAGE_PARAM_KEY + "=";
+    private static final String LANGUAGE_PLACEHOLDER_FORMAT = "{"+ LANGUAGE_PARAM_KEY +"}";
     static final String ENG_US = "en-US";
 
     SearchPreferences(String apiKey, Context context) {
@@ -90,13 +99,16 @@ public final class SearchPreferences {
         }
 
         ANRequest request = AndroidNetworking.get(
-                "https://api.themoviedb.org/3/movie/{preset}?api_key={api_key}" +
-                        "&language={language}" +
-                        "&page={page}")
+                PRESET_BASE_URL +
+                PRESET_PLACEHOLDER_FORMAT +
+                API_QUERY_FORMAT + API_PLACEHOLDER_FORMAT +
+                LANGUAGE_QUERY_FORMAT + LANGUAGE_PLACEHOLDER_FORMAT +
+                PAGE_QUERY_FORMAT + PAGE_PLACEHOLDER_FORMAT)
+
                 .addPathParameter(PRESET_PARAM_KEY, mPresetParamVal)
                 .addQueryParameter(LANGUAGE_PARAM_KEY, mLanguageVal)
                 .addQueryParameter(PAGE_PARAM_KEY, String.valueOf(mPageParamVal))
-                .addQueryParameter("api_key", mApiKey)
+                .addQueryParameter(API_PARAM_KEY, mApiKey)
                 .build();
 
         mQueryUrlString = request.getUrl();
