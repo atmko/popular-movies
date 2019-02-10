@@ -1,6 +1,7 @@
 package com.upkipp.popularmovies;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,12 +11,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.ANRequest;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.StringRequestListener;
+
+import org.json.JSONException;
 
 public final class MainActivity extends AppCompatActivity
-        implements SearchAdapter.OnListItemClickListener{
+        implements SearchAdapter.OnListItemClickListener {
 
     static SearchPreferences searchPreferences;
     static SearchAdapter searchAdapter;
+    private static String IS_FIRST_INIT_KEY = "isFirstInit";//checks if  first initialization
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +60,82 @@ public final class MainActivity extends AppCompatActivity
                 //lastVis == lastItemIndex makes sure we are at the end of list
                 boolean lastItem = lastShown == lastItemIndex;
                 boolean morePagesAvailable = currentPage < availablePages;
-                //!emptyAdapter prevents unwanted page load when clearing adapter data because lastItem is considered true
+                //!emptyAdapter prevents unwanted page load when clearing adapter data...
+                // ...because lastItem is considered true
                 boolean emptyAdapter = searchAdapter.isEmpty();
 
                 //if at lastItem && if morePagesAvailable && if adapter not empty
                 if (lastItem && morePagesAvailable && !emptyAdapter) {
                     //load next page
-                    int targetPage = searchPreferences.getTargetPage();
-                    searchPreferences.loadNextPage();
-
+                    loadNextPage(currentPage + 1);
                 }
             }
 
         });
-        //define and set adapter
-        searchAdapter = new SearchAdapter(this);
-        mSearchPosterRecyclerView.setAdapter(searchAdapter);
 
-        //create searchPreferences with api key and execute search
-        String apiKey = BuildConfig.apiKey;
-        searchPreferences = new SearchPreferences(apiKey, this);//takes api key and context
-        searchPreferences.executePresetMovieSearch(true);//defaults to popular movies
+        //check for first initialization
+        boolean isFirstInit = savedInstanceState != null ? savedInstanceState.getBoolean(IS_FIRST_INIT_KEY): true;
+
+        if (isFirstInit){
+            //define search adapter and search preferences
+            searchAdapter = new SearchAdapter(this);
+            searchPreferences = new SearchPreferences();//takes api key and context
+
+            //execute search
+            executePresetMovieSearch(true);//defaults to popular movies
+
+            Toast.makeText(this, "new adapter", Toast.LENGTH_SHORT).show();
+
+        } //else: no need to define anything because they are static and live beyond activity life
+
+        //set adapter to RecyclerView
+        mSearchPosterRecyclerView.setAdapter(searchAdapter);
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBoolean(IS_FIRST_INIT_KEY, false);
+    }
+
+    private void executePresetMovieSearch(boolean newSearch) {
+        //newSearch value indicates if to overwrite Adapter Data
+        //false value used in paging to not overwrite, but append
+        if (newSearch) {
+            MainActivity.searchAdapter.clearData();
+        }
+
+        //build AN request
+        final ANRequest request = searchPreferences.buildRequest();
+
+        request.getAsString(new StringRequestListener() {
+            @Override
+            public void onResponse(String returnedJSONString) {
+                try {
+                    //set current url string path
+                    SearchPreferences.setQueryUrlString(request.getUrl());
+
+                    //parse and populate retrieved data
+                    MovieDataParser.parseData(returnedJSONString);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                //notify error
+                Toast.makeText(MainActivity.this, anError.getErrorDetail(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    void loadNextPage(int newTargetPage) {
+        searchPreferences.setTargetPage(newTargetPage);
+        executePresetMovieSearch(false);
     }
 
     private GridLayoutManager configureLayoutManager() {
@@ -102,7 +167,7 @@ public final class MainActivity extends AppCompatActivity
                 //SHOW POPULAR
                 searchPreferences.setPresetParameter(SearchPreferences.POPULAR_PRESET);
                 //execute search
-                searchPreferences.executePresetMovieSearch(true);
+                executePresetMovieSearch(true);
                 return true;
             }
         });
@@ -116,12 +181,11 @@ public final class MainActivity extends AppCompatActivity
                 //SHOW TOP RATED
                 searchPreferences.setPresetParameter(SearchPreferences.TOP_RATED_PRESET);
                 //execute search
-                searchPreferences.executePresetMovieSearch(true);
+                executePresetMovieSearch(true);
                 return true;
             }
         });
 
         return true;
     }
-
 }
