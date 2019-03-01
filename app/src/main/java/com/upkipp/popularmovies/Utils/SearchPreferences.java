@@ -2,12 +2,8 @@ package com.upkipp.popularmovies;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.StringRequestListener;
 
-import org.json.JSONException;
-
-import static com.upkipp.popularmovies.MainActivity.searchPreferences;
+import static com.upkipp.popularmovies.Activities.MainActivity.searchPreferences;
 
 public final class SearchPreferences {
     //api key

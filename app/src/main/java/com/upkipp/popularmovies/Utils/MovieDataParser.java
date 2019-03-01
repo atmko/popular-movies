@@ -1,6 +1,8 @@
 package com.upkipp.popularmovies;
 
 import java.util.ArrayList;
+
+import com.upkipp.popularmovies.Activities.MainActivity;
 import com.upkipp.popularmovies.Models.MovieData;
 
 import org.json.JSONArray;

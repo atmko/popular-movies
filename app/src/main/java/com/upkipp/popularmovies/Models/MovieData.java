@@ -1,6 +1,6 @@
 package com.upkipp.popularmovies.Models;
 
-import com.upkipp.popularmovies.SearchPreferences;
+import com.upkipp.popularmovies.Utils.SearchPreferences;
 
 import org.json.JSONArray;
 

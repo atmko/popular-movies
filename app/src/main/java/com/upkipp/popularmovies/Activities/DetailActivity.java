@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies;
+package com.upkipp.popularmovies.Activities;
 
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.upkipp.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.Utils.NetworkFunctions;
+import com.upkipp.popularmovies.R;
 
 public final class DetailActivity extends AppCompatActivity {
 
