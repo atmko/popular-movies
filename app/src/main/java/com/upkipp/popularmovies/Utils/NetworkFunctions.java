@@ -29,13 +29,6 @@ public final class NetworkFunctions {
         return request;
     }
 
-    //------------------------------------------------------------
-    private static String formatANNKey(String key) {
-        return "{" + key + "}";
-    }
-
-    //------------------------------------------------------------
-
     //loads images into ImageViews using glide
     public static void loadImage(Context context, String urlString, ImageView imageView) {
         //configure glide behaviour
@@ -62,8 +55,6 @@ public final class NetworkFunctions {
                 .addPathParameter(ApiConstants.LANGUAGE_KEY, SearchPreferences.getInstance().getLanguageValue())
                 .build();
 
-        Log.d("TAG", request.toString());
-        Log.d("TAG", request.getUrl());
         return request;
 
     }
