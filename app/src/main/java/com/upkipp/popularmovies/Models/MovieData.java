@@ -1,5 +1,6 @@
 package com.upkipp.popularmovies.Models;
 
+import com.upkipp.popularmovies.Utils.ApiConstants;
 import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.Utils.NetworkFunctions;
 import com.upkipp.popularmovies.Utils.SearchPreferences;
@@ -106,7 +107,7 @@ public final class MovieData {
     }
 
     public String getPosterPath() {
-        return SearchPreferences.IMAGE_BASE_URL + SearchPreferences.POSTER_IMAGE_SIZE + mPosterPath;
+        return ApiConstants.IMAGE_BASE_URL + ApiConstants.POSTER_IMAGE_SIZE + mPosterPath;
     }
 
     public String getOriginalLanguage() {
@@ -122,8 +123,8 @@ public final class MovieData {
     }
 
     public String getBackdropPath() {
-        return SearchPreferences.IMAGE_BASE_URL +
-                SearchPreferences.BACKDROP_IMAGE_SIZE +
+        return ApiConstants.IMAGE_BASE_URL +
+                ApiConstants.BACKDROP_IMAGE_SIZE +
                 mBackdropPath;
     }
 
