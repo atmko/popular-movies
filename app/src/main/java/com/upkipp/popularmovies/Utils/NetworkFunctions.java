@@ -1,6 +1,7 @@
 package com.upkipp.popularmovies.Utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -11,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 public final class NetworkFunctions {
 
-    private static final String MOVIE_PARAM_KEY = "{movie_id}";
+    private static final String MOVIE_PARAM_KEY = "movie_id";
 
     public static ANRequest buildSearchRequest() {
         SearchPreferences searchPreferences = SearchPreferences.getInstance();
@@ -33,6 +34,13 @@ public final class NetworkFunctions {
         return request;
     }
 
+    //------------------------------------------------------------
+    private static String formatANNKey(String key) {
+        return "{" + key + "}";
+    }
+
+    //------------------------------------------------------------
+
     //loads images into ImageViews using glide
     public static void loadImage(Context context, String urlString, ImageView imageView) {
         //configure glide behaviour
@@ -48,12 +56,14 @@ public final class NetworkFunctions {
     }
 
     public static ANRequest loadVideos(String movieId) {
-        String videoUrl = SearchPreferences.PRESET_BASE_URL + MOVIE_PARAM_KEY + "/videos";
+        String videoUrl = SearchPreferences.PRESET_BASE_URL + formatANNKey(MOVIE_PARAM_KEY) + "/videos" +
+                SearchPreferences.API_QUERY_FORMAT + SearchPreferences.API_PLACEHOLDER_FORMAT;
 
         //build request using Fast Android Networking
         //format: "https://{base_url}/{movie_id}/videos"
         ANRequest request = AndroidNetworking.get(videoUrl)
                 .addPathParameter(MOVIE_PARAM_KEY, movieId)
+                .addQueryParameter(SearchPreferences.API_PARAM_KEY, SearchPreferences.API_KEY)
                 .build();
 
         return request;
@@ -61,12 +71,14 @@ public final class NetworkFunctions {
     }
 
     public static ANRequest loadReviews(String movieId) {
-        String videoUrl = SearchPreferences.PRESET_BASE_URL + MOVIE_PARAM_KEY + "/reviews";
+        String videoUrl = SearchPreferences.PRESET_BASE_URL + formatANNKey(MOVIE_PARAM_KEY) + "/reviews" +
+                SearchPreferences.API_QUERY_FORMAT + SearchPreferences.API_PLACEHOLDER_FORMAT;
 
         //build request using Fast Android Networking
         //format: "https://{base_url}/{movie_id}/reviews"
         ANRequest request = AndroidNetworking.get(videoUrl)
                 .addPathParameter(MOVIE_PARAM_KEY, movieId)
+                .addQueryParameter(SearchPreferences.API_PARAM_KEY, SearchPreferences.API_KEY)
                 .build();
 
         return request;
