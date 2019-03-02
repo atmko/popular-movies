@@ -1,8 +1,12 @@
 package com.upkipp.popularmovies.Models;
 
+import com.upkipp.popularmovies.Utils.MovieDataParser;
+import com.upkipp.popularmovies.Utils.NetworkFunctions;
 import com.upkipp.popularmovies.Utils.SearchPreferences;
 
 import org.json.JSONArray;
+
+import java.util.List;
 
 public final class MovieData {
     private final String mId;
@@ -14,11 +18,13 @@ public final class MovieData {
     private final String mPosterPath;
     private final String mOriginalLanguage;
     private final String mOriginalTitle;
-    private final JSONArray mGenreIds;
+    private final List<Integer> mGenreIds;
     private final String mBackdropPath;
     private final boolean mAdult;
     private final String mOverview;
     private final String mReleaseDate;
+    private final List<String> mVideos = null;
+    private final List<String> mReviews = null;
 
     public MovieData(int Id, int voteCount, boolean video, Double voteAverage, String title,
                      Double popularity, String posterPath, String originalLanguage,
@@ -27,16 +33,16 @@ public final class MovieData {
 
         //check numbers(int / double) and JSONArray objects and replace error values;
         //Boolean and String error already replaced by default
-        this.mId = checkNumber(Id);
-        this.mVoteCount = checkNumber(voteCount);
+        this.mId = MovieDataParser.checkAndConvertNumber(Id);
+        this.mVoteCount = MovieDataParser.checkAndConvertNumber(voteCount);
         this.mVideo = video;
-        this.mVoteAverage = checkNumber(voteAverage);
+        this.mVoteAverage = MovieDataParser.checkAndConvertNumber(voteAverage);
         this.mTitle = title;
-        this.mPopularity = checkNumber(popularity);
+        this.mPopularity = MovieDataParser.checkAndConvertNumber(popularity);
         this.mPosterPath = posterPath;
         this.mOriginalLanguage = originalLanguage;
         this.mOriginalTitle = originalTitle;
-        this.mGenreIds = checkJSONArray(genreIds);
+        this.mGenreIds = MovieDataParser.checkAndConvertJSONArrayToList(genreIds);
         this.mBackdropPath = backdropPath;
         this.mAdult = adult;
         this.mOverview = overview;
@@ -75,23 +81,6 @@ public final class MovieData {
 
     }
 
-    //check for int/double errors
-    private String checkNumber(Object number){
-        if (Double.parseDouble(number.toString()) == ErrorValues.DOUBLE_ERROR) {
-            return "{error}";
-        } else {
-            return String.valueOf(number);
-        }
-    }
-    //check for JSONArray errors
-    private JSONArray checkJSONArray(JSONArray jsonArray){
-        if (jsonArray == null) {
-            return new JSONArray();
-        } else {
-            return jsonArray;
-        }
-    }
-
     public String getId() {
         return mId;
     }
@@ -128,7 +117,7 @@ public final class MovieData {
         return mOriginalTitle;
     }
 
-    public JSONArray getGenreIds() {
+    public List<Integer> getGenreIds() {
         return mGenreIds;
     }
 
@@ -148,5 +137,13 @@ public final class MovieData {
 
     public String getReleaseDate() {
         return mReleaseDate;
+    }
+
+    public List<String> getReviews() {
+        return mReviews;
+    }
+
+    public List<String> getVideos() {
+        return mVideos;
     }
 }

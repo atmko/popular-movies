@@ -10,9 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.StringRequestListener;
+import com.upkipp.popularmovies.Adapters.SearchAdapter;
 import com.upkipp.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.Utils.NetworkFunctions;
 import com.upkipp.popularmovies.R;
+
+import org.json.JSONException;
 
 public final class DetailActivity extends AppCompatActivity {
 
@@ -52,13 +58,17 @@ public final class DetailActivity extends AppCompatActivity {
             finish();
         }
 
+        SearchAdapter searchAdapter = SearchAdapter.getInstance(null);
         //get selected movie using index
-        MovieData currentMovieData = MainActivity.searchAdapter.getMovieData(index);
+        MovieData currentMovieData = searchAdapter.getMovieData(index);
         //load images into ImageViews using glide
         NetworkFunctions
                 .loadImage(this, currentMovieData.getBackdropPath(), backdropImageView);
         NetworkFunctions
                 .loadImage(this, currentMovieData.getPosterPath(), posterImageView);
+
+        loadReviewsHelper(currentMovieData);
+        loadVideosHelper(currentMovieData);
 
         //set text in TextViews
         titleTextView.setText(currentMovieData.getTitle());
@@ -66,6 +76,42 @@ public final class DetailActivity extends AppCompatActivity {
         releaseDateTextView.setText(currentMovieData.getReleaseDate());
         overviewTextView.setText(currentMovieData.getOverview());
 
+    }
+
+    private void loadReviewsHelper(MovieData currentMovieData) {
+        NetworkFunctions.loadReviews(currentMovieData.getId()).getAsString(new StringRequestListener() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    MovieDataParser.parseReviews(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ANError anError) {
+
+            }
+        });
+    }
+
+    private void loadVideosHelper(MovieData currentMovieData) {
+        NetworkFunctions.loadVideos(currentMovieData.getId()).getAsString(new StringRequestListener() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    MovieDataParser.parseVideos(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ANError anError) {
+
+            }
+        });
     }
 
     @Override

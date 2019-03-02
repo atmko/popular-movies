@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies;
+package com.upkipp.popularmovies.Activities;
 
 import android.content.Intent;
 import android.os.PersistableBundle;
@@ -13,18 +13,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
+import com.upkipp.popularmovies.Utils.MovieDataParser;
+import com.upkipp.popularmovies.R;
+import com.upkipp.popularmovies.Adapters.SearchAdapter;
+import com.upkipp.popularmovies.Utils.NetworkFunctions;
+import com.upkipp.popularmovies.Utils.SearchPreferences;
 
 import org.json.JSONException;
 
 public final class MainActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
-    static SearchPreferences searchPreferences;
-    static SearchAdapter searchAdapter;
+    //static values ensure data is kept on Activity destroy
+    private static SearchPreferences searchPreferences;
+    private static SearchAdapter searchAdapter;
+
     private static String IS_FIRST_INIT_KEY = "isFirstInit";//checks if  first initialization
 
     @Override
@@ -74,12 +80,12 @@ public final class MainActivity extends AppCompatActivity
         });
 
         //check for first initialization
-        boolean isFirstInit = savedInstanceState != null ? savedInstanceState.getBoolean(IS_FIRST_INIT_KEY): true;
+        boolean isFirstInit = savedInstanceState == null || savedInstanceState.getBoolean(IS_FIRST_INIT_KEY);
 
         if (isFirstInit){
             //define search adapter and search preferences
-            searchAdapter = new SearchAdapter(this);
-            searchPreferences = new SearchPreferences();//takes api key and context
+            searchAdapter = SearchAdapter.getInstance(this);
+            searchPreferences = SearchPreferences.getInstance();//takes api key and context
 
             //execute search
             executePresetMovieSearch(true);//defaults to popular movies
@@ -103,18 +109,18 @@ public final class MainActivity extends AppCompatActivity
         //newSearch value indicates if to overwrite Adapter Data
         //false value used in paging to not overwrite, but append
         if (newSearch) {
-            MainActivity.searchAdapter.clearData();
+            searchAdapter.clearData();
         }
 
         //build AN request
-        final ANRequest request = searchPreferences.buildRequest();
+        final ANRequest request = NetworkFunctions.buildSearchRequest();
 
         request.getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String returnedJSONString) {
                 try {
                     //set current url string path
-                    SearchPreferences.setQueryUrlString(request.getUrl());
+                    searchPreferences.setQueryUrlString(request.getUrl());
 
                     //parse and populate retrieved data
                     MovieDataParser.parseData(returnedJSONString);
@@ -165,7 +171,7 @@ public final class MainActivity extends AppCompatActivity
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 //SHOW POPULAR
-                searchPreferences.setPresetParameter(SearchPreferences.POPULAR_PRESET);
+                searchPreferences.setSortParameter(SearchPreferences.SORT_BY_POPULAR);
                 //execute search
                 executePresetMovieSearch(true);
                 return true;
@@ -179,7 +185,7 @@ public final class MainActivity extends AppCompatActivity
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 //SHOW TOP RATED
-                searchPreferences.setPresetParameter(SearchPreferences.TOP_RATED_PRESET);
+                searchPreferences.setSortParameter(SearchPreferences.SORT_BY_TOP_RATED);
                 //execute search
                 executePresetMovieSearch(true);
                 return true;

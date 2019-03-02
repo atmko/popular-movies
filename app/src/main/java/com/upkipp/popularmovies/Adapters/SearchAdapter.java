@@ -1,7 +1,8 @@
-package com.upkipp.popularmovies;
+package com.upkipp.popularmovies.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,20 +11,35 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.upkipp.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.R;
+import com.upkipp.popularmovies.Utils.NetworkFunctions;
+import com.upkipp.popularmovies.Utils.SearchPreferences;
 
 import java.util.ArrayList;
 
 public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdapterViewHolder> {
+    //singleton variables
+    private static final Object LOCK = new Object();
+    private static SearchAdapter sInstance;
 
     private static ArrayList<MovieData> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
 
-    SearchAdapter(OnListItemClickListener clickListener) {
+    private SearchAdapter(OnListItemClickListener clickListener) {
         mOnListItemClickListener = clickListener;
         mAdapterData = new ArrayList<>();
     }
 
-    interface OnListItemClickListener {
+    public static SearchAdapter getInstance(@Nullable OnListItemClickListener clickListener) {
+        if (sInstance == null) {
+            synchronized (LOCK) {
+                sInstance = new SearchAdapter(clickListener);
+            }
+        }
+        return sInstance;
+    }
+
+    public interface OnListItemClickListener {
         void onItemClick(int position);
     }
 
@@ -81,11 +97,11 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
         }
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return getItemCount() == 0;
     }
 
-    void addAdapterData(ArrayList<MovieData> movieDataList) {
+    public void addAdapterData(ArrayList<MovieData> movieDataList) {
         for(int count = 0 ; count<movieDataList.size(); count++) {
             MovieData currentMovieData = movieDataList.get(count);
             mAdapterData.add(currentMovieData);
@@ -96,12 +112,12 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
         Log.i("INFO", "searchAdapter data updated");
     }
 
-    MovieData getMovieData(int index) {
+    public MovieData getMovieData(int index) {
         return mAdapterData.get(index);
     }
 
     //clears and updates adapterData
-    void clearData() {
+    public void clearData() {
         mAdapterData.clear();
         notifyDataSetChanged();
     }
