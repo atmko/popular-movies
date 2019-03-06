@@ -3,11 +3,13 @@ package com.upkipp.popularmovies.Activities;
 import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
+import com.upkipp.popularmovies.Models.MovieData;
 import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.Adapters.SearchAdapter;
@@ -24,20 +27,50 @@ import com.upkipp.popularmovies.Utils.SearchPreferences;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 public final class MainActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
-    //static values ensure data is kept on Activity destroy
-    private static SearchPreferences searchPreferences;
-    private static SearchAdapter searchAdapter;
+    public static final int COLUMN_SPAN = 3;
 
-    private static String IS_FIRST_INIT_KEY = "isFirstInit";//checks if  first initialization
+    private SearchPreferences searchPreferences;
+    private SearchAdapter searchAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+//        ActionBar actionBar = getSupportActionBar();
+//
+//        //set action bar up(back) button
+//        if (actionBar != null) {
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//
+//        }
+
+        defineViews();
+
+        if (savedInstanceState == null) {
+            //execute search
+            executePresetMovieSearch(true);//defaults to popular movies
+        } else {
+            //if empty adapter, executePresetMovieSearch(true)
+            //prevents overwriting data on rotate or when data exists
+            if (searchAdapter.getItemCount() == 0) {
+                executePresetMovieSearch(true);//defaults to popular movies
+
+            }
+
+        }
+
+    }
+
+    private void defineViews() {
         //---configure recyclerVIew
         RecyclerView mSearchPosterRecyclerView = findViewById(R.id.searchPosterRecyclerView);
         mSearchPosterRecyclerView.setHasFixedSize(true);
@@ -60,8 +93,8 @@ public final class MainActivity extends AppCompatActivity
                 int lastItemIndex = totalNumOfItems - 1;
 
                 //error caught in throw when invoking findLastCompletelyVisibleItemPosition()
-                    int lastShown = ((GridLayoutManager)recyclerView.getLayoutManager())
-                                    .findLastCompletelyVisibleItemPosition();
+                int lastShown = ((GridLayoutManager)recyclerView.getLayoutManager())
+                        .findLastCompletelyVisibleItemPosition();
 
                 //lastVis == lastItemIndex makes sure we are at the end of list
                 boolean lastItem = lastShown == lastItemIndex;
@@ -79,20 +112,9 @@ public final class MainActivity extends AppCompatActivity
 
         });
 
-        //check for first initialization
-        boolean isFirstInit = savedInstanceState == null || savedInstanceState.getBoolean(IS_FIRST_INIT_KEY);
-
-        if (isFirstInit){
-            //define search adapter and search preferences
-            searchAdapter = SearchAdapter.getInstance(this);
-            searchPreferences = SearchPreferences.getInstance();//takes api key and context
-
-            //execute search
-            executePresetMovieSearch(true);//defaults to popular movies
-
-            Toast.makeText(this, "new adapter", Toast.LENGTH_SHORT).show();
-
-        } //else: no need to define anything because they are static and live beyond activity life
+        //define search adapter and search preferences
+        searchAdapter = SearchAdapter.getInstance(this);
+        searchPreferences = SearchPreferences.getInstance();//takes api key and context
 
         //set adapter to RecyclerView
         mSearchPosterRecyclerView.setAdapter(searchAdapter);
@@ -102,7 +124,7 @@ public final class MainActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        outState.putBoolean(IS_FIRST_INIT_KEY, false);
+
     }
 
     private void executePresetMovieSearch(boolean newSearch) {
@@ -110,6 +132,7 @@ public final class MainActivity extends AppCompatActivity
         //false value used in paging to not overwrite, but append
         if (newSearch) {
             searchAdapter.clearData();
+            searchPreferences.setTargetPage(1);
         }
 
         //build AN request
@@ -123,7 +146,9 @@ public final class MainActivity extends AppCompatActivity
                     searchPreferences.setQueryUrlString(request.getUrl());
 
                     //parse and populate retrieved data
-                    MovieDataParser.parseData(returnedJSONString);
+                    ArrayList<MovieData> movieDataList = MovieDataParser.parseData(returnedJSONString);
+                    searchAdapter.addAdapterData(movieDataList);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -144,8 +169,13 @@ public final class MainActivity extends AppCompatActivity
         executePresetMovieSearch(false);
     }
 
+    void loadPreviousPage(int newTargetPage) {
+        searchPreferences.setTargetPage(newTargetPage);
+        executePresetMovieSearch(false);
+    }
+
     private GridLayoutManager configureLayoutManager() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, COLUMN_SPAN);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         return layoutManager;
     }
@@ -155,6 +185,12 @@ public final class MainActivity extends AppCompatActivity
         //start detail activity
         Intent detailActivityIntent = new Intent(this, DetailActivity.class);
         detailActivityIntent.putExtra("index", position);
+
+        MovieData currentMovieData = searchAdapter.getMovieData(position);
+        //paths needed to restore ImageViews on restore/rotate
+        detailActivityIntent.putExtra(DetailActivity.ID_KEY, currentMovieData.getId());
+        detailActivityIntent.putExtra(DetailActivity.BACKDROP_PATH_KEY, currentMovieData.getBackdropPath());
+        detailActivityIntent.putExtra(DetailActivity.POSTER_PATH_KEY, currentMovieData.getPosterPath());
         startActivity(detailActivityIntent);
     }
 
@@ -172,6 +208,7 @@ public final class MainActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 //SHOW POPULAR
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_POPULAR);
+                searchPreferences.setTargetPage(1);
                 //execute search
                 executePresetMovieSearch(true);
                 return true;
@@ -186,6 +223,7 @@ public final class MainActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 //SHOW TOP RATED
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_TOP_RATED);
+                searchPreferences.setTargetPage(1);
                 //execute search
                 executePresetMovieSearch(true);
                 return true;
@@ -193,5 +231,11 @@ public final class MainActivity extends AppCompatActivity
         });
 
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        SearchPreferences.resetPreferences();
     }
 }

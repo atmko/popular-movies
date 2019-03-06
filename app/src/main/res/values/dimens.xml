@@ -9,7 +9,8 @@
     <dimen name="detail_release_date_text_size">20sp</dimen>
     <dimen name="detail_overview_text_size">14sp</dimen>
     <!--view dimensions-->
-    <dimen name="detail_backdrop_height">200dp</dimen>
+    <dimen name="detail_backdrop_height">202dp</dimen>
     <dimen name="detail_poster_width">120dp</dimen>
     <dimen name="detail_poster_height">170dp</dimen>
+    <dimen name="detail_video_margin">10dp</dimen>
 </resources>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.upkipp.popularmovies.Activities.MainActivity;
 import com.upkipp.popularmovies.Models.MovieData;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.Utils.NetworkFunctions;
@@ -102,7 +103,46 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
     }
 
     public void addAdapterData(ArrayList<MovieData> movieDataList) {
-        for(int count = 0 ; count<movieDataList.size(); count++) {
+        int currentPage = SearchPreferences.getInstance().getCurrentPage();
+        int pageAdjustment = currentPage - 1;
+
+        int listSize = movieDataList.size();
+
+//        //get positionCount starting at 1, i.e: non zero index
+//        int itemIndex = (pageAdjustment * listSize);
+//        Log.d("POS1", String.valueOf(itemIndex));
+//
+//        int rowIndex = Math.abs(itemIndex/MainActivity.COLUMN_SPAN);
+//        Log.d("POS2", String.valueOf(rowIndex));
+//
+//        int colIndex = itemIndex - (rowIndex * MainActivity.COLUMN_SPAN);
+//        Log.d("POS3", String.valueOf(colIndex));
+//
+//        MovieData previousIndex = null;
+//
+//        try {
+//            previousIndex = getMovieData(itemIndex - 1);
+//
+//        } catch (IndexOutOfBoundsException e) {
+//
+//        }
+//
+//        if (colIndex != 0 && previousIndex == null) {
+//                int dummyCount = colIndex;
+//                MovieData dummyData = new MovieData(0, 0, false, 0.0,
+//                        "", 0.0, null, "", null,
+//                        null, "", false, "", "");
+//
+//                for (int i = 1; i <= dummyCount; i++) {
+//                    movieDataList.add(0, dummyData);
+//                }
+//            }
+
+        for(int count = 0 ; count < listSize; count++) {
+
+            //index in list with respect to page
+//            int rawIndex = currentPage * count;
+
             MovieData currentMovieData = movieDataList.get(count);
             mAdapterData.add(currentMovieData);
             notifyDataSetChanged();

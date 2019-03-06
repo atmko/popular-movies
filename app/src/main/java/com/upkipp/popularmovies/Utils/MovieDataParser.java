@@ -1,8 +1,15 @@
 package com.upkipp.popularmovies.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.ANRequest;
+import com.google.gson.Gson;
 import com.upkipp.popularmovies.Activities.MainActivity;
 import com.upkipp.popularmovies.Adapters.SearchAdapter;
 import com.upkipp.popularmovies.Models.MovieData;
@@ -23,8 +30,17 @@ public class MovieDataParser {
         //iterate through JSONArray
         for (int position = 0 ; position < length ; position++) {
             try {
-                //add items individually to list
-                list.add((int) jsonArray.get(position));
+                if (jsonArray.get(position) instanceof Integer) {
+                    //add items individually to list
+                    list.add((int) jsonArray.get(position));
+                }
+
+                else  {
+                    //add items individually to list
+//                    list.add((int) jsonArray.get(position));
+                }
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -42,10 +58,10 @@ public class MovieDataParser {
         }
     }
 
-    public static void parseData(String returnedJSONString) throws JSONException {
+    public static ArrayList<MovieData> parseData(String returnedJSONString) throws JSONException {
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
-            return;
+            return new ArrayList<>();
         }
 
         // convert returnedJSONString to JSONObject
@@ -119,54 +135,87 @@ public class MovieDataParser {
 
         }
         //set data to adapter
-        SearchAdapter searchAdapter = SearchAdapter.getInstance(null);
-        searchAdapter.addAdapterData(movieDataList);
+        return movieDataList;
 
     }
 
-    public static void parseReviews(String returnedJSONString) throws JSONException{
+    public static ArrayList<Map<String, String>> parseReviews(String returnedJSONString) throws JSONException{
+        //review data will be stored as Map<String, ArrayList<String>>
+        ArrayList<Map<String, String>> reviews = new ArrayList<>();
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
-            return;
+            return reviews;
         }
 
-        // convert returnedJSONString to JSONObject
-        JSONObject jsonObject = new JSONObject(returnedJSONString);
+        Gson gson = new Gson();
+        Map returnedMap = gson.fromJson(returnedJSONString, Map.class);
 
         //use RESULTS_KEY to get results as JSONArray
-        JSONArray results = jsonObject.getJSONArray(MovieData.MovieDataKeys.RESULTS_KEY);
+        ArrayList results = (ArrayList) returnedMap.get(MovieData.MovieDataKeys.RESULTS_KEY);
 
-        //SearchAdapter data will be stored as ArrayList<MovieData>
-        ArrayList<MovieData> movieDataList = new ArrayList<>();
+//        iterate through each review in results
+        for (int index = 0; index < results.size() ; index++) {
+            Map currentResult = (Map) results.get(index);//get current review
 
-        //iterate through each movie in results
-        for (int index = 0; index < results.length() ; index++) {
-            JSONObject currentReview = (JSONObject) results.get(index);//get current review
+            Map<String, String> newReview = new HashMap<>();
+
+//            String reviewImagePath = NetworkFunctions.createReviewImagePath((String) currentResult.get("key"));
+//            Log.d("TAGG", reviewImagePath);
+
+            newReview.put("author", ((String) currentResult.get("author")));
+            newReview.put("content", (String) currentResult.get("content"));
+
+            reviews.add(newReview);
 
         }
+
+        return reviews;
 
     }
 
-    public static void parseVideos(String returnedJSONString) throws JSONException{
+    public static ArrayList<Map<String, String>> parseVideos(String returnedJSONString) throws JSONException{
+        //video data will be stored as Map<String, ArrayList<String>>
+        ArrayList<Map<String, String>> videos = new ArrayList<>();
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
-            return;
+            return videos;
         }
 
-        // convert returnedJSONString to JSONObject
-        JSONObject jsonObject = new JSONObject(returnedJSONString);
+        Gson gson = new Gson();
+        Map returnedMap = gson.fromJson(returnedJSONString, Map.class);
 
         //use RESULTS_KEY to get results as JSONArray
-        JSONArray results = jsonObject.getJSONArray(MovieData.MovieDataKeys.RESULTS_KEY);
+        ArrayList results = (ArrayList) returnedMap.get(MovieData.MovieDataKeys.RESULTS_KEY);
 
-        //SearchAdapter data will be stored as ArrayList<MovieData>
-        ArrayList<MovieData> movieDataList = new ArrayList<>();
+//        iterate through each video in results
+        for (int index = 0; index < results.size() ; index++) {
+            Map currentResult = (Map) results.get(index);//get current review
 
-        //iterate through each movie in results
-        for (int index = 0; index < results.length() ; index++) {
-            JSONObject currentReview = (JSONObject) results.get(index);//get current review
+            Map<String, String> newVideo = new HashMap<>();
+
+//            String videoImagePath = NetworkFunctions.createVideoImagePath((String) currentResult.get("key"));
+//            Log.d("TAGG", videoImagePath);
+
+            newVideo.put("path", ((String) currentResult.get("key")));
+            newVideo.put("site", (String) currentResult.get("site"));
+            newVideo.put("type", (String) currentResult.get("type"));
+            newVideo.put("name", (String) currentResult.get("name"));
+
+            videos.add(newVideo);
 
         }
+
+        return videos;
+
+    }
+
+    public static String createVideoImagePath(String videoPath) {
+
+        ANRequest request = AndroidNetworking.get(ApiConstants.VIDEO_IMAGE_URL_FORMAT)
+                .addPathParameter(ApiConstants.VIDEO_IMG_KEY, videoPath)
+                .build();
+
+        return request.getUrl();
 
     }
 }

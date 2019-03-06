@@ -9,9 +9,11 @@ public class ApiConstants {
     //URLS
     public static final String BASE_URL = "https://api.themoviedb.org/3/movie";
     public static final String SEARCH_FORMAT = BASE_URL + "/{sort}?api_key={api_key}&language={lang}&page={page}";
-    public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
     public static final String REVIEWS_URL_FORMAT = BASE_URL + "/{movie_id}/reviews?api_key={api_key}&language={lang}";
     public static final String VIDEOS_URL_FORMAT = BASE_URL + "/{movie_id}/videos?api_key={api_key}&language={lang}";
+
+    public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
+    public static final String VIDEO_IMAGE_URL_FORMAT = "https://img.youtube.com/vi/{video_id}/sddefault.jpg";
 
     //PLACEHOLDER KEYS
     public static final String API_KEY_KEY = "api_key";
@@ -19,6 +21,8 @@ public class ApiConstants {
     public static final String LANGUAGE_KEY = "lang";
     public static final String PAGE_KEY = "page";
     public static final String SORT_KEY = "sort";
+    public static final String VIDEO_IMG_KEY = "video_id";
+    public static final String VIDEO_IMG_SIZE = "img_size";
 
     //image values
     public static final String POSTER_IMAGE_SIZE = "/w185";

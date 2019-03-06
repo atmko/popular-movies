@@ -46,6 +46,10 @@ public final class SearchPreferences {
         return sInstance;
     }
 
+    public static void resetPreferences() {
+        sInstance = null;
+    }
+
     public int getTotalPages() {
         return mTotalPages;
     }
@@ -88,7 +92,6 @@ public final class SearchPreferences {
 
     public void setSortParameter(String sortValue) {
         mSortParamVal = sortValue;
-        mPageParamVal = 1;
     }
 
 }

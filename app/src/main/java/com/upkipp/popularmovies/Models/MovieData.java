@@ -8,6 +8,7 @@ import com.upkipp.popularmovies.Utils.SearchPreferences;
 import org.json.JSONArray;
 
 import java.util.List;
+import java.util.Map;
 
 public final class MovieData {
     private final String mId;
@@ -24,8 +25,8 @@ public final class MovieData {
     private final boolean mAdult;
     private final String mOverview;
     private final String mReleaseDate;
-    private final List<String> mVideos = null;
-    private final List<String> mReviews = null;
+    private List<Map<String, String>> mVideos;
+    private List<String> mReviews;
 
     public MovieData(int Id, int voteCount, boolean video, Double voteAverage, String title,
                      Double popularity, String posterPath, String originalLanguage,
@@ -144,7 +145,11 @@ public final class MovieData {
         return mReviews;
     }
 
-    public List<String> getVideos() {
+    public List<Map<String, String>> getVideos() {
         return mVideos;
     }
+
+//    public void setVideos(List<Map<String, String>> videoList) {
+//        mVideos = videoList;
+//    }
 }
