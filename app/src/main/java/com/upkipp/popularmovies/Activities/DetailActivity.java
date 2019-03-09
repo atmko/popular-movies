@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -41,21 +42,15 @@ import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.Utils.NetworkFunctions;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.Utils.SearchPreferences;
+import com.upkipp.popularmovies.databinding.ActivityDetailBinding;
 
 import org.json.JSONException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public final class DetailActivity extends AppCompatActivity
         implements VideoAdapter.OnListItemClickListener, ReviewAdapter.OnListItemClickListener {
-
-//    private int index;
-
-//    private static String IS_FIRST_INIT_KEY = "isFirstInit";//checks if  first initialization
 
     public static final String ID_KEY = "id";
     public static final String POSTER_PATH_KEY = "poster_path";
@@ -66,28 +61,18 @@ public final class DetailActivity extends AppCompatActivity
     public static final String OVERVIEW_KEY = "overview";
     private static final String ERROR_TEXT = MovieData.ErrorValues.STRING_ERROR;
 
-    private RecyclerView mVideoRecyclerView;
-    private RecyclerView mReviewRecyclerView;
+    ActivityDetailBinding mBinding;
+
     private static VideoAdapter videoAdapter;
     private static ReviewAdapter reviewAdapter;
-
-    private TextView titleTextView;
-    private TextView voteAverageTextView;
-    private TextView releaseDateTextView;
-    private TextView overviewTextView;
-    private TextView showMoreTextView;
-
-//    private ImageView backdropImageView;
-    private ImageView posterImageView;
-
-    private ImageView saveFavoriteImageView;
 
 //    private ImageButton upButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_detail);
+
 //        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 //        setSupportActionBar(myToolbar);
 //
@@ -118,7 +103,7 @@ public final class DetailActivity extends AppCompatActivity
 
                 //load images into ImageViews using glide
                 NetworkFunctions
-                        .loadImage(this, posterPath, posterImageView);
+                        .loadImage(this, posterPath, mBinding.posterImageView);
 //                NetworkFunctions
 //                        .loadImage(this, backdropPath, backdropImageView);
 
@@ -127,12 +112,12 @@ public final class DetailActivity extends AppCompatActivity
                 loadVideosHelper(movieId);
 
                 //set text in TextViews
-                titleTextView.setText(title);
-                voteAverageTextView.setText(voteAverage);
-                releaseDateTextView.setText(releaseDate);
+                mBinding.titleTextView.setText(title);
+                mBinding.voteAverageTextView.setText(voteAverage);
+                mBinding.releaseDateTextView.setText(releaseDate);
                 //use tag to store full and original text to prevent loss after limitText()
-                overviewTextView.setTag(overview);
-                overviewTextView.setText(limitText(overviewTextView.getTag().toString()));
+                mBinding.overviewTextView.setTag(overview);
+                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString()));
 
             } else {
                 Toast.makeText(this, "no data available", Toast.LENGTH_SHORT).show();
@@ -150,7 +135,7 @@ public final class DetailActivity extends AppCompatActivity
 
             //load images into ImageViews using glide
             NetworkFunctions
-                    .loadImage(this, posterPath, posterImageView);
+                    .loadImage(this, posterPath, mBinding.posterImageView);
 //            NetworkFunctions
 //                    .loadImage(this, backdropPath, backdropImageView);
 
@@ -159,13 +144,13 @@ public final class DetailActivity extends AppCompatActivity
             loadVideosHelper(movieId);
 
             //set text in TextViews
-            titleTextView.setText(title);
-            voteAverageTextView.setText(voteAverage);
-            releaseDateTextView.setText(releaseDate);
+            mBinding.titleTextView.setText(title);
+            mBinding.voteAverageTextView.setText(voteAverage);
+            mBinding.releaseDateTextView.setText(releaseDate);
             //use tag to store full and original text to prevent loss after limitText()
-            overviewTextView.setTag(overview);
-            overviewTextView
-                    .setText(limitText(overviewTextView.getTag().toString()));
+            mBinding.overviewTextView.setTag(overview);
+            mBinding.overviewTextView
+                    .setText(limitText(mBinding.overviewTextView.getTag().toString()));
 
         }
 
@@ -175,10 +160,10 @@ public final class DetailActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //save TextView values
-        outState.putString(TITLE_KEY, titleTextView.getText().toString());
-        outState.putString(VOTE_AVERAGE_KEY, voteAverageTextView.getText().toString());
-        outState.putString(RELEASE_DATE_KEY, releaseDateTextView.getText().toString());
-        outState.putString(OVERVIEW_KEY, overviewTextView.getText().toString());
+        outState.putString(TITLE_KEY, mBinding.titleTextView.getText().toString());
+        outState.putString(VOTE_AVERAGE_KEY, mBinding.voteAverageTextView.getText().toString());
+        outState.putString(RELEASE_DATE_KEY, mBinding.releaseDateTextView.getText().toString());
+        outState.putString(OVERVIEW_KEY, mBinding.overviewTextView.getText().toString());
 
         //get values form intent
         Intent intent = getIntent();
@@ -195,25 +180,13 @@ public final class DetailActivity extends AppCompatActivity
 
     private void defineViews() {
         //define Views
-        titleTextView = findViewById(R.id.titleTextView);
-        voteAverageTextView = findViewById(R.id.voteAverageTextView);
-        releaseDateTextView = findViewById(R.id.releaseDateTextView);
-        overviewTextView = findViewById(R.id.overviewTextView);
-        showMoreTextView = findViewById(R.id.showMoreTextView);
-
-//        backdropImageView = findViewById(R.id.backdropImageView);
-        posterImageView = findViewById(R.id.posterImageView);
-
-//        upButton = findViewById(R.id.upButton);
-
-        showMoreTextView.setOnClickListener(new View.OnClickListener() {
+        mBinding.showMoreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                overviewTextView.setText(limitText(overviewTextView.getTag().toString()));
+                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString()));
             }
         });
 
-        saveFavoriteImageView = findViewById(R.id.saveFavoriteImageView);
         String movieId = getIntent().getStringExtra(ID_KEY);
         AppDatabase database = AppDatabase.getInstance(this);
 
@@ -226,22 +199,22 @@ public final class DetailActivity extends AppCompatActivity
             public void onChanged(@Nullable MovieData movieData) {
                 //update favorite icon/button in real time
                 if (movieData == null) {
-                    saveFavoriteImageView.setTag("add favorite");
-                    saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+                    mBinding.saveFavoriteImageView.setTag("add favorite");
+                    mBinding.saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
                 }else {
-                    saveFavoriteImageView.setTag("already favorite");
-                    saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+                    mBinding.saveFavoriteImageView.setTag("already favorite");
+                    mBinding.saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
                 }
             }
         });
 
-        saveFavoriteImageView.setOnClickListener(new View.OnClickListener() {
+        mBinding.saveFavoriteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (saveFavoriteImageView.getTag().toString().equals("add favorite")) {
+                if (mBinding.saveFavoriteImageView.getTag().toString().equals("add favorite")) {
                     addToFavorites();
-                } else if (saveFavoriteImageView.getTag().toString().equals("already favorite")) {
+                } else if (mBinding.saveFavoriteImageView.getTag().toString().equals("already favorite")) {
                     deleteFavorite(favoriteLiveData.getValue());
                 }
             }
@@ -255,23 +228,21 @@ public final class DetailActivity extends AppCompatActivity
 //        });
 
         //---configure RecyclerView
-        mVideoRecyclerView = findViewById(R.id.videoRecyclerView);
-        mVideoRecyclerView.setHasFixedSize(true);
-        mReviewRecyclerView = findViewById(R.id.reviewRecyclerView);
-        mReviewRecyclerView.setHasFixedSize(true);
+        mBinding.videoRecyclerView.setHasFixedSize(true);
+        mBinding.reviewRecyclerView.setHasFixedSize(true);
         //configureLayoutManager returns a LayoutManager
-        mVideoRecyclerView.setLayoutManager(configureLayoutManager());
-        mReviewRecyclerView.setLayoutManager(configureLayoutManager());
+        mBinding.videoRecyclerView.setLayoutManager(configureLayoutManager());
+        mBinding.reviewRecyclerView.setLayoutManager(configureLayoutManager());
         //--------------
-        mVideoRecyclerView.setFocusable(false);
-        mReviewRecyclerView.setFocusable(false);
+        mBinding.videoRecyclerView.setFocusable(false);
+        mBinding.reviewRecyclerView.setFocusable(false);
 
         //define video adapter
         videoAdapter = new VideoAdapter(this);
         reviewAdapter = new ReviewAdapter(this);
         //set adapter to RecyclerView
-        mVideoRecyclerView.setAdapter(videoAdapter);
-        mReviewRecyclerView.setAdapter(reviewAdapter);
+        mBinding.videoRecyclerView.setAdapter(videoAdapter);
+        mBinding.reviewRecyclerView.setAdapter(reviewAdapter);
 
     }
 
@@ -366,26 +337,24 @@ public final class DetailActivity extends AppCompatActivity
     }
 
     private String limitText(String fullText) {
-        TextView showMoreTextView = findViewById(R.id.showMoreTextView);
+//        TextView showMoreTextView = findViewById(R.id.showMoreTextView);
         int cutOffIndex = 262;
-        if (fullText.length() > cutOffIndex && ((String) showMoreTextView.getTag()).equals("shown")) {
+        if (fullText.length() > cutOffIndex && ((String) mBinding.showMoreTextView.getTag()).equals("shown")) {
             String reducedText = fullText.substring(0, cutOffIndex) + "...";
 
-            showMoreTextView.setTag("hidden");
-            showMoreTextView.setText("show more");
+            mBinding.showMoreTextView.setTag("hidden");
+            mBinding.showMoreTextView.setText("show more");
 
             return reducedText;
 
         } else {
-            if (fullText.length() <= cutOffIndex) showMoreTextView.setVisibility(View.GONE);
+            if (fullText.length() <= cutOffIndex) mBinding.showMoreTextView.setVisibility(View.GONE);
 
-            showMoreTextView.setTag("shown");
-            showMoreTextView.setText("show less");
+            mBinding.showMoreTextView.setTag("shown");
+            mBinding.showMoreTextView.setText("show less");
 
             return fullText;
-
         }
-
     }
 
     private void addToFavorites() {
@@ -400,12 +369,12 @@ public final class DetailActivity extends AppCompatActivity
 
         final MovieData movieData =
                 new MovieData(movieId,
-                        voteAverageTextView.getText().toString(),
-                        titleTextView.getText().toString(),
+                        mBinding.voteAverageTextView.getText().toString(),
+                        mBinding.titleTextView.getText().toString(),
                         posterPath,
                         backdropPath,
-                        overviewTextView.getTag().toString(),
-                        releaseDateTextView.getText().toString()
+                        mBinding.overviewTextView.getTag().toString(),
+                        mBinding.releaseDateTextView.getText().toString()
 
                 );
 

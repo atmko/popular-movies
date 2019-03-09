@@ -1,266 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activities.DetailActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        tools:context=".Activities.DetailActivity">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/detail_card_margin"
-            android:layout_marginBottom="@dimen/detail_card_margin">
+            android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/posterImageView"
-                    android:layout_width="@dimen/detail_poster_width"
-                    android:layout_height="@dimen/detail_poster_height"
-                    android:layout_marginStart="@dimen/detail_layout_margin"
-                    android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    android:layout_marginEnd="@dimen/detail_layout_margin"
-                    android:layout_marginRight="@dimen/detail_layout_margin"
-                    android:layout_marginBottom="@dimen/detail_layout_margin"
-                    android:contentDescription="@string/poster_description"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/titleTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:singleLine="false"
-                    tools:text="title"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                    app:layout_constraintTop_toTopOf="@+id/posterImageView" />
-
-                <TextView
-                    android:id="@+id/voteAverageTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    tools:text="rating"
-                    android:textSize="@dimen/detail_rating_text_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
-                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                    app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
-
-                <TextView
-                    android:id="@+id/releaseDateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    tools:text="release date"
-                    android:textSize="@dimen/detail_release_date_text_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
-                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                    app:layout_constraintTop_toBottomOf="@+id/voteAverageTextView"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <ImageView
-                    android:id="@+id/saveFavoriteImageView"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@null"
-                    android:src="@drawable/fav_off"
-                    android:tag="add favorite"
-                    app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                    app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView" />
-
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/detail_card_margin">
-
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
+                android:layout_marginTop="@dimen/detail_card_margin"
+                android:layout_marginBottom="@dimen/detail_card_margin">
 
-                <TextView
-                    android:id="@+id/synopsisTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/detail_layout_margin"
-                    android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    android:text="@string/synopsis"
-                    android:textSize="@dimen/detail_heading_text_size"
-                    android:textStyle="bold|italic"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/overviewTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    android:layout_marginRight="@dimen/detail_layout_margin"
-                    android:textSize="@dimen/detail_overview_text_size"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/synopsisTxt"
-                    tools:text="overview" />
+                    <ImageView
+                        android:id="@+id/posterImageView"
+                        android:layout_width="@dimen/detail_poster_width"
+                        android:layout_height="@dimen/detail_poster_height"
+                        android:layout_marginStart="@dimen/detail_layout_margin"
+                        android:layout_marginLeft="@dimen/detail_layout_margin"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        android:layout_marginEnd="@dimen/detail_layout_margin"
+                        android:layout_marginRight="@dimen/detail_layout_margin"
+                        android:layout_marginBottom="@dimen/detail_layout_margin"
+                        android:contentDescription="@string/poster_description"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
-                    android:id="@+id/showMoreTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/detail_layout_margin"
-                    android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    android:tag="shown"
-                    android:text="show more"
-                    android:textSize="@dimen/detail_overview_text_size"
-                    android:textColor="@color/colorAccent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/overviewTextView" />
+                    <TextView
+                        android:id="@+id/titleTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:singleLine="false"
+                        tools:text="title"
+                        android:textAlignment="center"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                        app:layout_constraintTop_toTopOf="@+id/posterImageView" />
 
-            </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/voteAverageTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        tools:text="rating"
+                        android:textSize="@dimen/detail_rating_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.496"
+                        app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
-        </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/releaseDateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
+                        tools:text="release date"
+                        android:textSize="@dimen/detail_release_date_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.496"
+                        app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                        app:layout_constraintTop_toBottomOf="@+id/voteAverageTextView"
+                        app:layout_constraintVertical_bias="0.0" />
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/detail_card_margin">
+                    <ImageView
+                        android:id="@+id/saveFavoriteImageView"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@null"
+                        android:src="@drawable/fav_off"
+                        android:tag="add favorite"
+                        app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                        app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView" />
 
-            <android.support.constraint.ConstraintLayout
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
+                android:layout_marginBottom="@dimen/detail_card_margin">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/detail_layout_margin"
-                    android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    android:textSize="@dimen/detail_heading_text_size"
-                    android:textStyle="bold|italic"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/videos" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/videoRecyclerView"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/detail_vide_recyclerview_height"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
 
+                    <TextView
+                        android:id="@+id/synopsisTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/detail_layout_margin"
+                        android:layout_marginLeft="@dimen/detail_layout_margin"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        android:text="@string/synopsis"
+                        android:textSize="@dimen/detail_heading_text_size"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/overviewTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/detail_layout_margin"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        android:layout_marginRight="@dimen/detail_layout_margin"
+                        android:textSize="@dimen/detail_overview_text_size"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/synopsisTxt"
+                        tools:text="overview" />
 
-        </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/showMoreTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/detail_layout_margin"
+                        android:layout_marginLeft="@dimen/detail_layout_margin"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        android:tag="shown"
+                        android:text="show more"
+                        android:textSize="@dimen/detail_overview_text_size"
+                        android:textColor="@color/colorAccent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/overviewTextView" />
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/detail_card_margin">
+                </android.support.constraint.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
+                android:layout_marginBottom="@dimen/detail_card_margin">
 
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/detail_layout_margin"
-                    android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    android:layout_marginEnd="@dimen/detail_layout_margin"
-                    android:layout_marginRight="@dimen/detail_layout_margin"
-                    android:layout_marginBottom="@dimen/detail_layout_margin"
-                    android:text="@string/reviews"
-                    android:textSize="@dimen/detail_heading_text_size"
-                    android:textStyle="bold|italic"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/reviewRecyclerView"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="110dp"
-                    android:layout_marginStart="@dimen/detail_layout_margin"
-                    android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_layout_margin"
-                    android:layout_marginEnd="@dimen/detail_layout_margin"
-                    android:layout_marginRight="@dimen/detail_layout_margin"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
 
-            </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/detail_layout_margin"
+                        android:layout_marginLeft="@dimen/detail_layout_margin"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        android:textSize="@dimen/detail_heading_text_size"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/videos" />
 
-        </android.support.v7.widget.CardView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/videoRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/detail_vide_recyclerview_height"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    </LinearLayout>
 
-</ScrollView>
+                </android.support.constraint.ConstraintLayout>
 
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/detail_card_margin">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
+
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/detail_layout_margin"
+                        android:layout_marginLeft="@dimen/detail_layout_margin"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        android:layout_marginEnd="@dimen/detail_layout_margin"
+                        android:layout_marginRight="@dimen/detail_layout_margin"
+                        android:layout_marginBottom="@dimen/detail_layout_margin"
+                        android:text="@string/reviews"
+                        android:textSize="@dimen/detail_heading_text_size"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/reviewRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="110dp"
+                        android:layout_marginStart="@dimen/detail_layout_margin"
+                        android:layout_marginLeft="@dimen/detail_layout_margin"
+                        android:layout_marginTop="@dimen/detail_layout_margin"
+                        android:layout_marginEnd="@dimen/detail_layout_margin"
+                        android:layout_marginRight="@dimen/detail_layout_margin"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
 
     <!--&lt;!&ndash;<FrameLayout&ndash;&gt;-->
     <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
