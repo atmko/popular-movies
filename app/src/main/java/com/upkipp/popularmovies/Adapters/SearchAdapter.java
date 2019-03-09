@@ -17,13 +17,15 @@ import com.upkipp.popularmovies.Utils.NetworkFunctions;
 import com.upkipp.popularmovies.Utils.SearchPreferences;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdapterViewHolder> {
     //singleton variables
     private static final Object LOCK = new Object();
     private static SearchAdapter sInstance;
 
-    private static ArrayList<MovieData> mAdapterData;
+    //try removing static
+    private static List<MovieData> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
 
     private SearchAdapter(OnListItemClickListener clickListener) {
@@ -102,7 +104,7 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
         return getItemCount() == 0;
     }
 
-    public void addAdapterData(ArrayList<MovieData> movieDataList) {
+    public void addAdapterData(List<MovieData> movieDataList) {
         int currentPage = SearchPreferences.getInstance().getCurrentPage();
         int pageAdjustment = currentPage - 1;
 

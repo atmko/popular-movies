@@ -1,5 +1,11 @@
 package com.upkipp.popularmovies.Models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.upkipp.popularmovies.Utils.ApiConstants;
 import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.Utils.NetworkFunctions;
@@ -10,43 +16,66 @@ import org.json.JSONArray;
 import java.util.List;
 import java.util.Map;
 
-public final class MovieData {
-    private final String mId;
-    private final String  mVoteCount;
-    private final boolean mVideo;
-    private final String mVoteAverage;
-    private final String mTitle;
-    private final String mPopularity;
-    private final String mPosterPath;
-    private final String mOriginalLanguage;
-    private final String mOriginalTitle;
-    private final List<Integer> mGenreIds;
-    private final String mBackdropPath;
-    private final boolean mAdult;
-    private final String mOverview;
-    private final String mReleaseDate;
-    private List<Map<String, String>> mVideos;
-    private List<String> mReviews;
+@Entity(tableName = "favorites")
+public class MovieData {
 
-    public MovieData(int Id, int voteCount, boolean video, Double voteAverage, String title,
-                     Double popularity, String posterPath, String originalLanguage,
-                     String originalTitle, JSONArray genreIds, String backdropPath,
+    @PrimaryKey@NonNull
+    @ColumnInfo(name = "id") private String mId;
+    @Ignore private String  mVoteCount;
+    @Ignore private boolean mVideo;
+    @ColumnInfo(name = "vote_average") private String mVoteAverage;
+    @ColumnInfo(name = "title") private String mTitle;
+    @Ignore private double mPopularity;
+    @ColumnInfo(name = "poster_path")  private String mPosterPath;
+    @Ignore private String mOriginalLanguage;
+    @Ignore private String mOriginalTitle;
+    @Ignore private List<Integer> mGenreIds;
+    @ColumnInfo(name = "backdrop_path")  private String mBackdropPath;
+    @Ignore private boolean mAdult;
+    @ColumnInfo(name = "overview") private String mOverview;
+    @ColumnInfo(name = "release_date") private String mReleaseDate;
+    @Ignore private List<Map<String, String>> mVideos;
+    @Ignore private List<String> mReviews;
+
+    @Ignore
+    public MovieData(String id, String voteCount, boolean video, String voteAverage, String title,
+                     double popularity, String posterPath, String originalLanguage,
+                     String originalTitle, List genreIds, String backdropPath,
                      boolean adult, String overview, String releaseDate) {
 
         //check numbers(int / double) and JSONArray objects and replace error values;
         //Boolean and String error already replaced by default
-        this.mId = MovieDataParser.checkAndConvertNumber(Id);
-        this.mVoteCount = MovieDataParser.checkAndConvertNumber(voteCount);
+        this.mId = id;
+        this.mVoteCount = voteCount;
         this.mVideo = video;
-        this.mVoteAverage = MovieDataParser.checkAndConvertNumber(voteAverage);
+        this.mVoteAverage = voteAverage;
         this.mTitle = title;
-        this.mPopularity = MovieDataParser.checkAndConvertNumber(popularity);
-        this.mPosterPath = posterPath;
+        this.mPopularity = popularity;
+        this.mPosterPath = ApiConstants.IMAGE_BASE_URL +
+                ApiConstants.POSTER_IMAGE_SIZE +
+                posterPath;
         this.mOriginalLanguage = originalLanguage;
         this.mOriginalTitle = originalTitle;
-        this.mGenreIds = MovieDataParser.checkAndConvertJSONArrayToList(genreIds);
-        this.mBackdropPath = backdropPath;
+        this.mGenreIds = genreIds;
+        this.mBackdropPath = ApiConstants.IMAGE_BASE_URL +
+                ApiConstants.BACKDROP_IMAGE_SIZE +
+                backdropPath;
         this.mAdult = adult;
+        this.mOverview = overview;
+        this.mReleaseDate = releaseDate;
+    }
+
+    public MovieData(String id, String voteAverage, String title,
+                     String posterPath,String backdropPath,
+                     String overview, String releaseDate) {
+
+        //check numbers(int / double) and JSONArray objects and replace error values;
+        //Boolean and String error already replaced by default
+        this.mId = id;
+        this.mVoteAverage = voteAverage;
+        this.mTitle = title;
+        this.mPosterPath = posterPath;
+        this.mBackdropPath = backdropPath;;
         this.mOverview = overview;
         this.mReleaseDate = releaseDate;
     }
@@ -103,14 +132,14 @@ public final class MovieData {
         return mTitle;
     }
 
-    public String getPopularity() {
+    public double getPopularity() {
         return mPopularity;
     }
 
-    public String getPosterPath() {
-        return ApiConstants.IMAGE_BASE_URL + ApiConstants.POSTER_IMAGE_SIZE + mPosterPath;
-    }
 
+    public String getPosterPath() {
+        return mPosterPath;
+    }
     public String getOriginalLanguage() {
         return mOriginalLanguage;
     }
@@ -124,9 +153,7 @@ public final class MovieData {
     }
 
     public String getBackdropPath() {
-        return ApiConstants.IMAGE_BASE_URL +
-                ApiConstants.BACKDROP_IMAGE_SIZE +
-                mBackdropPath;
+        return mBackdropPath;
     }
 
     public boolean isAdult() {
@@ -149,7 +176,36 @@ public final class MovieData {
         return mVideos;
     }
 
-//    public void setVideos(List<Map<String, String>> videoList) {
+
+    public void setId(String id) {
+        this.mId = id;
+    }
+
+    public void setVoteAverage(String voteAverage) {
+        this.mVoteAverage = voteAverage;
+    }
+
+    public void setTitle(String title) {
+        this.mTitle = title;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.mPosterPath = posterPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.mBackdropPath = backdropPath;
+    }
+
+    public void setOverview(String overview) {
+        this.mOverview = overview;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.mReleaseDate = releaseDate;
+    }
+
+    //    public void setVideos(List<Map<String, String>> videoList) {
 //        mVideos = videoList;
 //    }
 }

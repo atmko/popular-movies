@@ -1,9 +1,14 @@
 package com.upkipp.popularmovies.Activities;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,6 +32,10 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import com.upkipp.popularmovies.Adapters.ReviewAdapter;
 import com.upkipp.popularmovies.Adapters.SearchAdapter;
 import com.upkipp.popularmovies.Adapters.VideoAdapter;
+import com.upkipp.popularmovies.Models.AppDatabase;
+import com.upkipp.popularmovies.Models.AppExecutors;
+import com.upkipp.popularmovies.Models.DetailViewModel;
+import com.upkipp.popularmovies.Models.DetailViewModelFactory;
 import com.upkipp.popularmovies.Models.MovieData;
 import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.Utils.NetworkFunctions;
@@ -50,10 +60,10 @@ public final class DetailActivity extends AppCompatActivity
     public static final String ID_KEY = "id";
     public static final String POSTER_PATH_KEY = "poster_path";
     public static final String BACKDROP_PATH_KEY = "backdrop_path";
-    private static final String TITLE_KEY = "title";
-    private static final String VOTE_AVRG_KEY = "vote_avrg";
-    private static final String RELEASE_DATE_KEY = "release_date";
-    private static final String OVERVIEW_KEY = "overview";
+    public static final String TITLE_KEY = "title";
+    public static final String VOTE_AVERAGE_KEY = "vote_avrg";
+    public static final String RELEASE_DATE_KEY = "release_date";
+    public static final String OVERVIEW_KEY = "overview";
     private static final String ERROR_TEXT = MovieData.ErrorValues.STRING_ERROR;
 
     private RecyclerView mVideoRecyclerView;
@@ -67,10 +77,12 @@ public final class DetailActivity extends AppCompatActivity
     private TextView overviewTextView;
     private TextView showMoreTextView;
 
-    private ImageView backdropImageView;
+//    private ImageView backdropImageView;
     private ImageView posterImageView;
 
-    private ImageButton upButton;
+    private ImageView saveFavoriteImageView;
+
+//    private ImageButton upButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,37 +101,37 @@ public final class DetailActivity extends AppCompatActivity
         //---------------------------------------------
         //get Intent
 
-        Intent retrievedIntent = getIntent();
+        Intent intent = getIntent();
         defineViews();
 
         if (savedInstanceState == null) {
-            if (retrievedIntent != null && retrievedIntent.hasExtra("index")) {
+            if (intent != null && intent.hasExtra(ID_KEY)) {
                 //get passed index extra from intent
-                int index = retrievedIntent.getIntExtra("index", 0);
-                SearchAdapter searchAdapter = SearchAdapter.getInstance(null);
-                //get selected movie using index
-                final MovieData currentMovieData = searchAdapter.getMovieData(index);
 
-                String movieId = currentMovieData.getId();
-                String posterPath = currentMovieData.getPosterPath();
-                String backdropPath = currentMovieData.getBackdropPath();
+                String movieId = intent.getStringExtra(ID_KEY);
+                String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
+                String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
+                String title = intent.getStringExtra(TITLE_KEY);
+                String voteAverage = intent.getStringExtra(VOTE_AVERAGE_KEY);
+                String releaseDate = intent.getStringExtra(RELEASE_DATE_KEY);
+                String overview = intent.getStringExtra(OVERVIEW_KEY);
 
                 //load images into ImageViews using glide
                 NetworkFunctions
                         .loadImage(this, posterPath, posterImageView);
-                NetworkFunctions
-                        .loadImage(this, backdropPath, backdropImageView);
+//                NetworkFunctions
+//                        .loadImage(this, backdropPath, backdropImageView);
 
                 //load reviews and videos
                 loadReviewsHelper(movieId);
                 loadVideosHelper(movieId);
 
                 //set text in TextViews
-                titleTextView.setText(currentMovieData.getTitle());
-                voteAverageTextView.setText(String.valueOf(currentMovieData.getVoteAverage()));
-                releaseDateTextView.setText(currentMovieData.getReleaseDate());
+                titleTextView.setText(title);
+                voteAverageTextView.setText(voteAverage);
+                releaseDateTextView.setText(releaseDate);
                 //use tag to store full and original text to prevent loss after limitText()
-                overviewTextView.setTag(currentMovieData.getOverview());
+                overviewTextView.setTag(overview);
                 overviewTextView.setText(limitText(overviewTextView.getTag().toString()));
 
             } else {
@@ -131,23 +143,27 @@ public final class DetailActivity extends AppCompatActivity
             String movieId = savedInstanceState.getString(ID_KEY, ERROR_TEXT);
             String posterPath = savedInstanceState.getString(POSTER_PATH_KEY, ERROR_TEXT);
             String backdropPath = savedInstanceState.getString(BACKDROP_PATH_KEY, ERROR_TEXT);
+            String title = savedInstanceState.getString(TITLE_KEY, ERROR_TEXT);
+            String voteAverage = savedInstanceState.getString(VOTE_AVERAGE_KEY, ERROR_TEXT);
+            String releaseDate = savedInstanceState.getString(RELEASE_DATE_KEY, ERROR_TEXT);
+            String overview = savedInstanceState.getString(OVERVIEW_KEY, ERROR_TEXT);
 
             //load images into ImageViews using glide
             NetworkFunctions
                     .loadImage(this, posterPath, posterImageView);
-            NetworkFunctions
-                    .loadImage(this, backdropPath, backdropImageView);
+//            NetworkFunctions
+//                    .loadImage(this, backdropPath, backdropImageView);
 
             //load reviews and videos
             loadReviewsHelper(movieId);
             loadVideosHelper(movieId);
 
             //set text in TextViews
-            titleTextView.setText(savedInstanceState.getString(TITLE_KEY, ERROR_TEXT));
-            voteAverageTextView.setText(savedInstanceState.getString(VOTE_AVRG_KEY, ERROR_TEXT));
-            releaseDateTextView.setText(savedInstanceState.getString(RELEASE_DATE_KEY, ERROR_TEXT));
+            titleTextView.setText(title);
+            voteAverageTextView.setText(voteAverage);
+            releaseDateTextView.setText(releaseDate);
             //use tag to store full and original text to prevent loss after limitText()
-            overviewTextView.setTag(savedInstanceState.getString(OVERVIEW_KEY, ERROR_TEXT));
+            overviewTextView.setTag(overview);
             overviewTextView
                     .setText(limitText(overviewTextView.getTag().toString()));
 
@@ -160,18 +176,18 @@ public final class DetailActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
         //save TextView values
         outState.putString(TITLE_KEY, titleTextView.getText().toString());
-        outState.putString(VOTE_AVRG_KEY, voteAverageTextView.getText().toString());
+        outState.putString(VOTE_AVERAGE_KEY, voteAverageTextView.getText().toString());
         outState.putString(RELEASE_DATE_KEY, releaseDateTextView.getText().toString());
         outState.putString(OVERVIEW_KEY, overviewTextView.getText().toString());
 
         //get values form intent
         Intent intent = getIntent();
-        String movieID = intent.getStringExtra(ID_KEY);
+        String movieId = intent.getStringExtra(ID_KEY);
         String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
         String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
 
         //save id and path values
-        outState.putString(ID_KEY, movieID);
+        outState.putString(ID_KEY, movieId);
         outState.putString(POSTER_PATH_KEY, posterPath);
         outState.putString(BACKDROP_PATH_KEY, backdropPath);
 
@@ -185,10 +201,10 @@ public final class DetailActivity extends AppCompatActivity
         overviewTextView = findViewById(R.id.overviewTextView);
         showMoreTextView = findViewById(R.id.showMoreTextView);
 
-        backdropImageView = findViewById(R.id.backdropImageView);
+//        backdropImageView = findViewById(R.id.backdropImageView);
         posterImageView = findViewById(R.id.posterImageView);
 
-        upButton = findViewById(R.id.upButton);
+//        upButton = findViewById(R.id.upButton);
 
         showMoreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,12 +213,46 @@ public final class DetailActivity extends AppCompatActivity
             }
         });
 
-        upButton.setOnClickListener(new View.OnClickListener() {
+        saveFavoriteImageView = findViewById(R.id.saveFavoriteImageView);
+        String movieId = getIntent().getStringExtra(ID_KEY);
+        AppDatabase database = AppDatabase.getInstance(this);
+
+        DetailViewModelFactory detailViewModelFactory = new DetailViewModelFactory(database, movieId);
+        DetailViewModel viewModel = ViewModelProviders.of(this, detailViewModelFactory).get(DetailViewModel.class);
+        final LiveData<MovieData> favoriteLiveData = viewModel.getMovie();
+
+        favoriteLiveData.observe(this, new Observer<MovieData>() {
             @Override
-            public void onClick(View v) {
-                NavUtils.navigateUpFromSameTask(DetailActivity.this);
+            public void onChanged(@Nullable MovieData movieData) {
+                //update favorite icon/button in real time
+                if (movieData == null) {
+                    saveFavoriteImageView.setTag("add favorite");
+                    saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+                }else {
+                    saveFavoriteImageView.setTag("already favorite");
+                    saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+                }
             }
         });
+
+        saveFavoriteImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (saveFavoriteImageView.getTag().toString().equals("add favorite")) {
+                    addToFavorites();
+                } else if (saveFavoriteImageView.getTag().toString().equals("already favorite")) {
+                    deleteFavorite(favoriteLiveData.getValue());
+                }
+            }
+        });
+
+//        upButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                NavUtils.navigateUpFromSameTask(DetailActivity.this);
+//            }
+//        });
 
         //---configure RecyclerView
         mVideoRecyclerView = findViewById(R.id.videoRecyclerView);
@@ -222,6 +272,7 @@ public final class DetailActivity extends AppCompatActivity
         //set adapter to RecyclerView
         mVideoRecyclerView.setAdapter(videoAdapter);
         mReviewRecyclerView.setAdapter(reviewAdapter);
+
     }
 
     private GridLayoutManager configureLayoutManager() {
@@ -337,8 +388,44 @@ public final class DetailActivity extends AppCompatActivity
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+    private void addToFavorites() {
+        final AppDatabase database = AppDatabase.getInstance(this);
+
+        Intent intent = getIntent();
+
+        //get values form intent
+        String movieId = intent.getStringExtra(ID_KEY);
+        String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
+        String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
+
+        final MovieData movieData =
+                new MovieData(movieId,
+                        voteAverageTextView.getText().toString(),
+                        titleTextView.getText().toString(),
+                        posterPath,
+                        backdropPath,
+                        overviewTextView.getTag().toString(),
+                        releaseDateTextView.getText().toString()
+
+                );
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.favoritesDao().addFavorite(movieData);
+
+            }
+        });
     }
+
+    private void deleteFavorite(final MovieData movieData) {
+        final AppDatabase database = AppDatabase.getInstance(this);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.favoritesDao().deleteFavorite(movieData);
+            }
+        });
+    }
+
 }

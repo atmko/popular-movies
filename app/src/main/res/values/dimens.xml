@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--margins-->
-    <dimen name="detail_layout_margin">20dp</dimen>
+    <dimen name="detail_layout_margin">16dp</dimen>
     <dimen name="main_layout_margin">8dp</dimen>
+    <dimen name="detail_info_card_text_vertical_margin">8dp</dimen>
     <!--text sizes-->
     <dimen name="detail_title_text_size">25sp</dimen>
-    <dimen name="detail_rating_text_size">50sp</dimen>
+    <dimen name="detail_rating_text_size">30sp</dimen>
     <dimen name="detail_release_date_text_size">20sp</dimen>
     <dimen name="detail_overview_text_size">14sp</dimen>
+    <dimen name="detail_heading_text_size">18sp</dimen>
     <!--view dimensions-->
     <dimen name="detail_backdrop_height">202dp</dimen>
     <dimen name="detail_poster_width">120dp</dimen>
     <dimen name="detail_poster_height">170dp</dimen>
+    <dimen name="detail_card_margin">10dp</dimen>
+    <dimen name="detail_card_content_top_margin">10dp</dimen>
+    <dimen name="detail_card_content_bottom_margin">20dp</dimen>
+    <dimen name="detail_vide_recyclerview_height">110dp</dimen>
     <dimen name="detail_video_margin">10dp</dimen>
 </resources>

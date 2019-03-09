@@ -15,6 +15,7 @@ public final class SearchPreferences {
     private String mSortParamVal;
     public static final String SORT_BY_POPULAR = "popular";
     public static final String SORT_BY_TOP_RATED = "top_rated";
+    public static final String SORT_BY_FAVORITES = "favorites";
 
     //---------------------------------------------------------
     //paging parameters

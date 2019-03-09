@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,226 +11,277 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/backdropImageView"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/detail_backdrop_height"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/backdrop_description" />
-
-            <ImageButton
-                android:id="@+id/upButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/detail_layout_margin"
-                android:layout_marginLeft="@dimen/detail_layout_margin"
-                android:layout_marginStart="@dimen/detail_layout_margin"
-                android:src="@android:drawable/ic_media_play"
-                android:background="@null"
-                android:rotation="180" />
-
-        </FrameLayout>
-
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/detail_video_margin"
-            android:layout_marginTop="@dimen/detail_video_margin">
+            android:layout_marginTop="@dimen/detail_card_margin"
+            android:layout_marginBottom="@dimen/detail_card_margin">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/detail_layout_margin"
-                android:layout_marginLeft="@dimen/detail_layout_margin"
-                android:layout_marginRight="@dimen/detail_layout_margin"
-                android:layout_marginBottom="@dimen/detail_layout_margin"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/posterImageView"
+                    android:layout_width="@dimen/detail_poster_width"
+                    android:layout_height="@dimen/detail_poster_height"
+                    android:layout_marginStart="@dimen/detail_layout_margin"
+                    android:layout_marginLeft="@dimen/detail_layout_margin"
+                    android:layout_marginTop="@dimen/detail_layout_margin"
+                    android:layout_marginEnd="@dimen/detail_layout_margin"
+                    android:layout_marginRight="@dimen/detail_layout_margin"
+                    android:layout_marginBottom="@dimen/detail_layout_margin"
+                    android:contentDescription="@string/poster_description"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
-                    <ImageView
-                        android:id="@+id/posterImageView"
-                        android:layout_width="@dimen/detail_poster_width"
-                        android:layout_height="@dimen/detail_poster_height"
-                        android:scaleType="centerCrop"
-                        android:contentDescription="@string/poster_description" />
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:singleLine="false"
+                    tools:text="title"
+                    android:textAlignment="center"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                    app:layout_constraintTop_toTopOf="@+id/posterImageView" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/detail_layout_margin"
-                        android:layout_toRightOf="@id/posterImageView"
-                        android:orientation="vertical"
-                        android:layout_toEndOf="@id/posterImageView">
+                <TextView
+                    android:id="@+id/voteAverageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    tools:text="rating"
+                    android:textSize="@dimen/detail_rating_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
-                        <TextView
-                            android:id="@+id/titleTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:textSize="@dimen/detail_title_text_size"
-                            android:textAlignment="center"
-                            android:text="@string/detail_title_text"/>
+                <TextView
+                    android:id="@+id/releaseDateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    tools:text="release date"
+                    android:textSize="@dimen/detail_release_date_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/voteAverageTextView"
+                    app:layout_constraintVertical_bias="0.0" />
 
-                        <TextView
-                            android:id="@+id/voteAverageTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="@string/detail_rating_text"
-                            android:textSize="@dimen/detail_rating_text_size" />
+                <ImageView
+                    android:id="@+id/saveFavoriteImageView"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="@dimen/detail_info_card_text_vertical_margin"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@null"
+                    android:src="@drawable/fav_off"
+                    android:tag="add favorite"
+                    app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView" />
 
-                        <TextView
-                            android:id="@+id/releaseDateTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:textSize="@dimen/detail_release_date_text_size"
-                            android:text="@string/detail_release_date_text"/>
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:text="Synopsis"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:textStyle="bold|italic" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/overviewTextView"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="@dimen/detail_layout_margin"-->
-                    <!--android:layout_marginRight="@dimen/detail_layout_margin"-->
-                    <!--android:text="@string/detail_overview_text"-->
-                    <!--android:textSize="@dimen/detail_overview_text_size"/>-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/showMoreTextView"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="show more"-->
-                    <!--android:textColor="@color/colorAccent"-->
-                    <!--android:tag="shown"/>-->
-
-            </LinearLayout>
-
-
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/detail_video_margin">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/detail_card_margin">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/detail_layout_margin"
-                android:layout_marginLeft="@dimen/detail_layout_margin"
-                android:layout_marginRight="@dimen/detail_layout_margin"
-                android:layout_marginBottom="@dimen/detail_layout_margin"
-                android:orientation="vertical">
+                android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Synopsis"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
+                    android:id="@+id/synopsisTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/detail_layout_margin"
+                    android:layout_marginLeft="@dimen/detail_layout_margin"
+                    android:layout_marginTop="@dimen/detail_layout_margin"
+                    android:text="@string/synopsis"
+                    android:textSize="@dimen/detail_heading_text_size"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/overviewTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/detail_layout_margin"
                     android:layout_marginTop="@dimen/detail_layout_margin"
                     android:layout_marginRight="@dimen/detail_layout_margin"
-                    android:text="@string/detail_overview_text"
-                    android:textSize="@dimen/detail_overview_text_size"/>
+                    android:textSize="@dimen/detail_overview_text_size"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/synopsisTxt"
+                    tools:text="overview" />
 
                 <TextView
                     android:id="@+id/showMoreTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/detail_layout_margin"
+                    android:layout_marginLeft="@dimen/detail_layout_margin"
+                    android:layout_marginTop="@dimen/detail_layout_margin"
+                    android:tag="shown"
                     android:text="show more"
+                    android:textSize="@dimen/detail_overview_text_size"
                     android:textColor="@color/colorAccent"
-                    android:tag="shown"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/overviewTextView" />
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/detail_video_margin">
+            android:layout_marginBottom="@dimen/detail_card_margin">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/detail_layout_margin"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/detail_layout_margin"
                     android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_video_margin"
-                    android:text="Videos"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
+                    android:layout_marginTop="@dimen/detail_layout_margin"
+                    android:textSize="@dimen/detail_heading_text_size"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/videos" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/videoRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="110dp" />
+                    android:layout_height="@dimen/detail_vide_recyclerview_height"
+                    android:layout_marginTop="@dimen/detail_layout_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-            </LinearLayout>
 
-
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/detail_video_margin">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/detail_card_margin">
 
-
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
+
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/detail_layout_margin"
                     android:layout_marginLeft="@dimen/detail_layout_margin"
-                    android:layout_marginTop="@dimen/detail_video_margin"
-                    android:text="Reviews"
-                    android:textSize="18sp"
-                    android:textStyle="bold|italic" />
+                    android:layout_marginTop="@dimen/detail_layout_margin"
+                    android:layout_marginEnd="@dimen/detail_layout_margin"
+                    android:layout_marginRight="@dimen/detail_layout_margin"
+                    android:layout_marginBottom="@dimen/detail_layout_margin"
+                    android:text="@string/reviews"
+                    android:textSize="@dimen/detail_heading_text_size"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/reviewRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="110dp" />
+                    android:layout_height="110dp"
+                    android:layout_marginStart="@dimen/detail_layout_margin"
+                    android:layout_marginLeft="@dimen/detail_layout_margin"
+                    android:layout_marginTop="@dimen/detail_layout_margin"
+                    android:layout_marginEnd="@dimen/detail_layout_margin"
+                    android:layout_marginRight="@dimen/detail_layout_margin"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            </LinearLayout>
-
-
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
 
 </ScrollView>
+
+
+    <!--&lt;!&ndash;<FrameLayout&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="match_parent">&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/backdropImageView"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="@dimen/detail_backdrop_height"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:scaleType="centerCrop"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:contentDescription="@string/backdrop_description" />&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<ImageButton&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/upButton"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_marginTop="@dimen/detail_layout_margin"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_marginLeft="@dimen/detail_layout_margin"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_marginStart="@dimen/detail_layout_margin"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:src="@android:drawable/ic_media_play"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:background="@null"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:rotation="180" />&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</FrameLayout>&ndash;&gt;-->

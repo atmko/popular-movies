@@ -1,15 +1,19 @@
 package com.upkipp.popularmovies.Activities;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
+import com.upkipp.popularmovies.Models.MainViewModel;
 import com.upkipp.popularmovies.Models.MovieData;
 import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.R;
@@ -27,11 +32,12 @@ import com.upkipp.popularmovies.Utils.SearchPreferences;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public final class MainActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     public static final int COLUMN_SPAN = 3;
 
     private SearchPreferences searchPreferences;
@@ -57,12 +63,13 @@ public final class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             //execute search
-            executePresetMovieSearch(true);//defaults to popular movies
+            executeMovieSearch(true);//defaults to popular movies
+            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
         } else {
-            //if empty adapter, executePresetMovieSearch(true)
+            //if empty adapter, executeMovieSearch(true)
             //prevents overwriting data on rotate or when data exists
-            if (searchAdapter.getItemCount() == 0) {
-                executePresetMovieSearch(true);//defaults to popular movies
+            if (searchAdapter.isEmpty()) {
+                executeMovieSearch(true);//defaults to popular movies
 
             }
 
@@ -86,6 +93,9 @@ public final class MainActivity extends AppCompatActivity
 
                 super.onScrolled(recyclerView, dx, dy);
 
+                //do nothing if sortParamVal is favorites
+                if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {return;}
+
                 int currentPage = searchPreferences.getCurrentPage();
                 int availablePages = searchPreferences.getTotalPages();
 
@@ -99,7 +109,7 @@ public final class MainActivity extends AppCompatActivity
                 //lastVis == lastItemIndex makes sure we are at the end of list
                 boolean lastItem = lastShown == lastItemIndex;
                 boolean morePagesAvailable = currentPage < availablePages;
-                //!emptyAdapter prevents unwanted page load when clearing adapter data...
+                //!emptyAdapter prevents unwanted page loads when clearing adapter data...
                 // ...because lastItem is considered true
                 boolean emptyAdapter = searchAdapter.isEmpty();
 
@@ -127,51 +137,32 @@ public final class MainActivity extends AppCompatActivity
 
     }
 
-    private void executePresetMovieSearch(boolean newSearch) {
+    private void executeMovieSearch(boolean newSearch) {
         //newSearch value indicates if to overwrite Adapter Data
         //false value used in paging to not overwrite, but append
+
         if (newSearch) {
             searchAdapter.clearData();
             searchPreferences.setTargetPage(1);
         }
 
-        //build AN request
-        final ANRequest request = NetworkFunctions.buildSearchRequest();
-
-        request.getAsString(new StringRequestListener() {
-            @Override
-            public void onResponse(String returnedJSONString) {
-                try {
-                    //set current url string path
-                    searchPreferences.setQueryUrlString(request.getUrl());
-
-                    //parse and populate retrieved data
-                    ArrayList<MovieData> movieDataList = MovieDataParser.parseData(returnedJSONString);
-                    searchAdapter.addAdapterData(movieDataList);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(ANError anError) {
-                //notify error
-                Toast.makeText(MainActivity.this, anError.getErrorDetail(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
+        //if sortParamVal is favorites setupViewModel()
+        if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
+            setupViewModel();
+        } else {
+            presetMovieSearch();
+        }
     }
+
 
     void loadNextPage(int newTargetPage) {
         searchPreferences.setTargetPage(newTargetPage);
-        executePresetMovieSearch(false);
+        executeMovieSearch(false);
     }
 
     void loadPreviousPage(int newTargetPage) {
         searchPreferences.setTargetPage(newTargetPage);
-        executePresetMovieSearch(false);
+        executeMovieSearch(false);
     }
 
     private GridLayoutManager configureLayoutManager() {
@@ -191,6 +182,11 @@ public final class MainActivity extends AppCompatActivity
         detailActivityIntent.putExtra(DetailActivity.ID_KEY, currentMovieData.getId());
         detailActivityIntent.putExtra(DetailActivity.BACKDROP_PATH_KEY, currentMovieData.getBackdropPath());
         detailActivityIntent.putExtra(DetailActivity.POSTER_PATH_KEY, currentMovieData.getPosterPath());
+        detailActivityIntent.putExtra(DetailActivity.TITLE_KEY, currentMovieData.getTitle());
+        detailActivityIntent.putExtra(DetailActivity.VOTE_AVERAGE_KEY, currentMovieData.getVoteAverage());
+        detailActivityIntent.putExtra(DetailActivity.RELEASE_DATE_KEY, currentMovieData.getReleaseDate());
+        detailActivityIntent.putExtra(DetailActivity.OVERVIEW_KEY, currentMovieData.getOverview());
+
         startActivity(detailActivityIntent);
     }
 
@@ -208,9 +204,8 @@ public final class MainActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 //SHOW POPULAR
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_POPULAR);
-                searchPreferences.setTargetPage(1);
                 //execute search
-                executePresetMovieSearch(true);
+                executeMovieSearch(true);
                 return true;
             }
         });
@@ -223,14 +218,76 @@ public final class MainActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 //SHOW TOP RATED
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_TOP_RATED);
-                searchPreferences.setTargetPage(1);
                 //execute search
-                executePresetMovieSearch(true);
+                executeMovieSearch(true);
+                return true;
+            }
+        });
+
+        //get menu item
+        MenuItem favoritesItem = menu.findItem(R.id.favorite_movies);
+        //set click listener
+        favoritesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //SHOW FAVORITES
+                searchPreferences.setSortParameter(SearchPreferences.SORT_BY_FAVORITES);
+                //execute search
+                executeMovieSearch(true);
                 return true;
             }
         });
 
         return true;
+    }
+
+    private void setupViewModel() {
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        LiveData<List<MovieData>> favorites = viewModel.getMovies();
+        favorites.observe(this, new Observer<List<MovieData>>() {
+            @Override
+            public void onChanged(@Nullable List<MovieData> movieData) {
+                Log.d(TAG, "Receiving favorites from LiveData in ViewModel");
+                //prevents bug i.e clearing adapter for other sort values
+                if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
+                    searchAdapter.clearData();
+                    //check null
+                    if (movieData != null) {
+                        searchAdapter.addAdapterData(movieData);
+                    }
+                }
+            }
+        });
+    }
+
+    private void presetMovieSearch() {
+
+        //build AN request
+        final ANRequest request = NetworkFunctions.buildSearchRequest();
+
+        request.getAsString(new StringRequestListener() {
+            @Override
+            public void onResponse(String returnedJSONString) {
+                try {
+                    //set current url string path
+                    searchPreferences.setQueryUrlString(request.getUrl());
+
+                    //parse and populate retrieved data
+                    List<MovieData> movieDataList = MovieDataParser.parseData(returnedJSONString);
+                    searchAdapter.addAdapterData(movieDataList);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                //notify error
+                Toast.makeText(MainActivity.this, anError.getErrorDetail(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override

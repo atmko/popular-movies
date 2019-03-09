@@ -4,14 +4,16 @@
     <!--menu labels-->
     <string name="menu_popular_title">most popular movies</string>
     <string name="menu_top_rated_title">top rated movies</string>
+    <string name="menu_favorites_title">favorite movies</string>
 
-    <!--textview placeholder text-->
-    <string name="detail_title_text">title</string>
-    <string name="detail_rating_text">rating</string>
-    <string name="detail_release_date_text">release date</string>
-    <string name="detail_overview_text">overview</string>
+    <!--textview headings text-->
+    <string name="synopsis">Synopsis</string>
+    <string name="videos">Videos</string>
+    <string name="reviews">Reviews</string>
 
     content descriptions?
     <string name="poster_description">poster image</string>
     <string name="backdrop_description">backdrop image</string>
+
+
 </resources>

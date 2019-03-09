@@ -58,7 +58,7 @@ public class MovieDataParser {
         }
     }
 
-    public static ArrayList<MovieData> parseData(String returnedJSONString) throws JSONException {
+    public static List<MovieData> parseData(String returnedJSONString) throws JSONException {
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
             return new ArrayList<>();
@@ -78,7 +78,7 @@ public class MovieDataParser {
         JSONArray results = jsonObject.getJSONArray(MovieData.MovieDataKeys.RESULTS_KEY);
 
         //SearchAdapter data will be stored as ArrayList<MovieData>
-        ArrayList<MovieData> movieDataList = new ArrayList<>();
+        List<MovieData> movieDataList = new ArrayList<>();
 
         //iterate through each movie in results
         for (int index = 0; index < results.length() ; index++) {
@@ -88,17 +88,17 @@ public class MovieDataParser {
             MovieData movieData =
                     new MovieData(
                             //get by keys. use fallback values if error.(format: key, fallback)
-                            currentObject.optInt(MovieData.MovieDataKeys.MOVIE_ID,
-                                    MovieData.ErrorValues.INT_ERROR),
+                            checkAndConvertNumber(currentObject.optInt(MovieData.MovieDataKeys.MOVIE_ID,
+                                    MovieData.ErrorValues.INT_ERROR)),
 
-                            currentObject.optInt(MovieData.MovieDataKeys.VOTE_COUNT,
-                                    MovieData.ErrorValues.INT_ERROR),
+                            checkAndConvertNumber(currentObject.optInt(MovieData.MovieDataKeys.VOTE_COUNT,
+                                    MovieData.ErrorValues.INT_ERROR)),
 
                             currentObject.optBoolean(MovieData.MovieDataKeys.VIDEO,
                                     MovieData.ErrorValues.BOOLEAN_ERROR),
 
-                            currentObject.optDouble(MovieData.MovieDataKeys.VOTE_AVERAGE,
-                                    MovieData.ErrorValues.DOUBLE_ERROR),
+                            checkAndConvertNumber(currentObject.optDouble(MovieData.MovieDataKeys.VOTE_AVERAGE,
+                                    MovieData.ErrorValues.DOUBLE_ERROR)),
 
                             currentObject.optString(MovieData.MovieDataKeys.MOVIE_TITLE,
                                     MovieData.ErrorValues.STRING_ERROR),
@@ -116,7 +116,7 @@ public class MovieDataParser {
                                     MovieData.ErrorValues.STRING_ERROR),
 
                             //optJSONArray method has no fallback
-                            currentObject.optJSONArray(MovieData.MovieDataKeys.GENRE_IDS),
+                            checkAndConvertJSONArrayToList(currentObject.optJSONArray(MovieData.MovieDataKeys.GENRE_IDS)),
 
                             currentObject.optString(MovieData.MovieDataKeys.BACKDROP_PATH,
                                     MovieData.ErrorValues.STRING_ERROR),
