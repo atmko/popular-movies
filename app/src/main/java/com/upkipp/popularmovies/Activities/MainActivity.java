@@ -154,7 +154,6 @@ public final class MainActivity extends AppCompatActivity
         }
     }
 
-
     void loadNextPage(int newTargetPage) {
         searchPreferences.setTargetPage(newTargetPage);
         executeMovieSearch(false);

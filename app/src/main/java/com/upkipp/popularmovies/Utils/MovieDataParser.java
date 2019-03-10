@@ -11,6 +11,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
 import com.google.gson.Gson;
 import com.upkipp.popularmovies.Activities.MainActivity;
+import com.upkipp.popularmovies.Adapters.ReviewAdapter;
 import com.upkipp.popularmovies.Adapters.SearchAdapter;
 import com.upkipp.popularmovies.Models.MovieData;
 
@@ -162,8 +163,8 @@ public class MovieDataParser {
 //            String reviewImagePath = NetworkFunctions.createReviewImagePath((String) currentResult.get("key"));
 //            Log.d("TAGG", reviewImagePath);
 
-            newReview.put("author", ((String) currentResult.get("author")));
-            newReview.put("content", (String) currentResult.get("content"));
+            newReview.put(ReviewAdapter.REVIEW_AUTHOR_KEY, ((String) currentResult.get("author")));
+            newReview.put(ReviewAdapter.REVIEW_CONTENT_KEY, (String) currentResult.get("content"));
 
             reviews.add(newReview);
 

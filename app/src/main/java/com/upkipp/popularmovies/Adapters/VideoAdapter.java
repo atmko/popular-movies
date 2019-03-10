@@ -112,7 +112,6 @@ public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoA
         }
 //        mAdapterData.addAll(movieDataList);
 //        notifyDataSetChanged();
-        Log.i("INFO", "videoAdapter data updated");
     }
 
     public Map<String, String> getVideoData(int index) {

@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,9 @@ public final class DetailActivity extends AppCompatActivity
     public static final String RELEASE_DATE_KEY = "release_date";
     public static final String OVERVIEW_KEY = "overview";
     private static final String ERROR_TEXT = MovieData.ErrorValues.STRING_ERROR;
+
+    private static final int OVERVIEW_CUT_OFF_INDEX = 262;
+    public static final int REVIEW_CUT_OFF_INDEX = 85;
 
     ActivityDetailBinding mBinding;
 
@@ -117,7 +121,7 @@ public final class DetailActivity extends AppCompatActivity
                 mBinding.releaseDateTextView.setText(releaseDate);
                 //use tag to store full and original text to prevent loss after limitText()
                 mBinding.overviewTextView.setTag(overview);
-                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString()));
+                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
 
             } else {
                 Toast.makeText(this, "no data available", Toast.LENGTH_SHORT).show();
@@ -150,7 +154,7 @@ public final class DetailActivity extends AppCompatActivity
             //use tag to store full and original text to prevent loss after limitText()
             mBinding.overviewTextView.setTag(overview);
             mBinding.overviewTextView
-                    .setText(limitText(mBinding.overviewTextView.getTag().toString()));
+                    .setText(limitText(mBinding.overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
 
         }
 
@@ -183,7 +187,7 @@ public final class DetailActivity extends AppCompatActivity
         mBinding.showMoreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString()));
+                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
             }
         });
 
@@ -308,18 +312,17 @@ public final class DetailActivity extends AppCompatActivity
 
     @Override
     public void onReviewItemClick(int position) {
-//        //start video intent
-//
-//        Map<String, String>  videoData = videoAdapter.getVideoData(position);
-//        String path = videoData.get("path");
-//
-//        Uri fullVideoPath = Uri.parse(("https://www.youtube.com/watch?v=" + path));
-//
-//        Intent videoIntent = new Intent(Intent.ACTION_VIEW, fullVideoPath);
-//        if (videoIntent.resolveActivity(getPackageManager()) != null) {
-//            startActivity(videoIntent);
-//
-//        }
+        //start review intent
+
+        Intent reviewIntent = new Intent(getApplicationContext(), ReviewActivity.class);
+        String reviewAuthor = reviewAdapter.getReviewData(position).get(ReviewAdapter.REVIEW_AUTHOR_KEY);
+        String reviewContent = reviewAdapter.getReviewData(position).get(ReviewAdapter.REVIEW_CONTENT_KEY);
+
+        reviewIntent.putExtra(ReviewAdapter.REVIEW_AUTHOR_KEY, reviewAuthor);
+        reviewIntent.putExtra(ReviewAdapter.REVIEW_CONTENT_KEY, reviewContent);
+
+        startActivity(reviewIntent);
+
     }
 
     @Override
@@ -336,11 +339,9 @@ public final class DetailActivity extends AppCompatActivity
 //        return super.onOptionsItemSelected(item);
     }
 
-    private String limitText(String fullText) {
-//        TextView showMoreTextView = findViewById(R.id.showMoreTextView);
-        int cutOffIndex = 262;
-        if (fullText.length() > cutOffIndex && ((String) mBinding.showMoreTextView.getTag()).equals("shown")) {
-            String reducedText = fullText.substring(0, cutOffIndex) + "...";
+    private String limitText(String fullText, int cutOffIndex) {
+        if (fullText.length() > cutOffIndex && (mBinding.showMoreTextView.getTag()).equals("shown")) {
+            String reducedText = fullText.subSequence(0, cutOffIndex) + "...";
 
             mBinding.showMoreTextView.setTag("hidden");
             mBinding.showMoreTextView.setText("show more");
@@ -354,8 +355,12 @@ public final class DetailActivity extends AppCompatActivity
             mBinding.showMoreTextView.setText("show less");
 
             return fullText;
+
         }
+
     }
+
+
 
     private void addToFavorites() {
         final AppDatabase database = AppDatabase.getInstance(this);

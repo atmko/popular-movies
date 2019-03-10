@@ -17,6 +17,8 @@
     <dimen name="detail_card_margin">10dp</dimen>
     <dimen name="detail_card_content_top_margin">10dp</dimen>
     <dimen name="detail_card_content_bottom_margin">20dp</dimen>
-    <dimen name="detail_vide_recyclerview_height">110dp</dimen>
+    <dimen name="detail_video_recyclerview_height">110dp</dimen>
+    <!--recyclerView Holders-->
     <dimen name="detail_video_margin">10dp</dimen>
+    <dimen name="detail_review_margin">10dp</dimen>
 </resources>

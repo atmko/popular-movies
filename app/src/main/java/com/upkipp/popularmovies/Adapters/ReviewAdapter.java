@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.upkipp.popularmovies.Activities.DetailActivity;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.Utils.MovieDataParser;
 import com.upkipp.popularmovies.Utils.NetworkFunctions;
@@ -21,6 +22,9 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
     //singleton variables
 //    private static final Object LOCK = new Object();
 //    private static ReviewAdapter sInstance;
+
+    public static final String REVIEW_AUTHOR_KEY = "author";
+    public static final String REVIEW_CONTENT_KEY = "content";
 
     private ArrayList<Map<String, String>> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
@@ -85,7 +89,8 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
         String content = currentReviewData.get("content");
 
         adapterViewHolder.authorTextVIew.setText(author);
-        adapterViewHolder.contentTextView.setText(content);
+        adapterViewHolder.contentTextView.setTag(content);
+        adapterViewHolder.contentTextView.setText(limitText(adapterViewHolder.contentTextView, content, DetailActivity.REVIEW_CUT_OFF_INDEX));
 
     }
 
@@ -110,7 +115,6 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
         }
 //        mAdapterData.addAll(movieDataList);
 //        notifyDataSetChanged();
-        Log.i("INFO", "reviewAdapter data updated");
     }
 
     public Map<String, String> getReviewData(int index) {
@@ -123,5 +127,13 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
         notifyDataSetChanged();
     }
 
+    private String limitText(TextView textView, String fullText, int cutOffIndex) {
+        if (fullText.length() > cutOffIndex) {
+            return fullText.substring(0, cutOffIndex) + "...";
+
+        } else {
+            return fullText;
+        }
+    }
 }
 
