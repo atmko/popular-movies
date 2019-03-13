@@ -113,10 +113,10 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
 //        int itemIndex = (pageAdjustment * listSize);
 //        Log.d("POS1", String.valueOf(itemIndex));
 //
-//        int rowIndex = Math.abs(itemIndex/MainActivity.COLUMN_SPAN);
+//        int rowIndex = Math.abs(itemIndex/SearchActivity.COLUMN_SPAN);
 //        Log.d("POS2", String.valueOf(rowIndex));
 //
-//        int colIndex = itemIndex - (rowIndex * MainActivity.COLUMN_SPAN);
+//        int colIndex = itemIndex - (rowIndex * SearchActivity.COLUMN_SPAN);
 //        Log.d("POS3", String.valueOf(colIndex));
 //
 //        MovieData previousIndex = null;

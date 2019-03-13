@@ -34,10 +34,10 @@ import org.json.JSONException;
 
 import java.util.List;
 
-public final class MainActivity extends AppCompatActivity
+public final class SearchActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = SearchActivity.class.getSimpleName();
     public static final int COLUMN_SPAN = 3;
 
     private SearchPreferences searchPreferences;
@@ -46,7 +46,7 @@ public final class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -283,7 +283,7 @@ public final class MainActivity extends AppCompatActivity
             @Override
             public void onError(ANError anError) {
                 //notify error
-                Toast.makeText(MainActivity.this, anError.getErrorDetail(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, anError.getErrorDetail(), Toast.LENGTH_SHORT).show();
 
             }
         });
