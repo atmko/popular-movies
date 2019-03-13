@@ -1,13 +1,12 @@
-package com.upkipp.popularmovies.Activities;
+package com.upkipp.popularmovies.activities;
 
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.upkipp.popularmovies.Adapters.ReviewAdapter;
+import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.R;
 
 public class ReviewActivity extends AppCompatActivity {

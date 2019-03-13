@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies.Models;
+package com.upkipp.popularmovies.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -6,12 +6,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import com.upkipp.popularmovies.Utils.ApiConstants;
-import com.upkipp.popularmovies.Utils.MovieDataParser;
-import com.upkipp.popularmovies.Utils.NetworkFunctions;
-import com.upkipp.popularmovies.Utils.SearchPreferences;
-
-import org.json.JSONArray;
+import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
 import java.util.List;
 import java.util.Map;

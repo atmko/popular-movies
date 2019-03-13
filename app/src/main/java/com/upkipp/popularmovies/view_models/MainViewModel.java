@@ -1,10 +1,13 @@
-package com.upkipp.popularmovies.Models;
+package com.upkipp.popularmovies.view_models;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.database.AppDatabase;
 
 import java.util.List;
 

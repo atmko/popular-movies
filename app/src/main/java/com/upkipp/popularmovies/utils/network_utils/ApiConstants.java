@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies.Utils;
+package com.upkipp.popularmovies.utils.network_utils;
 
 import com.upkipp.popularmovies.BuildConfig;
 

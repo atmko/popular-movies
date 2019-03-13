@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies.Adapters;
+package com.upkipp.popularmovies.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.upkipp.popularmovies.Activities.MainActivity;
-import com.upkipp.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.R;
-import com.upkipp.popularmovies.Utils.NetworkFunctions;
-import com.upkipp.popularmovies.Utils.SearchPreferences;
+import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
+import com.upkipp.popularmovies.utils.SearchPreferences;
 
 import java.util.ArrayList;
 import java.util.List;

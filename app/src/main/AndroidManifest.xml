@@ -12,18 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".Activities.ReviewActivity"
-            android:parentActivityName=".Activities.DetailActivity"
+            android:name=".activities.ReviewActivity"
+            android:parentActivityName=".activities.DetailActivity"
             android:launchMode="singleTop">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.DetailActivity" />
+                android:value=".activities.DetailActivity" />
 
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,14 +32,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.DetailActivity"
-            android:parentActivityName=".Activities.MainActivity"
+            android:name=".activities.DetailActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:launchMode="singleTop">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value=".activities.MainActivity" />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

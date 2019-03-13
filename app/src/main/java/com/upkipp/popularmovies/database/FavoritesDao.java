@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies.Models;
+package com.upkipp.popularmovies.database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -8,7 +8,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import java.util.ArrayList;
+import com.upkipp.popularmovies.models.MovieData;
+
 import java.util.List;
 
 @Dao

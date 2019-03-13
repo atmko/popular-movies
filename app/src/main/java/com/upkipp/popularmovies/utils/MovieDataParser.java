@@ -1,6 +1,4 @@
-package com.upkipp.popularmovies.Utils;
-
-import android.util.Log;
+package com.upkipp.popularmovies.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +8,9 @@ import java.util.Map;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
 import com.google.gson.Gson;
-import com.upkipp.popularmovies.Activities.MainActivity;
-import com.upkipp.popularmovies.Adapters.ReviewAdapter;
-import com.upkipp.popularmovies.Adapters.SearchAdapter;
-import com.upkipp.popularmovies.Models.MovieData;
+import com.upkipp.popularmovies.adapters.ReviewAdapter;
+import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;

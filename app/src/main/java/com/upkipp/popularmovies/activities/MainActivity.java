@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies.Activities;
+package com.upkipp.popularmovies.activities;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -22,13 +22,13 @@ import android.widget.Toast;
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
-import com.upkipp.popularmovies.Models.MainViewModel;
-import com.upkipp.popularmovies.Models.MovieData;
-import com.upkipp.popularmovies.Utils.MovieDataParser;
+import com.upkipp.popularmovies.view_models.MainViewModel;
+import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.utils.MovieDataParser;
 import com.upkipp.popularmovies.R;
-import com.upkipp.popularmovies.Adapters.SearchAdapter;
-import com.upkipp.popularmovies.Utils.NetworkFunctions;
-import com.upkipp.popularmovies.Utils.SearchPreferences;
+import com.upkipp.popularmovies.adapters.SearchAdapter;
+import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
+import com.upkipp.popularmovies.utils.SearchPreferences;
 
 import org.json.JSONException;
 

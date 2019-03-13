@@ -1,8 +1,10 @@
-package com.upkipp.popularmovies.Models;
+package com.upkipp.popularmovies.view_models;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+
+import com.upkipp.popularmovies.database.AppDatabase;
+import com.upkipp.popularmovies.view_models.DetailViewModel;
 
 public class DetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private final AppDatabase mDatabase;

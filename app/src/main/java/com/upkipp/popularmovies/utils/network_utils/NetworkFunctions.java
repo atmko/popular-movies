@@ -1,8 +1,6 @@
-package com.upkipp.popularmovies.Utils;
+package com.upkipp.popularmovies.utils.network_utils;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -10,7 +8,7 @@ import com.androidnetworking.common.ANRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
-import com.upkipp.popularmovies.R;
+import com.upkipp.popularmovies.utils.SearchPreferences;
 
 public final class NetworkFunctions {
 

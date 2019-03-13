@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies.Models;
+package com.upkipp.popularmovies.utils.network_utils;
 
 /*
  * Copyright (C) 2017 The Android Open Source Project
@@ -15,10 +15,6 @@ package com.upkipp.popularmovies.Models;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

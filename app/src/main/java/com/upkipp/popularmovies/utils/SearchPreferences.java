@@ -1,6 +1,4 @@
-package com.upkipp.popularmovies.Utils;
-
-import com.upkipp.popularmovies.BuildConfig;
+package com.upkipp.popularmovies.utils;
 
 public final class SearchPreferences {
     //singleton variables
@@ -79,11 +77,11 @@ public final class SearchPreferences {
         mCurrentPage = pageNum;
     }
 
-    String getLanguageValue() {
+    public String getLanguageValue() {
         return mLanguageParamVal;
     }
 
-    String getQueryUrlString() {
+    public String getQueryUrlString() {
         return mQueryUrlString;
     }
 

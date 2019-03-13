@@ -1,19 +1,15 @@
-package com.upkipp.popularmovies.Adapters;
+package com.upkipp.popularmovies.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.upkipp.popularmovies.Activities.DetailActivity;
+import com.upkipp.popularmovies.activities.DetailActivity;
 import com.upkipp.popularmovies.R;
-import com.upkipp.popularmovies.Utils.MovieDataParser;
-import com.upkipp.popularmovies.Utils.NetworkFunctions;
 
 import java.util.ArrayList;
 import java.util.Map;
