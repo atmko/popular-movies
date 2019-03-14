@@ -11,12 +11,12 @@ import com.upkipp.popularmovies.database.AppDatabase;
 
 import java.util.List;
 
-public class MainViewModel extends AndroidViewModel {
+public class SearchViewModel extends AndroidViewModel {
 
-    private static final String TAG = MainViewModel.class.getSimpleName();
+    private static final String TAG = SearchViewModel.class.getSimpleName();
     private LiveData<List<MovieData>> movies;
 
-    public MainViewModel(@NonNull Application application) {
+    public SearchViewModel(@NonNull Application application) {
         super(application);
         AppDatabase database = AppDatabase.getInstance(application);
         Log.d(TAG,"Actively retrieving tasks from the database");

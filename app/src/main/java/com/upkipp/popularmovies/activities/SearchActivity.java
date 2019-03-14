@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,7 +24,7 @@ import android.widget.Toast;
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
-import com.upkipp.popularmovies.view_models.MainViewModel;
+import com.upkipp.popularmovies.view_models.SearchViewModel;
 import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.utils.MovieDataParser;
 import com.upkipp.popularmovies.R;
@@ -64,10 +66,9 @@ public final class SearchActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             //execute search
             executeMovieSearch(true);//defaults to popular movies
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
         } else {
             //if empty adapter, executeMovieSearch(true)
-            //prevents overwriting data on rotate or when data exists
+            //prevents BUG i.e overwriting data on rotate or when data exists
             if (searchAdapter.isEmpty()) {
                 executeMovieSearch(true);//defaults to popular movies
 
@@ -146,7 +147,8 @@ public final class SearchActivity extends AppCompatActivity
             searchPreferences.setTargetPage(1);
         }
 
-        //if sortParamVal is favorites setupViewModel()
+        //if sortParamVal is favorites, then setupViewModel()
+        //else use preset search
         if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
             setupViewModel();
         } else {
@@ -241,7 +243,7 @@ public final class SearchActivity extends AppCompatActivity
     }
 
     private void setupViewModel() {
-        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        SearchViewModel viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         LiveData<List<MovieData>> favorites = viewModel.getMovies();
         favorites.observe(this, new Observer<List<MovieData>>() {
             @Override
@@ -283,15 +285,11 @@ public final class SearchActivity extends AppCompatActivity
             @Override
             public void onError(ANError anError) {
                 //notify error
-                Toast.makeText(SearchActivity.this, anError.getErrorDetail(), Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.topLayout),
+                        anError.getErrorDetail(), Snackbar.LENGTH_LONG).show();
 
             }
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        SearchPreferences.resetPreferences();
-    }
 }

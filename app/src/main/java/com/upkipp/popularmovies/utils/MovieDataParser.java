@@ -95,7 +95,8 @@ public class MovieDataParser {
                             currentObject.optBoolean(MovieData.MovieDataKeys.VIDEO,
                                     MovieData.ErrorValues.BOOLEAN_ERROR),
 
-                            checkAndConvertNumber(currentObject.optDouble(MovieData.MovieDataKeys.VOTE_AVERAGE,
+                            checkAndConvertNumber(currentObject
+                                    .optDouble(MovieData.MovieDataKeys.VOTE_AVERAGE,
                                     MovieData.ErrorValues.DOUBLE_ERROR)),
 
                             currentObject.optString(MovieData.MovieDataKeys.MOVIE_TITLE,
@@ -114,7 +115,8 @@ public class MovieDataParser {
                                     MovieData.ErrorValues.STRING_ERROR),
 
                             //optJSONArray method has no fallback
-                            checkAndConvertJSONArrayToList(currentObject.optJSONArray(MovieData.MovieDataKeys.GENRE_IDS)),
+                            checkAndConvertJSONArrayToList(currentObject
+                                    .optJSONArray(MovieData.MovieDataKeys.GENRE_IDS)),
 
                             currentObject.optString(MovieData.MovieDataKeys.BACKDROP_PATH,
                                     MovieData.ErrorValues.STRING_ERROR),
@@ -157,9 +159,6 @@ public class MovieDataParser {
 
             Map<String, String> newReview = new HashMap<>();
 
-//            String reviewImagePath = NetworkFunctions.createReviewImagePath((String) currentResult.get("key"));
-//            Log.d("TAGG", reviewImagePath);
-
             newReview.put(ReviewAdapter.REVIEW_AUTHOR_KEY, ((String) currentResult.get("author")));
             newReview.put(ReviewAdapter.REVIEW_CONTENT_KEY, (String) currentResult.get("content"));
 
@@ -190,9 +189,6 @@ public class MovieDataParser {
             Map currentResult = (Map) results.get(index);//get current review
 
             Map<String, String> newVideo = new HashMap<>();
-
-//            String videoImagePath = NetworkFunctions.createVideoImagePath((String) currentResult.get("key"));
-//            Log.d("TAGG", videoImagePath);
 
             newVideo.put("path", ((String) currentResult.get("key")));
             newVideo.put("site", (String) currentResult.get("site"));

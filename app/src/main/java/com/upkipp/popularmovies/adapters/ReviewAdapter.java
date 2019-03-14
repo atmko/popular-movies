@@ -123,6 +123,7 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
         notifyDataSetChanged();
     }
 
+    //truncates long text (reviews)
     private String limitText(TextView textView, String fullText, int cutOffIndex) {
         if (fullText.length() > cutOffIndex) {
             return fullText.substring(0, cutOffIndex) + "...";

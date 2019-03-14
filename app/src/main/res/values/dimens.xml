@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--searchActivity-->
+    <!--margins-->
+    <dimen name="search_layout_margin">8dp</dimen>
+    <!--view dimensions-->
+    <dimen name="search_poster_height">150dp</dimen>
+
+    <!--detailActivity-->
     <!--margins-->
     <dimen name="detail_layout_margin">16dp</dimen>
-    <dimen name="main_layout_margin">8dp</dimen>
-    <dimen name="detail_info_card_text_vertical_margin">8dp</dimen>
+    <dimen name="detail_info_card_item_margin">8dp</dimen>
+    <dimen name="detail_card_margin">10dp</dimen>
+    <dimen name="detail_card_content_top_margin">10dp</dimen>
+
+    <dimen name="detail_review_body_margin_top">5dp</dimen>
+    <dimen name="detail_review_item_layout_margin">8dp</dimen>
+
     <!--text sizes-->
-    <dimen name="detail_title_text_size">25sp</dimen>
+    <dimen name="detail_title_text_size">16sp</dimen>
     <dimen name="detail_rating_text_size">30sp</dimen>
     <dimen name="detail_release_date_text_size">20sp</dimen>
     <dimen name="detail_overview_text_size">14sp</dimen>
@@ -14,11 +27,18 @@
     <dimen name="detail_backdrop_height">202dp</dimen>
     <dimen name="detail_poster_width">120dp</dimen>
     <dimen name="detail_poster_height">170dp</dimen>
-    <dimen name="detail_card_margin">10dp</dimen>
-    <dimen name="detail_card_content_top_margin">10dp</dimen>
+
+    <dimen name="detail_fav_button_height">45dp</dimen>
+    <dimen name="detail_fav_button_width">45dp</dimen>
+
+    <dimen name="detail_review_card_width">200dp</dimen>
+    <dimen name="detail_review_card_corner_radius">15dp</dimen>
+
     <dimen name="detail_card_content_bottom_margin">20dp</dimen>
     <dimen name="detail_video_recyclerview_height">110dp</dimen>
+
+    <dimen name="detail_video_image_width">120dp</dimen>
+    <dimen name="detail_video_image_height">90dp</dimen>
     <!--recyclerView Holders-->
-    <dimen name="detail_video_margin">10dp</dimen>
-    <dimen name="detail_review_margin">10dp</dimen>
+
 </resources>

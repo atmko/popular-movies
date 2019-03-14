@@ -23,8 +23,7 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
     private static final Object LOCK = new Object();
     private static SearchAdapter sInstance;
 
-    //try removing static
-    private static List<MovieData> mAdapterData;
+    private List<MovieData> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
 
     private SearchAdapter(OnListItemClickListener clickListener) {
@@ -104,11 +103,12 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
     }
 
     public void addAdapterData(List<MovieData> movieDataList) {
-        int currentPage = SearchPreferences.getInstance().getCurrentPage();
-        int pageAdjustment = currentPage - 1;
-
-        int listSize = movieDataList.size();
-
+        //<<<<<FOR FUTURE IMPLEMENTATION>>>>>
+//        int currentPage = SearchPreferences.getInstance().getCurrentPage();
+//        int pageAdjustment = currentPage - 1;
+//
+//        int listSize = movieDataList.size();
+//
 //        //get positionCount starting at 1, i.e: non zero index
 //        int itemIndex = (pageAdjustment * listSize);
 //        Log.d("POS1", String.valueOf(itemIndex));
@@ -138,19 +138,21 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
 //                    movieDataList.add(0, dummyData);
 //                }
 //            }
+        //<<<<<FOR FUTURE IMPLEMENTATION>>>>>
 
-        for(int count = 0 ; count < listSize; count++) {
+//        for(int count = 0 ; count < listSize; count++) {
 
+            //<<<<<FOR FUTURE IMPLEMENTATION>>>>>
             //index in list with respect to page
 //            int rawIndex = currentPage * count;
+            //<<<<<FOR FUTURE IMPLEMENTATION>>>>>
 
-            MovieData currentMovieData = movieDataList.get(count);
-            mAdapterData.add(currentMovieData);
-            notifyDataSetChanged();
-        }
-//        mAdapterData.addAll(movieDataList);
-//        notifyDataSetChanged();
-        Log.i("INFO", "searchAdapter data updated");
+//            MovieData currentMovieData = movieDataList.get(count);
+//            mAdapterData.add(currentMovieData);
+//            notifyDataSetChanged();
+//        }
+        mAdapterData.addAll(movieDataList);
+        notifyDataSetChanged();
     }
 
     public MovieData getMovieData(int index) {

@@ -38,8 +38,6 @@ public class MovieData {
                      String originalTitle, List genreIds, String backdropPath,
                      boolean adult, String overview, String releaseDate) {
 
-        //check numbers(int / double) and JSONArray objects and replace error values;
-        //Boolean and String error already replaced by default
         this.mId = id;
         this.mVoteCount = voteCount;
         this.mVideo = video;

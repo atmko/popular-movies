@@ -10,20 +10,22 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/detail_layout_margin"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/authorTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/detail_heading_text_size"
             tools:text="placeholder"/>
 
         <TextView
             android:id="@+id/contentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/detail_layout_margin"
             tools:text="placeholder"/>
 
     </LinearLayout>

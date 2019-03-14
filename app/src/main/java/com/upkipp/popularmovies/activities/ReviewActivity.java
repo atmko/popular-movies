@@ -18,6 +18,7 @@ public class ReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
+        //get retrieved intent
         Intent intent = getIntent();
         defineViews();
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,6 +38,7 @@ import java.util.Map;
 public final class DetailActivity extends AppCompatActivity
         implements VideoAdapter.OnListItemClickListener, ReviewAdapter.OnListItemClickListener {
 
+    //intent value keys
     public static final String ID_KEY = "id";
     public static final String POSTER_PATH_KEY = "poster_path";
     public static final String BACKDROP_PATH_KEY = "backdrop_path";
@@ -45,22 +47,22 @@ public final class DetailActivity extends AppCompatActivity
     public static final String RELEASE_DATE_KEY = "release_date";
     public static final String OVERVIEW_KEY = "overview";
     private static final String ERROR_TEXT = MovieData.ErrorValues.STRING_ERROR;
-
+    //index limits to truncate long text (synopsis and reviews)
     private static final int OVERVIEW_CUT_OFF_INDEX = 262;
     public static final int REVIEW_CUT_OFF_INDEX = 85;
-
+    //binding variable
     ActivityDetailBinding mBinding;
-
+    //adapters
     private static VideoAdapter videoAdapter;
     private static ReviewAdapter reviewAdapter;
-
+    //custom up nav button
 //    private ImageButton upButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_detail);
-
+        //toolbar customization
 //        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 //        setSupportActionBar(myToolbar);
 //
@@ -72,15 +74,14 @@ public final class DetailActivity extends AppCompatActivity
 //
 //        }
         //---------------------------------------------
-        //get Intent
-
+        //get Intent from SearchActivity
         Intent intent = getIntent();
         defineViews();
 
         if (savedInstanceState == null) {
             if (intent != null && intent.hasExtra(ID_KEY)) {
-                //get passed index extra from intent
 
+                //get passed values from intent
                 String movieId = intent.getStringExtra(ID_KEY);
                 String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
                 String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
@@ -108,8 +109,9 @@ public final class DetailActivity extends AppCompatActivity
                 mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
 
             } else {
-                Toast.makeText(this, "no data available", Toast.LENGTH_SHORT).show();
-                finish();
+                //notify error
+                Snackbar.make(findViewById(R.id.topLayout),
+                        "no data available", Snackbar.LENGTH_LONG).show();
             }
 
         } else {//use savedInstanceState to restore values
@@ -151,7 +153,7 @@ public final class DetailActivity extends AppCompatActivity
         outState.putString(TITLE_KEY, mBinding.titleTextView.getText().toString());
         outState.putString(VOTE_AVERAGE_KEY, mBinding.voteAverageTextView.getText().toString());
         outState.putString(RELEASE_DATE_KEY, mBinding.releaseDateTextView.getText().toString());
-        outState.putString(OVERVIEW_KEY, mBinding.overviewTextView.getText().toString());
+        outState.putString(OVERVIEW_KEY, mBinding.overviewTextView.getTag().toString());
 
         //get values form intent
         Intent intent = getIntent();
@@ -166,8 +168,9 @@ public final class DetailActivity extends AppCompatActivity
 
     }
 
+    //define Views
     private void defineViews() {
-        //define Views
+        //configure show more button
         mBinding.showMoreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,6 +181,7 @@ public final class DetailActivity extends AppCompatActivity
         String movieId = getIntent().getStringExtra(ID_KEY);
         AppDatabase database = AppDatabase.getInstance(this);
 
+        //configure view model
         DetailViewModelFactory detailViewModelFactory = new DetailViewModelFactory(database, movieId);
         DetailViewModel viewModel = ViewModelProviders.of(this, detailViewModelFactory).get(DetailViewModel.class);
         final LiveData<MovieData> favoriteLiveData = viewModel.getMovie();
@@ -196,6 +200,7 @@ public final class DetailActivity extends AppCompatActivity
             }
         });
 
+        //configure favorite button
         mBinding.saveFavoriteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,6 +227,7 @@ public final class DetailActivity extends AppCompatActivity
         mBinding.videoRecyclerView.setLayoutManager(configureLayoutManager());
         mBinding.reviewRecyclerView.setLayoutManager(configureLayoutManager());
         //--------------
+        //disable focus
         mBinding.videoRecyclerView.setFocusable(false);
         mBinding.reviewRecyclerView.setFocusable(false);
 
@@ -278,9 +284,9 @@ public final class DetailActivity extends AppCompatActivity
         });
     }
 
+    //start video intent
     @Override
     public void onVideoItemClick(int position) {
-        //start video intent
 
         Map<String, String>  videoData = videoAdapter.getVideoData(position);
         String path = videoData.get("path");
@@ -294,9 +300,9 @@ public final class DetailActivity extends AppCompatActivity
         }
     }
 
+    //start review intent
     @Override
     public void onReviewItemClick(int position) {
-        //start review intent
 
         Intent reviewIntent = new Intent(getApplicationContext(), ReviewActivity.class);
         String reviewAuthor = reviewAdapter.getReviewData(position).get(ReviewAdapter.REVIEW_AUTHOR_KEY);
@@ -309,6 +315,7 @@ public final class DetailActivity extends AppCompatActivity
 
     }
 
+    //configure options menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -323,6 +330,7 @@ public final class DetailActivity extends AppCompatActivity
 //        return super.onOptionsItemSelected(item);
     }
 
+    //limit long text
     private String limitText(String fullText, int cutOffIndex) {
         if (fullText.length() > cutOffIndex && (mBinding.showMoreTextView.getTag()).equals("shown")) {
             String reducedText = fullText.subSequence(0, cutOffIndex) + "...";
@@ -345,17 +353,18 @@ public final class DetailActivity extends AppCompatActivity
     }
 
 
-
     private void addToFavorites() {
+        //get database instance
         final AppDatabase database = AppDatabase.getInstance(this);
 
         Intent intent = getIntent();
 
-        //get values form intent
+        //get values from intent
         String movieId = intent.getStringExtra(ID_KEY);
         String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
         String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
 
+        //create movie date object
         final MovieData movieData =
                 new MovieData(movieId,
                         mBinding.voteAverageTextView.getText().toString(),
@@ -367,6 +376,8 @@ public final class DetailActivity extends AppCompatActivity
 
                 );
 
+        //view model not needed for single background database action
+        //executor used instead
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -377,7 +388,10 @@ public final class DetailActivity extends AppCompatActivity
     }
 
     private void deleteFavorite(final MovieData movieData) {
+        //get database instance
         final AppDatabase database = AppDatabase.getInstance(this);
+        //view model not needed for single background database action
+        //executor used instead
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {

@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <activity
             android:name=".activities.ReviewActivity"
             android:parentActivityName=".activities.DetailActivity"
@@ -22,6 +23,7 @@
                 android:value=".activities.DetailActivity" />
 
         </activity>
+
         <activity
             android:name=".activities.SearchActivity"
             android:launchMode="singleTop">
@@ -31,6 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.DetailActivity"
             android:parentActivityName=".activities.SearchActivity"
@@ -45,6 +48,7 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

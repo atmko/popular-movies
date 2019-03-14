@@ -9,7 +9,7 @@ import com.upkipp.popularmovies.database.AppDatabase;
 
 public class DetailViewModel extends ViewModel {
 
-    private static final String TAG = MainViewModel.class.getSimpleName();
+    private static final String TAG = SearchViewModel.class.getSimpleName();
     private LiveData<MovieData> movie;
 
     public DetailViewModel(AppDatabase database, String movieId) {

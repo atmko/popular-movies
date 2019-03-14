@@ -11,9 +11,13 @@
     <string name="videos">Videos</string>
     <string name="reviews">Reviews</string>
 
-    content descriptions?
+    <!--content descriptions-->
     <string name="poster_description">poster image</string>
     <string name="backdrop_description">backdrop image</string>
+
+    <string name="detail_fav_button_content_description">mark as favorite button</string>
+    <!--text values-->
+    <string name="detail_show_more_text">show more</string>
 
 
 </resources>
