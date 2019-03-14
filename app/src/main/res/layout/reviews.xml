@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/detail_layout_margin"
     android:layout_marginLeft="@dimen/detail_layout_margin"
+    android:layout_marginBottom="@dimen/detail_layout_margin"
     app:cardCornerRadius="@dimen/detail_review_card_corner_radius"
     app:cardBackgroundColor="@color/detail_review_card_background">
 
