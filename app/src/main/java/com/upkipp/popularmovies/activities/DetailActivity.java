@@ -210,8 +210,12 @@ public final class DetailActivity extends AppCompatActivity
 
                 if (mBinding.saveFavoriteImageView.getTag().toString().equals("add favorite")) {
                     addToFavorites();
+                    Snackbar.make(findViewById(R.id.topLayout),
+                            "added to favorites", Snackbar.LENGTH_LONG).show();
                 } else if (mBinding.saveFavoriteImageView.getTag().toString().equals("already favorite")) {
                     deleteFavorite(favoriteLiveData.getValue());
+                    Snackbar.make(findViewById(R.id.topLayout),
+                            "removed from favorites", Snackbar.LENGTH_LONG).show();
                 }
             }
         });
