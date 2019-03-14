@@ -8,10 +8,13 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -63,16 +66,16 @@ public final class DetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_detail);
         //toolbar customization
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(myToolbar);
-//
-//        ActionBar actionBar = getSupportActionBar();
-//
-//        //set action bar up(back) button
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//
-//        }
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        //set action bar up(back) button
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+        }
         //---------------------------------------------
         //get Intent from SearchActivity
         Intent intent = getIntent();
@@ -322,12 +325,12 @@ public final class DetailActivity extends AppCompatActivity
 
         switch (id){
             case R.id.home:
-//                NavUtils.navigateUpFromSameTask(this);
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
-        return true;
+//        return true;
 
-//        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     //limit long text
