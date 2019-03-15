@@ -8,6 +8,9 @@ import com.androidnetworking.common.ANRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.upkipp.popularmovies.R;
+import com.upkipp.popularmovies.database.AppDatabase;
+import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.utils.SearchPreferences;
 
 public final class NetworkFunctions {
@@ -73,4 +76,7 @@ public final class NetworkFunctions {
 
     }
 
+    public static String getMovieUrl(Context context, String movieId) {
+        return context.getString(R.string.movie_base_url) + "/" + movieId;
+    }
 }

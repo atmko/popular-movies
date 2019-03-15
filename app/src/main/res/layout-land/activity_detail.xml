@@ -55,16 +55,13 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="@dimen/detail_info_card_item_margin"
                             android:layout_marginRight="@dimen/detail_info_card_item_margin"
-                            android:layout_marginBottom="8dp"
                             android:singleLine="false"
                             android:textAlignment="center"
                             android:textSize="@dimen/detail_title_text_size"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/posterImageView"
-                            app:layout_constraintVertical_bias="0.107"
                             tools:text="title" />
 
                         <TextView
@@ -75,6 +72,8 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginLeft="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
                             android:textSize="@dimen/detail_rating_text_size"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/posterImageView"
@@ -88,23 +87,48 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginStart="8dp"
                             android:layout_marginLeft="8dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
                             android:textSize="@dimen/detail_release_date_text_size"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+                            app:layout_constraintVertical_bias="0.0"
                             tools:text="release date" />
 
                         <ImageView
-                            android:id="@+id/saveFavoriteImageView"
+                            android:id="@+id/shareLinkImageView"
                             android:layout_width="@dimen/detail_fav_button_width"
                             android:layout_height="@dimen/detail_fav_button_height"
                             android:layout_margin="@dimen/detail_info_card_item_margin"
                             android:layout_marginStart="8dp"
                             android:layout_marginLeft="8dp"
                             android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@null"
+                            android:contentDescription="@string/detail_fav_button_content_description"
+                            android:src="@android:drawable/ic_menu_share"
+                            android:tag="add favorite"
+                            app:layout_constraintBottom_toTopOf="@+id/saveFavoriteImageView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                            app:layout_constraintTop_toBottomOf="@+id/voteAverageTextView" />
+
+
+                        <ImageView
+                            android:id="@+id/saveFavoriteImageView"
+                            android:layout_width="@dimen/detail_fav_button_width"
+                            android:layout_height="@dimen/detail_fav_button_height"
+                            android:layout_margin="@dimen/detail_layout_margin"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
                             android:layout_marginBottom="8dp"
                             android:background="@null"
                             android:contentDescription="@string/detail_fav_button_content_description"
@@ -112,10 +136,7 @@
                             android:tag="add favorite"
                             app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.436"
-                            app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                            app:layout_constraintTop_toBottomOf="@+id/voteAverageTextView"
-                            app:layout_constraintVertical_bias="1.0" />
+                            app:layout_constraintStart_toEndOf="@+id/posterImageView" />
 
                     </android.support.constraint.ConstraintLayout>
 

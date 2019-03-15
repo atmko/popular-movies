@@ -51,57 +51,85 @@
                             android:id="@+id/titleTextView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/detail_info_card_item_margin"
-                            android:layout_marginStart="@dimen/detail_info_card_item_margin"
-                            android:layout_marginRight="@dimen/detail_info_card_item_margin"
-                            android:layout_marginEnd="@dimen/detail_info_card_item_margin"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="@dimen/detail_info_card_item_margin"
+                            android:layout_marginLeft="@dimen/detail_info_card_item_margin"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="@dimen/detail_info_card_item_margin"
+                            android:layout_marginRight="@dimen/detail_info_card_item_margin"
                             android:singleLine="false"
-                            tools:text="title"
                             android:textAlignment="center"
                             android:textSize="@dimen/detail_title_text_size"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                            app:layout_constraintTop_toTopOf="@+id/posterImageView" />
+                            app:layout_constraintTop_toTopOf="@+id/posterImageView"
+                            tools:text="title" />
 
                         <TextView
                             android:id="@+id/voteAverageTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            tools:text="rating"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
                             android:textSize="@dimen/detail_rating_text_size"
+                            app:layout_constraintBottom_toTopOf="@+id/releaseDateTextView"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.496"
                             app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                            app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+                            app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+                            tools:text="rating" />
 
                         <TextView
                             android:id="@+id/releaseDateTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="8dp"
                             android:textSize="@dimen/detail_release_date_text_size"
+                            app:layout_constraintBottom_toTopOf="@+id/shareLinkImageView"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.496"
                             app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                            app:layout_constraintTop_toBottomOf="@+id/voteAverageTextView"
                             tools:text="release date" />
+
+                        <ImageView
+                            android:id="@+id/shareLinkImageView"
+                            android:layout_width="@dimen/detail_fav_button_width"
+                            android:layout_height="@dimen/detail_fav_button_height"
+                            android:layout_margin="@dimen/detail_info_card_item_margin"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@null"
+                            android:contentDescription="@string/detail_fav_button_content_description"
+                            android:src="@android:drawable/ic_menu_share"
+                            android:tag="add favorite"
+                            app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.345"
+                            app:layout_constraintStart_toEndOf="@+id/posterImageView" />
 
                         <ImageView
                             android:id="@+id/saveFavoriteImageView"
                             android:layout_width="@dimen/detail_fav_button_width"
                             android:layout_height="@dimen/detail_fav_button_height"
                             android:layout_margin="@dimen/detail_info_card_item_margin"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"
                             android:background="@null"
+                            android:contentDescription="@string/detail_fav_button_content_description"
                             android:src="@drawable/fav_off"
                             android:tag="add favorite"
                             app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/posterImageView"
-                            app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView"
-                            app:layout_constraintVertical_bias="1.0"
-                            android:contentDescription="@string/detail_fav_button_content_description" />
+                            app:layout_constraintHorizontal_bias="0.649"
+                            app:layout_constraintStart_toEndOf="@+id/posterImageView" />
 
                     </android.support.constraint.ConstraintLayout>
 

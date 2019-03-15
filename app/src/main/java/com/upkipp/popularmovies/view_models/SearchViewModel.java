@@ -19,7 +19,7 @@ public class SearchViewModel extends AndroidViewModel {
     public SearchViewModel(@NonNull Application application) {
         super(application);
         AppDatabase database = AppDatabase.getInstance(application);
-        Log.d(TAG,"Actively retrieving tasks from the database");
+        Log.d(TAG,"Actively retrieving movies from the database");
         movies = database.favoritesDao().loadFavorites();
     }
 

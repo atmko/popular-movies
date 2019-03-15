@@ -1,6 +1,7 @@
 package com.upkipp.popularmovies.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
-import com.upkipp.popularmovies.utils.SearchPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,17 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
 
     private List<MovieData> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
+    private final Context mContext;
+    private boolean mUseFirstLayout;
+
+    //layout ids
+    private final int FIRST_LAYOUT_ID = 435;
+    private final int STANDARD_LAYOUT_ID = 203;
 
     private SearchAdapter(OnListItemClickListener clickListener) {
         mOnListItemClickListener = clickListener;
+        mContext = (Context) clickListener;
+        mUseFirstLayout = mContext.getResources().getBoolean(R.bool.use_first_result_layout);
         mAdapterData = new ArrayList<>();
     }
 
@@ -66,10 +75,18 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
 
     @NonNull
     @Override
-    public SearchAdapter.SearchAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public SearchAdapter.SearchAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        int resourceId = R.layout.search;
+
+        int resourceId;
+
+        if (viewType == FIRST_LAYOUT_ID) {
+            resourceId = R.layout.first_search_result;
+
+        } else {
+            resourceId = R.layout.search;
+        }
 
         View view = layoutInflater.inflate(resourceId, viewGroup, false);
 
@@ -96,6 +113,21 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
         } else {
             return mAdapterData.size();
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+
+        //if using first layout and this is the first item
+        if (mUseFirstLayout && position == 0) {
+            Toast.makeText(mContext, "hello", Toast.LENGTH_SHORT).show();
+            return FIRST_LAYOUT_ID;
+
+        } else {
+            return STANDARD_LAYOUT_ID;
+        }
+
     }
 
     public boolean isEmpty() {

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.adapters.VideoAdapter;
 import com.upkipp.popularmovies.database.AppDatabase;
+import com.upkipp.popularmovies.utils.SearchPreferences;
 import com.upkipp.popularmovies.utils.network_utils.AppExecutors;
 import com.upkipp.popularmovies.view_models.DetailViewModel;
 import com.upkipp.popularmovies.view_models.DetailViewModelFactory;
@@ -181,7 +183,7 @@ public final class DetailActivity extends AppCompatActivity
             }
         });
 
-        String movieId = getIntent().getStringExtra(ID_KEY);
+        final String movieId = getIntent().getStringExtra(ID_KEY);
         AppDatabase database = AppDatabase.getInstance(this);
 
         //configure view model
@@ -217,6 +219,20 @@ public final class DetailActivity extends AppCompatActivity
                     Snackbar.make(findViewById(R.id.topLayout),
                             "removed from favorites", Snackbar.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        //configure share button
+        mBinding.shareLinkImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareCompat.IntentBuilder
+                        /* The from method specifies the Context from which this share is coming from */
+                        .from(DetailActivity.this)
+                        .setType("text/plain")
+                        .setChooserTitle("Choose App")
+                        .setText(NetworkFunctions.getMovieUrl(DetailActivity.this, movieId))
+                        .startChooser();
             }
         });
 

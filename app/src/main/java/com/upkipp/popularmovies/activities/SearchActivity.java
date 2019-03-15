@@ -62,17 +62,16 @@ public final class SearchActivity extends AppCompatActivity
 //        }
 
         defineViews();
+        setupViewModel();
 
         if (savedInstanceState == null) {
-            //execute search
-            executeMovieSearch(true);//defaults to popular movies
-        } else {
-            //if empty adapter, executeMovieSearch(true)
-            //prevents BUG i.e overwriting data on rotate or when data exists
-            if (searchAdapter.isEmpty()) {
+            //if sort value is not favorites, perform search
+            if (!searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)){
+                //execute search
                 executeMovieSearch(true);//defaults to popular movies
 
             }
+        } else {
 
         }
 
@@ -147,13 +146,7 @@ public final class SearchActivity extends AppCompatActivity
             searchPreferences.setTargetPage(1);
         }
 
-        //if sortParamVal is favorites, then setupViewModel()
-        //else use preset search
-        if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
-            setupViewModel();
-        } else {
-            presetMovieSearch();
-        }
+        presetMovieSearch();
     }
 
     void loadNextPage(int newTargetPage) {
@@ -233,8 +226,8 @@ public final class SearchActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 //SHOW FAVORITES
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_FAVORITES);
-                //execute search
-                executeMovieSearch(true);
+                //setup view model
+                setupViewModel();
                 return true;
             }
         });
@@ -250,11 +243,14 @@ public final class SearchActivity extends AppCompatActivity
             public void onChanged(@Nullable List<MovieData> movieData) {
                 Log.d(TAG, "Receiving favorites from LiveData in ViewModel");
                 //prevents bug i.e clearing adapter for other sort values
+
                 if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
                     searchAdapter.clearData();
+
                     //check null
                     if (movieData != null) {
                         searchAdapter.addAdapterData(movieData);
+
                     }
                 }
             }
