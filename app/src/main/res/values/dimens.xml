@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--universals-->
+    <dimen name="standard_margin">8dp</dimen>
+
     <!--searchActivity-->
     <!--margins-->
     <dimen name="search_layout_margin">8dp</dimen>
