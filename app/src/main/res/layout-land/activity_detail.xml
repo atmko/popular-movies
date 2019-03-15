@@ -12,10 +12,10 @@
 
             <LinearLayout
                 android:id="@+id/topLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_weight="2">
+                android:layout_weight="1">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/my_toolbar"
@@ -74,6 +74,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginRight="8dp"
+                            android:fontFamily="sans-serif-black"
                             android:textSize="@dimen/detail_rating_text_size"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/posterImageView"
@@ -91,6 +92,7 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginRight="8dp"
                             android:layout_marginBottom="8dp"
+                            android:fontFamily="sans-serif-condensed-light"
                             android:textSize="@dimen/detail_release_date_text_size"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -144,140 +146,12 @@
 
                 </LinearLayout>
 
-
-                <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".activities.DetailActivity"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <android.support.constraint.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
-
-                        <TextView
-                            android:id="@+id/synopsisTxt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/detail_layout_margin"
-                            android:text="@string/synopsis"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold|italic"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/overviewTextView"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/detail_layout_margin"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/synopsisTxt"
-                            tools:text="overview" />
-
-                        <TextView
-                            android:id="@+id/showMoreTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/detail_layout_margin"
-                            android:layout_marginStart="@dimen/detail_layout_margin"
-                            android:paddingTop="@dimen/detail_layout_margin"
-                            android:tag="shown"
-                            android:text="@string/detail_show_more_text"
-                            android:textColor="@color/colorAccent"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/overviewTextView" />
-
-                    </android.support.constraint.ConstraintLayout>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="@dimen/detail_layout_margin"
-                        android:layout_marginRight="@dimen/detail_layout_margin"
-                        android:background="@color/cardview_shadow_start_color" />
-
-                    <android.support.constraint.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
-
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/detail_layout_margin"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold|italic"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:text="@string/videos" />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/videoRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/detail_layout_margin"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-                    </android.support.constraint.ConstraintLayout>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="@dimen/detail_layout_margin"
-                        android:layout_marginRight="@dimen/detail_layout_margin"
-                        android:background="@color/cardview_shadow_start_color"/>
-
-                    <android.support.constraint.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/detail_card_content_bottom_margin">
-
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/detail_layout_margin"
-                            android:text="@string/reviews"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold|italic"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.0" />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/reviewRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/detail_layout_margin"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                    </android.support.constraint.ConstraintLayout>
-
-                </LinearLayout>
-
-            </ScrollView>
-
+            <include
+                android:id="@+id/detail_scroll_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                layout="@layout/detail_scroll_view"/>
 
         </LinearLayout>
 

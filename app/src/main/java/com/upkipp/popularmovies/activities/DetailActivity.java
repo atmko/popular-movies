@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.error.ANError;
@@ -110,8 +111,9 @@ public final class DetailActivity extends AppCompatActivity
                 mBinding.voteAverageTextView.setText(voteAverage);
                 mBinding.releaseDateTextView.setText(releaseDate);
                 //use tag to store full and original text to prevent loss after limitText()
-                mBinding.overviewTextView.setTag(overview);
-                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
+                TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
+                overviewTextView.setTag(overview);
+                overviewTextView.setText(limitText(overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
 
             } else {
                 //notify error
@@ -143,9 +145,10 @@ public final class DetailActivity extends AppCompatActivity
             mBinding.voteAverageTextView.setText(voteAverage);
             mBinding.releaseDateTextView.setText(releaseDate);
             //use tag to store full and original text to prevent loss after limitText()
-            mBinding.overviewTextView.setTag(overview);
-            mBinding.overviewTextView
-                    .setText(limitText(mBinding.overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
+            TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
+            overviewTextView.setTag(overview);
+            overviewTextView.setText(limitText(overviewTextView.getTag().toString(),
+                    OVERVIEW_CUT_OFF_INDEX));
 
         }
 
@@ -158,7 +161,8 @@ public final class DetailActivity extends AppCompatActivity
         outState.putString(TITLE_KEY, mBinding.titleTextView.getText().toString());
         outState.putString(VOTE_AVERAGE_KEY, mBinding.voteAverageTextView.getText().toString());
         outState.putString(RELEASE_DATE_KEY, mBinding.releaseDateTextView.getText().toString());
-        outState.putString(OVERVIEW_KEY, mBinding.overviewTextView.getTag().toString());
+        outState.putString(OVERVIEW_KEY,
+                mBinding.detailScrollView.overviewTextView.getTag().toString());
 
         //get values form intent
         Intent intent = getIntent();
@@ -176,10 +180,13 @@ public final class DetailActivity extends AppCompatActivity
     //define Views
     private void defineViews() {
         //configure show more button
-        mBinding.showMoreTextView.setOnClickListener(new View.OnClickListener() {
+        mBinding.detailScrollView.showMoreTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBinding.overviewTextView.setText(limitText(mBinding.overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
+                TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
+                overviewTextView
+                        .setText(limitText(overviewTextView.getTag().toString()
+                                , OVERVIEW_CUT_OFF_INDEX));
             }
         });
 
@@ -188,7 +195,8 @@ public final class DetailActivity extends AppCompatActivity
 
         //configure view model
         DetailViewModelFactory detailViewModelFactory = new DetailViewModelFactory(database, movieId);
-        DetailViewModel viewModel = ViewModelProviders.of(this, detailViewModelFactory).get(DetailViewModel.class);
+        DetailViewModel viewModel = ViewModelProviders.of(this, detailViewModelFactory)
+                .get(DetailViewModel.class);
         final LiveData<MovieData> favoriteLiveData = viewModel.getMovie();
 
         favoriteLiveData.observe(this, new Observer<MovieData>() {
@@ -197,10 +205,12 @@ public final class DetailActivity extends AppCompatActivity
                 //update favorite icon/button in real time
                 if (movieData == null) {
                     mBinding.saveFavoriteImageView.setTag("add favorite");
-                    mBinding.saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
+                    mBinding.saveFavoriteImageView
+                            .setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
                 }else {
                     mBinding.saveFavoriteImageView.setTag("already favorite");
-                    mBinding.saveFavoriteImageView.setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
+                    mBinding.saveFavoriteImageView
+                            .setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
                 }
             }
         });
@@ -244,22 +254,22 @@ public final class DetailActivity extends AppCompatActivity
 //        });
 
         //---configure RecyclerView
-        mBinding.videoRecyclerView.setHasFixedSize(true);
-        mBinding.reviewRecyclerView.setHasFixedSize(true);
+        mBinding.detailScrollView.videoRecyclerView.setHasFixedSize(true);
+        mBinding.detailScrollView.reviewRecyclerView.setHasFixedSize(true);
         //configureLayoutManager returns a LayoutManager
-        mBinding.videoRecyclerView.setLayoutManager(configureLayoutManager());
-        mBinding.reviewRecyclerView.setLayoutManager(configureLayoutManager());
+        mBinding.detailScrollView.videoRecyclerView.setLayoutManager(configureLayoutManager());
+        mBinding.detailScrollView.reviewRecyclerView.setLayoutManager(configureLayoutManager());
         //--------------
         //disable focus
-        mBinding.videoRecyclerView.setFocusable(false);
-        mBinding.reviewRecyclerView.setFocusable(false);
+        mBinding.detailScrollView.videoRecyclerView.setFocusable(false);
+        mBinding.detailScrollView.reviewRecyclerView.setFocusable(false);
 
         //define video adapter
         videoAdapter = new VideoAdapter(this);
         reviewAdapter = new ReviewAdapter(this);
         //set adapter to RecyclerView
-        mBinding.videoRecyclerView.setAdapter(videoAdapter);
-        mBinding.reviewRecyclerView.setAdapter(reviewAdapter);
+        mBinding.detailScrollView.videoRecyclerView.setAdapter(videoAdapter);
+        mBinding.detailScrollView.reviewRecyclerView.setAdapter(reviewAdapter);
 
     }
 
@@ -355,19 +365,22 @@ public final class DetailActivity extends AppCompatActivity
 
     //limit long text
     private String limitText(String fullText, int cutOffIndex) {
-        if (fullText.length() > cutOffIndex && (mBinding.showMoreTextView.getTag()).equals("shown")) {
+
+        TextView showMoreTextView = mBinding.detailScrollView.showMoreTextView;
+
+        if (fullText.length() > cutOffIndex && (showMoreTextView.getTag()).equals("shown")) {
             String reducedText = fullText.subSequence(0, cutOffIndex) + "...";
 
-            mBinding.showMoreTextView.setTag("hidden");
-            mBinding.showMoreTextView.setText("show more");
+            showMoreTextView.setTag("hidden");
+            showMoreTextView.setText("show more");
 
             return reducedText;
 
         } else {
-            if (fullText.length() <= cutOffIndex) mBinding.showMoreTextView.setVisibility(View.GONE);
+            if (fullText.length() <= cutOffIndex)showMoreTextView.setVisibility(View.GONE);
 
-            mBinding.showMoreTextView.setTag("shown");
-            mBinding.showMoreTextView.setText("show less");
+            showMoreTextView.setTag("shown");
+            showMoreTextView.setText("show less");
 
             return fullText;
 
@@ -394,7 +407,7 @@ public final class DetailActivity extends AppCompatActivity
                         mBinding.titleTextView.getText().toString(),
                         posterPath,
                         backdropPath,
-                        mBinding.overviewTextView.getTag().toString(),
+                        mBinding.detailScrollView.overviewTextView.getTag().toString(),
                         mBinding.releaseDateTextView.getText().toString()
 
                 );
