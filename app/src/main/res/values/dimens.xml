@@ -28,8 +28,12 @@
     <dimen name="detail_heading_text_size">18sp</dimen>
     <!--view dimensions-->
     <dimen name="detail_backdrop_height">202dp</dimen>
+
     <dimen name="detail_poster_width">120dp</dimen>
     <dimen name="detail_poster_height">170dp</dimen>
+
+    <dimen name="detail_poster_width_sw600_land">250dp</dimen>
+    <dimen name="detail_poster_height_sw600_land">354.166dp</dimen>
 
     <dimen name="detail_fav_button_height">45dp</dimen>
     <dimen name="detail_fav_button_width">45dp</dimen>

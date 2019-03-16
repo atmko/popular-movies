@@ -64,6 +64,8 @@
                 android:layout_marginTop="@dimen/standard_margin"
                 android:layout_marginLeft="@dimen/detail_layout_margin"
                 android:layout_marginStart="@dimen/detail_layout_margin"
+                android:layout_marginRight="@dimen/detail_layout_margin"
+                android:layout_marginEnd="@dimen/detail_layout_margin"
                 android:background="@color/cardview_shadow_start_color" />
 
             <TextView
