@@ -1,4 +1,4 @@
-package com.upkipp.popularmovies.database;
+package com.upkipp.popularmovies.databases;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -6,7 +6,8 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.util.Log;
 
-import com.upkipp.popularmovies.database.models.MovieData;
+import com.upkipp.popularmovies.daos.FavoritesDao;
+import com.upkipp.popularmovies.models.MovieData;
 
 @Database(entities = {MovieData.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

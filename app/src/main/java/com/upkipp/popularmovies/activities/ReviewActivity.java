@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 

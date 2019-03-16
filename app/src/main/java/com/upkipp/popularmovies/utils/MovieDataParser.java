@@ -1,7 +1,5 @@
 package com.upkipp.popularmovies.utils;
 
-import android.support.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +8,7 @@ import java.util.Map;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
 import com.google.gson.Gson;
-import com.upkipp.popularmovies.adapters.ReviewAdapter;
-import com.upkipp.popularmovies.database.models.MovieData;
+import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
 import org.json.JSONException;

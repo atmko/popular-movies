@@ -17,13 +17,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.upkipp.popularmovies.view_models.SearchViewModel;
-import com.upkipp.popularmovies.database.models.MovieData;
+import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.utils.MovieDataParser;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.adapters.SearchAdapter;

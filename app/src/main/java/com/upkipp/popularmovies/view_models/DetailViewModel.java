@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
-import com.upkipp.popularmovies.database.models.MovieData;
-import com.upkipp.popularmovies.database.AppDatabase;
+import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.databases.AppDatabase;
 
 public class DetailViewModel extends ViewModel {
 

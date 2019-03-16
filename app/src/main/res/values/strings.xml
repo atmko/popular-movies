@@ -9,7 +9,7 @@
     <string name="menu_top_rated_title">top rated movies</string>
     <string name="menu_favorites_title">favorite movies</string>
 
-    <!--textview headings text-->
+    <!--text view headings text-->
     <string name="synopsis">Synopsis</string>
     <string name="videos">Videos</string>
     <string name="reviews">Reviews</string>

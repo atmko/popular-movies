@@ -4,8 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-import com.upkipp.popularmovies.database.AppDatabase;
-import com.upkipp.popularmovies.view_models.DetailViewModel;
+import com.upkipp.popularmovies.databases.AppDatabase;
 
 public class DetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private final AppDatabase mDatabase;
