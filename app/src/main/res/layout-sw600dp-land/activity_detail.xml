@@ -123,7 +123,7 @@
                         android:layout_margin="@dimen/detail_layout_margin"
                         android:layout_marginStart="@dimen/detail_info_card_item_margin"
                         android:layout_marginLeft="@dimen/detail_info_card_item_margin"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/detail_info_card_item_margin"
                         android:layout_marginEnd="@dimen/detail_info_card_item_margin"
                         android:layout_marginRight="@dimen/detail_info_card_item_margin"
                         android:background="@null"

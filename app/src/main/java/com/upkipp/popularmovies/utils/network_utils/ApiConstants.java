@@ -18,7 +18,7 @@ public class ApiConstants {
     //PLACEHOLDER KEYS
     public static final String API_KEY_KEY = "api_key";
     public static final String MOVIE_ID_KEY = "movie_id";
-    public static final String LANGUAGE_KEY = "lang";
+    public static final String LANG_KEY = "lang";
     public static final String PAGE_KEY = "page";
     public static final String SORT_KEY = "sort";
     public static final String VIDEO_IMG_KEY = "video_id";

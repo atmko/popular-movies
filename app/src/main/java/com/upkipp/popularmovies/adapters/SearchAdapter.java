@@ -135,7 +135,7 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
     }
 
     public void addAdapterData(List<MovieData> movieDataList) {
-        //<<<<<FOR FUTURE IMPLEMENTATION>>>>>
+        //TODO 1//<<<<<FOR FUTURE IMPLEMENTATION>>>>>
 //        int currentPage = SearchPreferences.getInstance().getCurrentPage();
 //        int pageAdjustment = currentPage - 1;
 //

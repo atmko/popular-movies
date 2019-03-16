@@ -9,8 +9,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.upkipp.popularmovies.R;
-import com.upkipp.popularmovies.database.AppDatabase;
-import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.utils.SearchPreferences;
 
 public final class NetworkFunctions {
@@ -23,7 +21,7 @@ public final class NetworkFunctions {
         ANRequest request = AndroidNetworking.get(ApiConstants.SEARCH_FORMAT)
                 .addPathParameter(ApiConstants.SORT_KEY, searchPreferences.getSortValue())
                 .addQueryParameter(ApiConstants.API_KEY_KEY, ApiConstants.API_KEY)
-                .addQueryParameter(ApiConstants.LANGUAGE_KEY, searchPreferences.getLanguageValue())
+                .addQueryParameter(ApiConstants.LANG_KEY, searchPreferences.getLanguageValue())
                 .addQueryParameter(ApiConstants.PAGE_KEY, String.valueOf(searchPreferences.getTargetPage()))
                 .build();
 
@@ -53,7 +51,8 @@ public final class NetworkFunctions {
         ANRequest request = AndroidNetworking.get(ApiConstants.VIDEOS_URL_FORMAT)
                 .addPathParameter(ApiConstants.MOVIE_ID_KEY, movieId)
                 .addPathParameter(ApiConstants.API_KEY_KEY, ApiConstants.API_KEY)
-                .addPathParameter(ApiConstants.LANGUAGE_KEY, SearchPreferences.getInstance().getLanguageValue())
+                .addPathParameter(ApiConstants.LANG_KEY,
+                        SearchPreferences.getInstance().getLanguageValue())
                 .build();
 
         return request;
@@ -69,7 +68,8 @@ public final class NetworkFunctions {
         ANRequest request = AndroidNetworking.get(ApiConstants.REVIEWS_URL_FORMAT)
                 .addPathParameter(ApiConstants.MOVIE_ID_KEY, movieId)
                 .addPathParameter(ApiConstants.API_KEY_KEY, ApiConstants.API_KEY)
-                .addPathParameter(ApiConstants.LANGUAGE_KEY, SearchPreferences.getInstance().getLanguageValue())
+                .addPathParameter(ApiConstants.LANG_KEY,
+                        SearchPreferences.getInstance().getLanguageValue())
                 .build();
 
         return request;

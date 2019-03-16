@@ -139,7 +139,8 @@ public class MovieDataParser {
 
     }
 
-    public static ArrayList<Map<String, String>> parseReviews(String returnedJSONString) throws JSONException{
+    public static ArrayList<Map<String, String>> parseReviews(String returnedJSONString)
+            throws JSONException{
         //review data will be stored as Map<String, ArrayList<String>>
         ArrayList<Map<String, String>> reviews = new ArrayList<>();
         //skips code below if returnedJSONString null or empty
@@ -170,7 +171,8 @@ public class MovieDataParser {
 
     }
 
-    public static ArrayList<Map<String, String>> parseVideos(String returnedJSONString) throws JSONException{
+    public static ArrayList<Map<String, String>> parseVideos(String returnedJSONString)
+            throws JSONException{
         //video data will be stored as Map<String, ArrayList<String>>
         ArrayList<Map<String, String>> videos = new ArrayList<>();
         //skips code below if returnedJSONString null or empty

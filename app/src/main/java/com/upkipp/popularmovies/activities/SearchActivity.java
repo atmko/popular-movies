@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
@@ -94,7 +92,9 @@ public final class SearchActivity extends AppCompatActivity
                 super.onScrolled(recyclerView, dx, dy);
 
                 //do nothing if sortParamVal is favorites
-                if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {return;}
+                if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
+                    return;
+                }
 
                 int currentPage = searchPreferences.getCurrentPage();
                 int availablePages = searchPreferences.getTotalPages();
@@ -168,20 +168,20 @@ public final class SearchActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position) {
         //start detail activity
-        Intent detailActivityIntent = new Intent(this, DetailActivity.class);
-        detailActivityIntent.putExtra("index", position);
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+        detailIntent.putExtra("index", position);
 
         MovieData currentMovieData = searchAdapter.getMovieData(position);
         //paths needed to restore ImageViews on restore/rotate
-        detailActivityIntent.putExtra(DetailActivity.ID_KEY, currentMovieData.getId());
-        detailActivityIntent.putExtra(DetailActivity.BACKDROP_PATH_KEY, currentMovieData.getBackdropPath());
-        detailActivityIntent.putExtra(DetailActivity.POSTER_PATH_KEY, currentMovieData.getPosterPath());
-        detailActivityIntent.putExtra(DetailActivity.TITLE_KEY, currentMovieData.getTitle());
-        detailActivityIntent.putExtra(DetailActivity.VOTE_AVERAGE_KEY, currentMovieData.getVoteAverage());
-        detailActivityIntent.putExtra(DetailActivity.RELEASE_DATE_KEY, currentMovieData.getReleaseDate());
-        detailActivityIntent.putExtra(DetailActivity.OVERVIEW_KEY, currentMovieData.getOverview());
+        detailIntent.putExtra(DetailActivity.ID_KEY, currentMovieData.getId());
+        detailIntent.putExtra(DetailActivity.BACKDROP_PATH_KEY, currentMovieData.getBackdropPath());
+        detailIntent.putExtra(DetailActivity.POSTER_PATH_KEY, currentMovieData.getPosterPath());
+        detailIntent.putExtra(DetailActivity.TITLE_KEY, currentMovieData.getTitle());
+        detailIntent.putExtra(DetailActivity.VOTE_AVERAGE_KEY, currentMovieData.getVoteAverage());
+        detailIntent.putExtra(DetailActivity.RELEASE_DATE_KEY, currentMovieData.getReleaseDate());
+        detailIntent.putExtra(DetailActivity.OVERVIEW_KEY, currentMovieData.getOverview());
 
-        startActivity(detailActivityIntent);
+        startActivity(detailIntent);
     }
 
     @Override
