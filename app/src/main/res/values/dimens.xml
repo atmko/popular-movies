@@ -39,8 +39,6 @@
     <dimen name="detail_review_card_width">200dp</dimen>
     <dimen name="detail_review_card_corner_radius">15dp</dimen>
 
-    <dimen name="detail_video_recyclerview_height">110dp</dimen>
-
     <dimen name="detail_video_image_width">120dp</dimen>
     <dimen name="detail_video_image_height">90dp</dimen>
     <!--recyclerView Holders-->

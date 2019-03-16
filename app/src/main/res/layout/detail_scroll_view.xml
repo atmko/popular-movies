@@ -85,7 +85,7 @@
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/videoRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/detail_video_recyclerview_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/detail_layout_margin"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
