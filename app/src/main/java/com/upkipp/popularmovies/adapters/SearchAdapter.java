@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.database.models.MovieData;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
 

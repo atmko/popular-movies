@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.util.Log;
 
-import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.database.models.MovieData;
 
 @Database(entities = {MovieData.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

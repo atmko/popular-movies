@@ -8,7 +8,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.database.models.MovieData;
 
 import java.util.List;
 

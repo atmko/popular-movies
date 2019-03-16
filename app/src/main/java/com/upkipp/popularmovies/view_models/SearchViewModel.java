@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.database.models.MovieData;
 import com.upkipp.popularmovies.database.AppDatabase;
 
 import java.util.List;

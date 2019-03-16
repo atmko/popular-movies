@@ -28,7 +28,7 @@ import com.upkipp.popularmovies.database.AppDatabase;
 import com.upkipp.popularmovies.utils.network_utils.AppExecutors;
 import com.upkipp.popularmovies.view_models.DetailViewModel;
 import com.upkipp.popularmovies.view_models.DetailViewModelFactory;
-import com.upkipp.popularmovies.models.MovieData;
+import com.upkipp.popularmovies.database.models.MovieData;
 import com.upkipp.popularmovies.utils.MovieDataParser;
 import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
 import com.upkipp.popularmovies.R;
