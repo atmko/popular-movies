@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Aayat Mimiko
+ */
+
 package com.upkipp.popularmovies.daos;
 
 import android.arch.lifecycle.LiveData;

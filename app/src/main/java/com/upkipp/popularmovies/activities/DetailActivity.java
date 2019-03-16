@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Aayat Mimiko
+ */
+
 package com.upkipp.popularmovies.activities;
 
 import android.arch.lifecycle.LiveData;
@@ -42,6 +46,7 @@ public final class DetailActivity extends AppCompatActivity
         implements VideoAdapter.OnListItemClickListener, ReviewAdapter.OnListItemClickListener {
 
     //intent value keys
+    public static final String POSITION_KEY = "index";
     public static final String ID_KEY = "id";
     public static final String POSTER_PATH_KEY = "poster_path";
     public static final String BACKDROP_PATH_KEY = "backdrop_path";
@@ -51,15 +56,13 @@ public final class DetailActivity extends AppCompatActivity
     public static final String OVERVIEW_KEY = "overview";
     private static final String ERROR_TEXT = MovieData.ErrorValues.STRING_ERROR;
     //index limits to truncate long text (synopsis and reviews)
-    private static final int OVERVIEW_CUT_OFF_INDEX = 262;
+    private final int overviewCutOffIndex = 262;
     public static final int REVIEW_CUT_OFF_INDEX = 85;
     //binding variable
     private ActivityDetailBinding mBinding;
     //adapters
-    private static VideoAdapter videoAdapter;
-    private static ReviewAdapter reviewAdapter;
-    //custom up nav button
-//    private ImageButton upButton;
+    private VideoAdapter mVideoAdapter;
+    private ReviewAdapter mReviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +113,13 @@ public final class DetailActivity extends AppCompatActivity
                 //use tag to store full and original text to prevent loss after limitText()
                 TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
                 overviewTextView.setTag(overview);
-                overviewTextView.setText(limitText(overviewTextView.getTag().toString(), OVERVIEW_CUT_OFF_INDEX));
+                overviewTextView.setText(limitText(overviewTextView.getTag().toString(), overviewCutOffIndex));
 
             } else {
                 //notify error
                 Snackbar.make(findViewById(R.id.topLayout),
-                        "no data available", Snackbar.LENGTH_LONG).show();
+                        getString(R.string.detail_error_no_data_available), Snackbar.LENGTH_LONG).show();
+                finish();
             }
 
         } else {//use savedInstanceState to restore values
@@ -145,7 +149,7 @@ public final class DetailActivity extends AppCompatActivity
             TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
             overviewTextView.setTag(overview);
             overviewTextView.setText(limitText(overviewTextView.getTag().toString(),
-                    OVERVIEW_CUT_OFF_INDEX));
+                    overviewCutOffIndex));
 
         }
 
@@ -183,7 +187,7 @@ public final class DetailActivity extends AppCompatActivity
                 TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
                 overviewTextView
                         .setText(limitText(overviewTextView.getTag().toString()
-                                , OVERVIEW_CUT_OFF_INDEX));
+                                , overviewCutOffIndex));
             }
         });
 
@@ -201,11 +205,11 @@ public final class DetailActivity extends AppCompatActivity
             public void onChanged(@Nullable MovieData movieData) {
                 //update favorite icon/button in real time
                 if (movieData == null) {
-                    mBinding.saveFavoriteImageView.setTag("add favorite");
+                    mBinding.saveFavoriteImageView.setTag(getString(R.string.detail_add_favorite));
                     mBinding.saveFavoriteImageView
                             .setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
                 }else {
-                    mBinding.saveFavoriteImageView.setTag("already favorite");
+                    mBinding.saveFavoriteImageView.setTag(getString(R.string.detail_remove_favorite));
                     mBinding.saveFavoriteImageView
                             .setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
                 }
@@ -217,14 +221,14 @@ public final class DetailActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if (mBinding.saveFavoriteImageView.getTag().toString().equals("add favorite")) {
+                if (mBinding.saveFavoriteImageView.getTag().toString().equals(getString(R.string.detail_add_favorite))) {
                     addToFavorites();
                     Snackbar.make(findViewById(R.id.topLayout),
-                            "added to favorites", Snackbar.LENGTH_LONG).show();
-                } else if (mBinding.saveFavoriteImageView.getTag().toString().equals("already favorite")) {
+                            getString(R.string.detail_add_favorite_message), Snackbar.LENGTH_LONG).show();
+                } else if (mBinding.saveFavoriteImageView.getTag().toString().equals(getString(R.string.detail_remove_favorite))) {
                     deleteFavorite(favoriteLiveData.getValue());
                     Snackbar.make(findViewById(R.id.topLayout),
-                            "removed from favorites", Snackbar.LENGTH_LONG).show();
+                            getString(R.string.detail_remove_favorite_message), Snackbar.LENGTH_LONG).show();
                 }
             }
         });
@@ -237,7 +241,7 @@ public final class DetailActivity extends AppCompatActivity
                         /* The from method specifies the Context from which this share is coming from */
                         .from(DetailActivity.this)
                         .setType("text/plain")
-                        .setChooserTitle("Choose App")
+                        .setChooserTitle(getString(R.string.detail_share_title))
                         .setText(NetworkFunctions.getMovieUrl(DetailActivity.this, movieId))
                         .startChooser();
             }
@@ -262,11 +266,11 @@ public final class DetailActivity extends AppCompatActivity
         mBinding.detailScrollView.reviewRecyclerView.setFocusable(false);
 
         //define video adapter
-        videoAdapter = new VideoAdapter(this);
-        reviewAdapter = new ReviewAdapter(this);
+        mVideoAdapter = new VideoAdapter(this);
+        mReviewAdapter = new ReviewAdapter(this);
         //set adapter to RecyclerView
-        mBinding.detailScrollView.videoRecyclerView.setAdapter(videoAdapter);
-        mBinding.detailScrollView.reviewRecyclerView.setAdapter(reviewAdapter);
+        mBinding.detailScrollView.videoRecyclerView.setAdapter(mVideoAdapter);
+        mBinding.detailScrollView.reviewRecyclerView.setAdapter(mReviewAdapter);
 
     }
 
@@ -281,7 +285,7 @@ public final class DetailActivity extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 ArrayList<Map<String, String>> reviewList = MovieDataParser.parseReviews(response);
-                reviewAdapter.addAdapterData(reviewList);
+                mReviewAdapter.addAdapterData(reviewList);
             }
 
             @Override
@@ -296,7 +300,7 @@ public final class DetailActivity extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 ArrayList<Map<String, String>> videoList = MovieDataParser.parseVideos(response);
-                videoAdapter.addAdapterData(videoList);
+                mVideoAdapter.addAdapterData(videoList);
             }
 
             @Override
@@ -310,10 +314,10 @@ public final class DetailActivity extends AppCompatActivity
     @Override
     public void onVideoItemClick(int position) {
 
-        Map<String, String>  videoData = videoAdapter.getVideoData(position);
-        String path = videoData.get("path");
+        Map<String, String>  videoData = mVideoAdapter.getVideoData(position);
+        String path = videoData.get(ApiConstants.VIDEO_PATH_KEY);
 
-        Uri fullVideoPath = Uri.parse(("https://www.youtube.com/watch?v=" + path));
+        Uri fullVideoPath = Uri.parse((ApiConstants.YOUTUBE_INTENT_BASE_URL + path));
 
         Intent videoIntent = new Intent(Intent.ACTION_VIEW, fullVideoPath);
         if (videoIntent.resolveActivity(getPackageManager()) != null) {
@@ -327,8 +331,8 @@ public final class DetailActivity extends AppCompatActivity
     public void onReviewItemClick(int position) {
 
         Intent reviewIntent = new Intent(getApplicationContext(), ReviewActivity.class);
-        String reviewAuthor = reviewAdapter.getReviewData(position).get(ApiConstants.REVIEW_AUTHOR_KEY);
-        String reviewContent = reviewAdapter.getReviewData(position).get(ApiConstants.REVIEW_CONTENT_KEY);
+        String reviewAuthor = mReviewAdapter.getReviewData(position).get(ApiConstants.REVIEW_AUTHOR_KEY);
+        String reviewContent = mReviewAdapter.getReviewData(position).get(ApiConstants.REVIEW_CONTENT_KEY);
 
         reviewIntent.putExtra(ApiConstants.REVIEW_AUTHOR_KEY, reviewAuthor);
         reviewIntent.putExtra(ApiConstants.REVIEW_CONTENT_KEY, reviewContent);
@@ -357,10 +361,9 @@ public final class DetailActivity extends AppCompatActivity
 
         TextView showMoreTextView = mBinding.detailScrollView.showMoreTextView;
 
-        if (fullText.length() > cutOffIndex && (showMoreTextView.getTag()).equals("shown")) {
+        if (fullText.length() > cutOffIndex && (showMoreTextView.getText()).equals(getString(R.string.detail_show_less_text))) {
             String reducedText = fullText.subSequence(0, cutOffIndex) + "...";
 
-            showMoreTextView.setTag("hidden");
             showMoreTextView.setText(getString(R.string.detail_show_more_text));
 
             return reducedText;
@@ -368,7 +371,6 @@ public final class DetailActivity extends AppCompatActivity
         } else {
             if (fullText.length() <= cutOffIndex)showMoreTextView.setVisibility(View.GONE);
 
-            showMoreTextView.setTag("shown");
             showMoreTextView.setText(getString(R.string.detail_show_less_text));
 
             return fullText;

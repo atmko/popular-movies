@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Aayat Mimiko
+ */
+
 package com.upkipp.popularmovies.utils.network_utils;
 
 import com.upkipp.popularmovies.BuildConfig;
@@ -15,6 +19,7 @@ public class ApiConstants {
     public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
     @SuppressWarnings("SpellCheckingInspection")
     public static final String VIDEO_IMAGE_URL_FORMAT = "https://img.youtube.com/vi/{video_id}/sddefault.jpg";
+    public static final String YOUTUBE_INTENT_BASE_URL = "https://www.youtube.com/watch?v=";
 
     //PLACEHOLDER KEYS
     public static final String API_KEY_KEY = "api_key";

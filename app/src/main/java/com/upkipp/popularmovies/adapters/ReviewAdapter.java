@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Aayat Mimiko
+ */
+
 package com.upkipp.popularmovies.adapters;
 
 import android.content.Context;
@@ -10,14 +14,12 @@ import android.widget.TextView;
 
 import com.upkipp.popularmovies.activities.DetailActivity;
 import com.upkipp.popularmovies.R;
+import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdapterViewHolder> {
-    //singleton variables
-//    private static final Object LOCK = new Object();
-//    private static ReviewAdapter sInstance;
 
     private final ArrayList<Map<String, String>> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
@@ -26,15 +28,6 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
         mOnListItemClickListener = clickListener;
         mAdapterData = new ArrayList<>();
     }
-
-//    public static ReviewAdapter getInstance(@Nullable OnListItemClickListener clickListener) {
-//        if (sInstance == null) {
-//            synchronized (LOCK) {
-//                sInstance = new ReviewAdapter(clickListener);
-//            }
-//        }
-//        return sInstance;
-//    }
 
     public interface OnListItemClickListener {
         void onReviewItemClick(int position);
@@ -78,8 +71,8 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
     public void onBindViewHolder(@NonNull ReviewAdapterViewHolder adapterViewHolder, int position) {
         //get current reviewData
         Map<String, String> currentReviewData = mAdapterData.get(position);
-        String author = currentReviewData.get("author");
-        String content = currentReviewData.get("content");
+        String author = currentReviewData.get(ApiConstants.REVIEW_AUTHOR_KEY);
+        String content = currentReviewData.get(ApiConstants.REVIEW_CONTENT_KEY);
 
         adapterViewHolder.authorTextVIew.setText(author);
         adapterViewHolder.contentTextView.setTag(content);

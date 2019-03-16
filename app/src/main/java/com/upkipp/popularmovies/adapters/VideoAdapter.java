@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Aayat Mimiko
+ */
+
 package com.upkipp.popularmovies.adapters;
 
 import android.content.Context;
@@ -18,9 +22,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapterViewHolder> {
-    //singleton variables
-//    private static final Object LOCK = new Object();
-//    private static VideoAdapter sInstance;
 
     private final ArrayList<Map<String, String>> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
@@ -29,15 +30,6 @@ public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoA
         mOnListItemClickListener = clickListener;
         mAdapterData = new ArrayList<>();
     }
-
-//    public static VideoAdapter getInstance(@Nullable OnListItemClickListener clickListener) {
-//        if (sInstance == null) {
-//            synchronized (LOCK) {
-//                sInstance = new VideoAdapter(clickListener);
-//            }
-//        }
-//        return sInstance;
-//    }
 
     public interface OnListItemClickListener {
         void onVideoItemClick(int position);

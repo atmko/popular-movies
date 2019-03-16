@@ -1,17 +1,21 @@
+/*
+ * Copyright (C) 2019 Aayat Mimiko
+ */
+
 package com.upkipp.popularmovies.activities;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
 public class ReviewActivity extends AppCompatActivity {
-    private TextView authorTextView;
-    private TextView contentTextView;
+    private TextView mAuthorTextView;
+    private TextView mContentTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,27 +30,29 @@ public class ReviewActivity extends AppCompatActivity {
             if (intent != null && intent.hasExtra(ApiConstants.REVIEW_CONTENT_KEY)) {
                 String author = intent.getStringExtra(ApiConstants.REVIEW_AUTHOR_KEY);
                 String content = intent.getStringExtra(ApiConstants.REVIEW_CONTENT_KEY);
-                authorTextView.setText(author);
-                contentTextView.setText(content);
+                mAuthorTextView.setText(author);
+                mContentTextView.setText(content);
 
             }else {
-                Toast.makeText(this, "no data available", Toast.LENGTH_SHORT).show();
-                finish();            }
+                //notify error
+                Snackbar.make(findViewById(R.id.topLayout),
+                        getString(R.string.detail_error_no_data_available), Snackbar.LENGTH_LONG).show();
+                finish();      }
 
         } else {//use savedInstanceState to restore values
             String author = savedInstanceState.getString(ApiConstants.REVIEW_AUTHOR_KEY);
             String content = savedInstanceState.getString(ApiConstants.REVIEW_CONTENT_KEY);
 
-            authorTextView.setText(author);
-            contentTextView.setText(content);
+            mAuthorTextView.setText(author);
+            mContentTextView.setText(content);
 
         }
 
     }
 
     private void defineViews() {
-        authorTextView = findViewById(R.id.authorTextView);
-        contentTextView = findViewById(R.id.contentTextView);
+        mAuthorTextView = findViewById(R.id.authorTextView);
+        mContentTextView = findViewById(R.id.contentTextView);
     }
 
     @Override
@@ -54,8 +60,8 @@ public class ReviewActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         //save author and content values
-        outState.putString(ApiConstants.REVIEW_AUTHOR_KEY, authorTextView.getText().toString());
-        outState.putString(ApiConstants.REVIEW_CONTENT_KEY, contentTextView.getText().toString());
+        outState.putString(ApiConstants.REVIEW_AUTHOR_KEY, mAuthorTextView.getText().toString());
+        outState.putString(ApiConstants.REVIEW_CONTENT_KEY, mContentTextView.getText().toString());
     }
 }
 

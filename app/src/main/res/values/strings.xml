@@ -4,24 +4,43 @@
     <!--the movie db base url-->
     <string name="movie_base_url" translatable="false">https://www.themoviedb.org/movie</string>
 
-    <!--menu labels-->
+    <!--MENU LABELS-->
     <string name="menu_popular_title">most popular movies</string>
     <string name="menu_top_rated_title">top rated movies</string>
     <string name="menu_favorites_title">favorite movies</string>
+    <!--___________-->
 
-    <!--text view headings text-->
+    <!--TEXT VIEWS -->
+    <!--headings text-->
     <string name="synopsis">Synopsis</string>
     <string name="videos">Videos</string>
     <string name="reviews">Reviews</string>
-
-    <!--content descriptions-->
-    <string name="poster_description">poster image</string>
-    <!--<string name="backdrop_description">backdrop image</string>-->
-
-    <string name="detail_fav_button_content_description">mark as favorite button</string>
-    <!--text values-->
+    <!--show more values-->
     <string name="detail_show_more_text">show more</string>
     <string name="detail_show_less_text">show less</string>
+    <!--_______________-->
+
+    <!--CONTENT DESCRIPTIONS-->
+    <string name="poster_description">poster image</string>
+    <!--<string name="backdrop_description">backdrop image</string>-->
+    <string name="detail_fav_button_content_description">mark as favorite button</string>
+    <!--_______________-->
+
+    <!--SHARE MOVIE-->
+    <string name="detail_share_title">Choose App</string>
+    <!--_______________-->
+
+    <!--FAVORITES BUTTON-->
+    <!--button tags-->
+    <string name="detail_add_favorite" translatable="false">add favorite</string>
+    <string name="detail_remove_favorite" translatable="false">remove favorite</string>
+    <!--snackbar messages-->
+    <string name="detail_add_favorite_message">added from favorites</string>
+    <string name="detail_remove_favorite_message">removed from favorites</string>
+
+    <!--ERROR VALUES-->
+    <string name="detail_error_no_data_available">error: no data available</string>
+    <!--_______________-->
 
 
 </resources>

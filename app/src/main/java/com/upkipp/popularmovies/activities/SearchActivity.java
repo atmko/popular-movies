@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Aayat Mimiko
+ */
+
 package com.upkipp.popularmovies.activities;
 
 import android.arch.lifecycle.LiveData;
@@ -36,8 +40,8 @@ import java.util.List;
 public final class SearchActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
-    private static final String TAG = SearchActivity.class.getSimpleName();
-    private static final int COLUMN_SPAN = 3;
+    private final String TAG = SearchActivity.class.getSimpleName();
+    private final int columnSpan = 3;
 
     private SearchPreferences searchPreferences;
     private SearchAdapter searchAdapter;
@@ -112,7 +116,6 @@ public final class SearchActivity extends AppCompatActivity
                 boolean emptyAdapter = searchAdapter.isEmpty();
 
                 //if at lastItem && if morePagesAvailable && if adapter not empty
-                Log.d(TAG, Boolean.toString(lastItem) + " " + Boolean.toString(morePagesAvailable) + " " + Boolean.toString(!emptyAdapter));
                 if (lastItem && morePagesAvailable && !emptyAdapter) {
                     //load next page
                     loadNextPage(currentPage + 1);
@@ -152,7 +155,7 @@ public final class SearchActivity extends AppCompatActivity
     }
 
     private GridLayoutManager configureLayoutManager() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, COLUMN_SPAN);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, columnSpan);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         return layoutManager;
     }
@@ -161,7 +164,7 @@ public final class SearchActivity extends AppCompatActivity
     public void onItemClick(int position) {
         //start detail activity
         Intent detailIntent = new Intent(this, DetailActivity.class);
-        detailIntent.putExtra("index", position);
+        detailIntent.putExtra(DetailActivity.POSITION_KEY, position);
 
         MovieData currentMovieData = searchAdapter.getMovieData(position);
         //paths needed to restore ImageViews on restore/rotate
