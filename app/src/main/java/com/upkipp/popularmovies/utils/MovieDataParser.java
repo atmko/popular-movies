@@ -12,35 +12,9 @@ import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MovieDataParser {
-    //convert JSONArray to List
-    private static List<Integer> checkAndConvertJSONArrayToList(JSONArray jsonArray) {
-        //if jsonArray is null return empty ArrayList
-        List<Integer> list = new ArrayList<>();
-        if (jsonArray == null) {return list;}
-
-        int length = jsonArray.length();
-
-        //iterate through JSONArray
-        for (int position = 0 ; position < length ; position++) {
-            try {
-                if (jsonArray.get(position) instanceof Integer) {
-                    //add items individually to list
-                    list.add((int) jsonArray.get(position));
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return list;
-    }
-
     //check for int/double errors
     private static String checkAndConvertNumber(Object number){
         if (Double.parseDouble(number.toString()) == MovieData.ErrorValues.DOUBLE_ERROR) {
@@ -50,87 +24,64 @@ public class MovieDataParser {
         }
     }
 
+    @SuppressWarnings({"ConstantConditions", "unchecked"})
     public static List<MovieData> parseData(String returnedJSONString) throws JSONException {
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
             return new ArrayList<>();
         }
 
-        // convert returnedJSONString to JSONObject
-        JSONObject jsonObject = new JSONObject(returnedJSONString);
-        //set total pages available to searchPreferences
-        //set current page in searchPreferences
-        int totalPages = jsonObject.getInt(MovieData.MovieDataKeys.TOTAL_PAGES_KEY);
-
-        SearchPreferences searchPreferences = SearchPreferences.getInstance();
-        searchPreferences.setTotalPages(totalPages);
-        searchPreferences.setCurrentPage(jsonObject.getInt(MovieData.MovieDataKeys.CURRENT_PAGE_KEY));
+        Gson gson = new Gson();
+        Map returnedMap = gson.fromJson(returnedJSONString, Map.class);
 
         //use RESULTS_KEY to get results as JSONArray
-        JSONArray results = jsonObject.getJSONArray(MovieData.MovieDataKeys.RESULTS_KEY);
+        ArrayList results = (ArrayList) returnedMap.get(MovieData.MovieDataKeys.RESULTS_KEY);
 
         //SearchAdapter data will be stored as ArrayList<MovieData>
         List<MovieData> movieDataList = new ArrayList<>();
 
         //iterate through each movie in results
-        for (int index = 0; index < results.length() ; index++) {
-            JSONObject currentObject = (JSONObject) results.get(index);//get current movie
+        for (int index = 0; index < results.size() ; index++) {
+            Map currentObject = (Map) results.get(index);//get current movie
 
             //create new MovieData from currentObject
             MovieData movieData =
                     new MovieData(
-                            //get by keys. use fallback values if error.(format: key, fallback)
-                            checkAndConvertNumber(currentObject.optInt(MovieData.MovieDataKeys.MOVIE_ID,
-                                    MovieData.ErrorValues.INT_ERROR)),
+                            //get by keys
+                            checkAndConvertNumber(currentObject.get(MovieData.MovieDataKeys.MOVIE_ID)),
 
-                            checkAndConvertNumber(currentObject.optInt(MovieData.MovieDataKeys.VOTE_COUNT,
-                                    MovieData.ErrorValues.INT_ERROR)),
+                            checkAndConvertNumber(currentObject.get(MovieData.MovieDataKeys.VOTE_COUNT)),
 
-                            currentObject.optBoolean(MovieData.MovieDataKeys.VIDEO,
-                                    MovieData.ErrorValues.BOOLEAN_ERROR),
+                            (Boolean) currentObject.get(MovieData.MovieDataKeys.VIDEO),
 
-                            checkAndConvertNumber(currentObject
-                                    .optDouble(MovieData.MovieDataKeys.VOTE_AVERAGE,
-                                    MovieData.ErrorValues.DOUBLE_ERROR)),
+                            checkAndConvertNumber(currentObject.get(MovieData.MovieDataKeys.VOTE_AVERAGE)),
 
-                            currentObject.optString(MovieData.MovieDataKeys.MOVIE_TITLE,
-                                    MovieData.ErrorValues.STRING_ERROR),
+                            (String) currentObject.get(MovieData.MovieDataKeys.MOVIE_TITLE),
 
-                            currentObject.optDouble(MovieData.MovieDataKeys.POPULARITY,
-                                    MovieData.ErrorValues.DOUBLE_ERROR),
+                            (Double) currentObject.get(MovieData.MovieDataKeys.POPULARITY),
 
-                            currentObject.optString(MovieData.MovieDataKeys.POSTER_PATH,
-                                    MovieData.ErrorValues.STRING_ERROR),
+                            (String) currentObject.get(MovieData.MovieDataKeys.POSTER_PATH),
 
-                            currentObject.optString(MovieData.MovieDataKeys.ORIG_LANG,
-                                    MovieData.ErrorValues.STRING_ERROR),
+                            (String) currentObject.get(MovieData.MovieDataKeys.ORIG_LANG),
 
-                            currentObject.optString(MovieData.MovieDataKeys.ORIG_TITLE,
-                                    MovieData.ErrorValues.STRING_ERROR),
+                            (String) currentObject.get(MovieData.MovieDataKeys.ORIG_TITLE),
 
-                            //optJSONArray method has no fallback
-                            checkAndConvertJSONArrayToList(currentObject
-                                    .optJSONArray(MovieData.MovieDataKeys.GENRE_IDS)),
+                            (List<Integer>) currentObject.get(MovieData.MovieDataKeys.GENRE_IDS),
 
-                            currentObject.optString(MovieData.MovieDataKeys.BACKDROP_PATH,
-                                    MovieData.ErrorValues.STRING_ERROR),
+                            (String) currentObject.get(MovieData.MovieDataKeys.BACKDROP_PATH),
 
-                            currentObject.optBoolean(MovieData.MovieDataKeys.ADULT,
-                                    MovieData.ErrorValues.BOOLEAN_ERROR),
+                            (Boolean) currentObject.get(MovieData.MovieDataKeys.ADULT),
 
-                            currentObject.optString(MovieData.MovieDataKeys.OVERVIEW,
-                                    MovieData.ErrorValues.STRING_ERROR),
+                            (String) currentObject.get(MovieData.MovieDataKeys.OVERVIEW),
 
-                            currentObject.optString(MovieData.MovieDataKeys.RELEASE_DATE,
-                                    MovieData.ErrorValues.STRING_ERROR)
+                            (String) currentObject.get(MovieData.MovieDataKeys.RELEASE_DATE)
                     );
 
             movieDataList.add(movieData);
 
         }
-        //set data to adapter
-        return movieDataList;
 
+        return movieDataList;
     }
 
     @SuppressWarnings("ConstantConditions")
