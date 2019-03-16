@@ -14,8 +14,6 @@
     <!--margins-->
     <dimen name="detail_layout_margin">16dp</dimen>
     <dimen name="detail_info_card_item_margin">8dp</dimen>
-    <dimen name="detail_card_margin">10dp</dimen>
-    <dimen name="detail_card_content_top_margin">10dp</dimen>
 
     <dimen name="detail_review_body_margin_top">5dp</dimen>
     <dimen name="detail_review_item_layout_margin">8dp</dimen>
@@ -41,7 +39,6 @@
     <dimen name="detail_review_card_width">200dp</dimen>
     <dimen name="detail_review_card_corner_radius">15dp</dimen>
 
-    <dimen name="detail_card_content_bottom_margin">20dp</dimen>
     <dimen name="detail_video_recyclerview_height">110dp</dimen>
 
     <dimen name="detail_video_image_width">120dp</dimen>

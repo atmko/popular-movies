@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.SearchPreferences;
 
+@SuppressWarnings("UnnecessaryLocalVariable")
 public final class NetworkFunctions {
 
     public static ANRequest buildSearchRequest() {

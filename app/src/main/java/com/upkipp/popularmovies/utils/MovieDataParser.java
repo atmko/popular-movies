@@ -18,7 +18,7 @@ import org.json.JSONObject;
 
 public class MovieDataParser {
     //convert JSONArray to List
-    public static List<Integer> checkAndConvertJSONArrayToList(JSONArray jsonArray) {
+    private static List<Integer> checkAndConvertJSONArrayToList(JSONArray jsonArray) {
         //if jsonArray is null return empty ArrayList
         List<Integer> list = new ArrayList<>();
         if (jsonArray == null) {return list;}
@@ -33,12 +33,6 @@ public class MovieDataParser {
                     list.add((int) jsonArray.get(position));
                 }
 
-                else  {
-                    //add items individually to list
-//                    list.add((int) jsonArray.get(position));
-                }
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -48,7 +42,7 @@ public class MovieDataParser {
     }
 
     //check for int/double errors
-    public static String checkAndConvertNumber(Object number){
+    private static String checkAndConvertNumber(Object number){
         if (Double.parseDouble(number.toString()) == MovieData.ErrorValues.DOUBLE_ERROR) {
             return "{error}";
         } else {
@@ -139,8 +133,8 @@ public class MovieDataParser {
 
     }
 
-    public static ArrayList<Map<String, String>> parseReviews(String returnedJSONString)
-            throws JSONException{
+    @SuppressWarnings("ConstantConditions")
+    public static ArrayList<Map<String, String>> parseReviews(String returnedJSONString) {
         //review data will be stored as Map<String, ArrayList<String>>
         ArrayList<Map<String, String>> reviews = new ArrayList<>();
         //skips code below if returnedJSONString null or empty
@@ -171,8 +165,8 @@ public class MovieDataParser {
 
     }
 
-    public static ArrayList<Map<String, String>> parseVideos(String returnedJSONString)
-            throws JSONException{
+    @SuppressWarnings("ConstantConditions")
+    public static ArrayList<Map<String, String>> parseVideos(String returnedJSONString) {
         //video data will be stored as Map<String, ArrayList<String>>
         ArrayList<Map<String, String>> videos = new ArrayList<>();
         //skips code below if returnedJSONString null or empty
@@ -187,6 +181,7 @@ public class MovieDataParser {
         ArrayList results = (ArrayList) returnedMap.get(MovieData.MovieDataKeys.RESULTS_KEY);
 
 //        iterate through each video in results
+        assert results != null;//null checking occurs in above if statement
         for (int index = 0; index < results.size() ; index++) {
             Map currentResult = (Map) results.get(index);//get current review
 

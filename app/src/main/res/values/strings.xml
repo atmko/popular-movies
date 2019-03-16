@@ -16,11 +16,12 @@
 
     <!--content descriptions-->
     <string name="poster_description">poster image</string>
-    <string name="backdrop_description">backdrop image</string>
+    <!--<string name="backdrop_description">backdrop image</string>-->
 
     <string name="detail_fav_button_content_description">mark as favorite button</string>
     <!--text values-->
     <string name="detail_show_more_text">show more</string>
+    <string name="detail_show_less_text">show less</string>
 
 
 </resources>

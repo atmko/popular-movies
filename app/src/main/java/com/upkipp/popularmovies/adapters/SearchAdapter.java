@@ -1,16 +1,13 @@
 package com.upkipp.popularmovies.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.upkipp.popularmovies.models.MovieData;
 import com.upkipp.popularmovies.R;
@@ -24,19 +21,19 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
     private static final Object LOCK = new Object();
     private static SearchAdapter sInstance;
 
-    private List<MovieData> mAdapterData;
+    private final List<MovieData> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
-    private final Context mContext;
-    private boolean mUseFirstLayout;
+    private final boolean mUseFirstLayout;
 
     //layout ids
-    private final int FIRST_LAYOUT_ID = 435;
-    private final int STANDARD_LAYOUT_ID = 203;
+    private final int FIRST_LAYOUT_ID = 2;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int STANDARD_LAYOUT_ID = 3;
 
     private SearchAdapter(OnListItemClickListener clickListener) {
         mOnListItemClickListener = clickListener;
-        mContext = (Context) clickListener;
-        mUseFirstLayout = mContext.getResources().getBoolean(R.bool.use_first_result_layout);
+        Context context = (Context) clickListener;
+        mUseFirstLayout = context.getResources().getBoolean(R.bool.use_first_result_layout);
         mAdapterData = new ArrayList<>();
     }
 
@@ -117,11 +114,8 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
 
     @Override
     public int getItemViewType(int position) {
-
-
         //if using first layout and this is the first item
         if (mUseFirstLayout && position == 0) {
-            Toast.makeText(mContext, "hello", Toast.LENGTH_SHORT).show();
             return FIRST_LAYOUT_ID;
 
         } else {

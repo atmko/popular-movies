@@ -10,8 +10,8 @@ import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.R;
 
 public class ReviewActivity extends AppCompatActivity {
-    TextView authorTextView;
-    TextView contentTextView;
+    private TextView authorTextView;
+    private TextView contentTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

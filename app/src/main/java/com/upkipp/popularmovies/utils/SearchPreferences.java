@@ -22,7 +22,7 @@ public final class SearchPreferences {
     private int mTotalPages;
 
     //language parameters
-    private String mLanguageParamVal;
+    private final String mLanguageParamVal;
     private static final String ENG_US = "en-US";
 
     //---------------------------------------------------------

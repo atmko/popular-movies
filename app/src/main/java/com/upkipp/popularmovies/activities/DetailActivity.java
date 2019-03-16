@@ -25,7 +25,6 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.adapters.VideoAdapter;
 import com.upkipp.popularmovies.database.AppDatabase;
-import com.upkipp.popularmovies.utils.SearchPreferences;
 import com.upkipp.popularmovies.utils.network_utils.AppExecutors;
 import com.upkipp.popularmovies.view_models.DetailViewModel;
 import com.upkipp.popularmovies.view_models.DetailViewModelFactory;
@@ -34,8 +33,6 @@ import com.upkipp.popularmovies.utils.MovieDataParser;
 import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.databinding.ActivityDetailBinding;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -56,7 +53,7 @@ public final class DetailActivity extends AppCompatActivity
     private static final int OVERVIEW_CUT_OFF_INDEX = 262;
     public static final int REVIEW_CUT_OFF_INDEX = 85;
     //binding variable
-    ActivityDetailBinding mBinding;
+    private ActivityDetailBinding mBinding;
     //adapters
     private static VideoAdapter videoAdapter;
     private static ReviewAdapter reviewAdapter;
@@ -68,7 +65,7 @@ public final class DetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_detail);
         //toolbar customization
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -89,7 +86,7 @@ public final class DetailActivity extends AppCompatActivity
                 //get passed values from intent
                 String movieId = intent.getStringExtra(ID_KEY);
                 String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
-                String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
+//                String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
                 String title = intent.getStringExtra(TITLE_KEY);
                 String voteAverage = intent.getStringExtra(VOTE_AVERAGE_KEY);
                 String releaseDate = intent.getStringExtra(RELEASE_DATE_KEY);
@@ -123,7 +120,7 @@ public final class DetailActivity extends AppCompatActivity
         } else {//use savedInstanceState to restore values
             String movieId = savedInstanceState.getString(ID_KEY, ERROR_TEXT);
             String posterPath = savedInstanceState.getString(POSTER_PATH_KEY, ERROR_TEXT);
-            String backdropPath = savedInstanceState.getString(BACKDROP_PATH_KEY, ERROR_TEXT);
+//            String backdropPath = savedInstanceState.getString(BACKDROP_PATH_KEY, ERROR_TEXT);
             String title = savedInstanceState.getString(TITLE_KEY, ERROR_TEXT);
             String voteAverage = savedInstanceState.getString(VOTE_AVERAGE_KEY, ERROR_TEXT);
             String releaseDate = savedInstanceState.getString(RELEASE_DATE_KEY, ERROR_TEXT);
@@ -282,12 +279,8 @@ public final class DetailActivity extends AppCompatActivity
         NetworkFunctions.loadReviews(movieId).getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                try {
-                    ArrayList<Map<String, String>> reviewList = MovieDataParser.parseReviews(response);
-                    reviewAdapter.addAdapterData(reviewList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                ArrayList<Map<String, String>> reviewList = MovieDataParser.parseReviews(response);
+                reviewAdapter.addAdapterData(reviewList);
             }
 
             @Override
@@ -301,12 +294,8 @@ public final class DetailActivity extends AppCompatActivity
         NetworkFunctions.loadVideos(movieId).getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
-                try {
-                    ArrayList<Map<String, String>> videoList = MovieDataParser.parseVideos(response);
-                    videoAdapter.addAdapterData(videoList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                ArrayList<Map<String, String>> videoList = MovieDataParser.parseVideos(response);
+                videoAdapter.addAdapterData(videoList);
             }
 
             @Override
@@ -371,7 +360,7 @@ public final class DetailActivity extends AppCompatActivity
             String reducedText = fullText.subSequence(0, cutOffIndex) + "...";
 
             showMoreTextView.setTag("hidden");
-            showMoreTextView.setText("show more");
+            showMoreTextView.setText(getString(R.string.detail_show_more_text));
 
             return reducedText;
 
@@ -379,7 +368,7 @@ public final class DetailActivity extends AppCompatActivity
             if (fullText.length() <= cutOffIndex)showMoreTextView.setVisibility(View.GONE);
 
             showMoreTextView.setTag("shown");
-            showMoreTextView.setText("show less");
+            showMoreTextView.setText(getString(R.string.detail_show_less_text));
 
             return fullText;
 

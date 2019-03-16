@@ -3,4 +3,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/moviePosterImageView"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/detail_backdrop_height" />
+    android:layout_height="@dimen/detail_backdrop_height"
+    android:contentDescription="@string/poster_description" />

@@ -14,7 +14,7 @@ import java.util.List;
 public class SearchViewModel extends AndroidViewModel {
 
     private static final String TAG = SearchViewModel.class.getSimpleName();
-    private LiveData<List<MovieData>> movies;
+    private final LiveData<List<MovieData>> movies;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);

@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -38,7 +37,7 @@ public final class SearchActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
     private static final String TAG = SearchActivity.class.getSimpleName();
-    public static final int COLUMN_SPAN = 3;
+    private static final int COLUMN_SPAN = 3;
 
     private SearchPreferences searchPreferences;
     private SearchAdapter searchAdapter;
@@ -48,7 +47,7 @@ public final class SearchActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
 //        ActionBar actionBar = getSupportActionBar();
@@ -69,8 +68,6 @@ public final class SearchActivity extends AppCompatActivity
                 executeMovieSearch(true);//defaults to popular movies
 
             }
-        } else {
-
         }
 
     }
@@ -102,8 +99,9 @@ public final class SearchActivity extends AppCompatActivity
                 int totalNumOfItems = searchAdapter.getItemCount();
                 int lastItemIndex = totalNumOfItems - 1;
 
+                @SuppressWarnings("ConstantConditions")
                 //error caught in throw when invoking findLastCompletelyVisibleItemPosition()
-                int lastShown = ((GridLayoutManager)recyclerView.getLayoutManager())
+                        int lastShown = ((GridLayoutManager)recyclerView.getLayoutManager())
                         .findLastCompletelyVisibleItemPosition();
 
                 //lastVis == lastItemIndex makes sure we are at the end of list
@@ -130,13 +128,6 @@ public final class SearchActivity extends AppCompatActivity
         mSearchPosterRecyclerView.setAdapter(searchAdapter);
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-
-    }
-
     private void executeMovieSearch(boolean newSearch) {
         //newSearch value indicates if to overwrite Adapter Data
         //false value used in paging to not overwrite, but append
@@ -149,7 +140,7 @@ public final class SearchActivity extends AppCompatActivity
         presetMovieSearch();
     }
 
-    void loadNextPage(int newTargetPage) {
+    private void loadNextPage(int newTargetPage) {
         searchPreferences.setTargetPage(newTargetPage);
         executeMovieSearch(false);
     }

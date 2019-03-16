@@ -22,7 +22,7 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
     public static final String REVIEW_AUTHOR_KEY = "author";
     public static final String REVIEW_CONTENT_KEY = "content";
 
-    private ArrayList<Map<String, String>> mAdapterData;
+    private final ArrayList<Map<String, String>> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
 
     public ReviewAdapter(OnListItemClickListener clickListener) {
@@ -86,17 +86,14 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
 
         adapterViewHolder.authorTextVIew.setText(author);
         adapterViewHolder.contentTextView.setTag(content);
-        adapterViewHolder.contentTextView.setText(limitText(adapterViewHolder.contentTextView, content, DetailActivity.REVIEW_CUT_OFF_INDEX));
+        //noinspection ConstantConditions
+        adapterViewHolder.contentTextView.setText(limitText(content, DetailActivity.REVIEW_CUT_OFF_INDEX));
 
     }
 
     @Override
     public int getItemCount() {
-        if (mAdapterData == null) {
-            return 0;
-        } else {
-            return mAdapterData.size();
-        }
+        return mAdapterData.size();
     }
 
     public boolean isEmpty() {
@@ -124,7 +121,7 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
     }
 
     //truncates long text (reviews)
-    private String limitText(TextView textView, String fullText, int cutOffIndex) {
+    private String limitText(String fullText, int cutOffIndex) {
         if (fullText.length() > cutOffIndex) {
             return fullText.substring(0, cutOffIndex) + "...";
 

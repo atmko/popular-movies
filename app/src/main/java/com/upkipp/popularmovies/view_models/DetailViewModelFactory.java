@@ -2,6 +2,7 @@ package com.upkipp.popularmovies.view_models;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
+import android.support.annotation.NonNull;
 
 import com.upkipp.popularmovies.database.AppDatabase;
 import com.upkipp.popularmovies.view_models.DetailViewModel;
@@ -16,7 +17,7 @@ public class DetailViewModelFactory extends ViewModelProvider.NewInstanceFactory
     }
 
     @Override
-    public <T extends ViewModel> T create(Class<T> modelClass) {
+    public @NonNull<T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         //noinspection unchecked
         return (T) new DetailViewModel(mDatabase, mId);
     }

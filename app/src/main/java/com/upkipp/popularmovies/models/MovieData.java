@@ -33,9 +33,9 @@ public class MovieData {
     @Ignore private List<String> mReviews;
 
     @Ignore
-    public MovieData(String id, String voteCount, boolean video, String voteAverage, String title,
+    public MovieData(@NonNull String id, String voteCount, boolean video, String voteAverage, String title,
                      double popularity, String posterPath, String originalLanguage,
-                     String originalTitle, List genreIds, String backdropPath,
+                     String originalTitle, List<Integer> genreIds, String backdropPath,
                      boolean adult, String overview, String releaseDate) {
 
         this.mId = id;
@@ -58,8 +58,8 @@ public class MovieData {
         this.mReleaseDate = releaseDate;
     }
 
-    public MovieData(String id, String voteAverage, String title,
-                     String posterPath,String backdropPath,
+    public MovieData(@NonNull String id, String voteAverage, String title,
+                     String posterPath, String backdropPath,
                      String overview, String releaseDate) {
 
         //check numbers(int / double) and JSONArray objects and replace error values;
@@ -68,7 +68,7 @@ public class MovieData {
         this.mVoteAverage = voteAverage;
         this.mTitle = title;
         this.mPosterPath = posterPath;
-        this.mBackdropPath = backdropPath;;
+        this.mBackdropPath = backdropPath;
         this.mOverview = overview;
         this.mReleaseDate = releaseDate;
     }

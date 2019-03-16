@@ -20,7 +20,7 @@ public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoA
 //    private static final Object LOCK = new Object();
 //    private static VideoAdapter sInstance;
 
-    private ArrayList<Map<String, String>> mAdapterData;
+    private final ArrayList<Map<String, String>> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
 
     public VideoAdapter(OnListItemClickListener clickListener) {
@@ -91,11 +91,7 @@ public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoA
 
     @Override
     public int getItemCount() {
-        if (mAdapterData == null) {
-            return 0;
-        } else {
-            return mAdapterData.size();
-        }
+        return mAdapterData.size();
     }
 
     public boolean isEmpty() {

@@ -7,12 +7,13 @@ public class ApiConstants {
     public static final String API_KEY = BuildConfig.apiKey;
 
     //URLS
-    public static final String BASE_URL = "https://api.themoviedb.org/3/movie";
+    private static final String BASE_URL = "https://api.themoviedb.org/3/movie";
     public static final String SEARCH_FORMAT = BASE_URL + "/{sort}?api_key={api_key}&language={lang}&page={page}";
     public static final String REVIEWS_URL_FORMAT = BASE_URL + "/{movie_id}/reviews?api_key={api_key}&language={lang}";
     public static final String VIDEOS_URL_FORMAT = BASE_URL + "/{movie_id}/videos?api_key={api_key}&language={lang}";
 
     public static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
+    @SuppressWarnings("SpellCheckingInspection")
     public static final String VIDEO_IMAGE_URL_FORMAT = "https://img.youtube.com/vi/{video_id}/sddefault.jpg";
 
     //PLACEHOLDER KEYS
