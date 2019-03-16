@@ -1,5 +1,7 @@
 package com.upkipp.popularmovies.utils;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +18,8 @@ import org.json.JSONException;
 
 public class MovieDataParser {
     //check for int/double errors
-    private static String checkAndConvertNumber(Object number){
-        if (Double.parseDouble(number.toString()) == MovieData.ErrorValues.DOUBLE_ERROR) {
-            return "{error}";
-        } else {
-            return String.valueOf(number);
-        }
+    private static String checkAndConvertNumber(Object number) {
+        return String.valueOf(number);
     }
 
     @SuppressWarnings({"ConstantConditions", "unchecked"})
@@ -33,6 +31,16 @@ public class MovieDataParser {
 
         Gson gson = new Gson();
         Map returnedMap = gson.fromJson(returnedJSONString, Map.class);
+
+        //set total pages available to searchPreferences
+        //set current page in searchPreferences
+        //note: GSON number format default is double
+        Double totalPages = (double) returnedMap.get(MovieData.MovieDataKeys.TOTAL_PAGES_KEY);
+        Double currentPage = (double) returnedMap.get(MovieData.MovieDataKeys.CURRENT_PAGE_KEY);
+
+        SearchPreferences searchPreferences = SearchPreferences.getInstance();
+        searchPreferences.setTotalPages(totalPages.intValue());
+        searchPreferences.setCurrentPage(currentPage.intValue());
 
         //use RESULTS_KEY to get results as JSONArray
         ArrayList results = (ArrayList) returnedMap.get(MovieData.MovieDataKeys.RESULTS_KEY);
