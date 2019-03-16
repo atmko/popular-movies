@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.R;
+import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
 public class ReviewActivity extends AppCompatActivity {
     private TextView authorTextView;
@@ -23,9 +24,9 @@ public class ReviewActivity extends AppCompatActivity {
         defineViews();
 
         if (savedInstanceState == null) {
-            if (intent != null && intent.hasExtra(ReviewAdapter.REVIEW_CONTENT_KEY)) {
-                String author = intent.getStringExtra(ReviewAdapter.REVIEW_AUTHOR_KEY);
-                String content = intent.getStringExtra(ReviewAdapter.REVIEW_CONTENT_KEY);
+            if (intent != null && intent.hasExtra(ApiConstants.REVIEW_CONTENT_KEY)) {
+                String author = intent.getStringExtra(ApiConstants.REVIEW_AUTHOR_KEY);
+                String content = intent.getStringExtra(ApiConstants.REVIEW_CONTENT_KEY);
                 authorTextView.setText(author);
                 contentTextView.setText(content);
 
@@ -34,8 +35,8 @@ public class ReviewActivity extends AppCompatActivity {
                 finish();            }
 
         } else {//use savedInstanceState to restore values
-            String author = savedInstanceState.getString(ReviewAdapter.REVIEW_AUTHOR_KEY);
-            String content = savedInstanceState.getString(ReviewAdapter.REVIEW_CONTENT_KEY);
+            String author = savedInstanceState.getString(ApiConstants.REVIEW_AUTHOR_KEY);
+            String content = savedInstanceState.getString(ApiConstants.REVIEW_CONTENT_KEY);
 
             authorTextView.setText(author);
             contentTextView.setText(content);
@@ -54,8 +55,8 @@ public class ReviewActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         //save author and content values
-        outState.putString(ReviewAdapter.REVIEW_AUTHOR_KEY, authorTextView.getText().toString());
-        outState.putString(ReviewAdapter.REVIEW_CONTENT_KEY, contentTextView.getText().toString());
+        outState.putString(ApiConstants.REVIEW_AUTHOR_KEY, authorTextView.getText().toString());
+        outState.putString(ApiConstants.REVIEW_CONTENT_KEY, contentTextView.getText().toString());
     }
 }
 

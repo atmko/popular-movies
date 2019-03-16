@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
@@ -112,6 +113,7 @@ public final class SearchActivity extends AppCompatActivity
                 boolean emptyAdapter = searchAdapter.isEmpty();
 
                 //if at lastItem && if morePagesAvailable && if adapter not empty
+                Log.d(TAG, Boolean.toString(lastItem) + " " + Boolean.toString(morePagesAvailable) + " " + Boolean.toString(!emptyAdapter));
                 if (lastItem && morePagesAvailable && !emptyAdapter) {
                     //load next page
                     loadNextPage(currentPage + 1);

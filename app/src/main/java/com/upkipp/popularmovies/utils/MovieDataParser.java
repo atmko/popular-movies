@@ -105,8 +105,11 @@ public class MovieDataParser {
 
             Map<String, String> newReview = new HashMap<>();
 
-            newReview.put(ReviewAdapter.REVIEW_AUTHOR_KEY, ((String) currentResult.get("author")));
-            newReview.put(ReviewAdapter.REVIEW_CONTENT_KEY, (String) currentResult.get("content"));
+            newReview.put(ApiConstants.REVIEW_AUTHOR_KEY,
+                    ((String) currentResult.get(ApiConstants.REVIEW_AUTHOR_KEY)));
+
+            newReview.put(ApiConstants.REVIEW_CONTENT_KEY,
+                    (String) currentResult.get(ApiConstants.REVIEW_CONTENT_KEY));
 
             reviews.add(newReview);
 
@@ -138,17 +141,23 @@ public class MovieDataParser {
 
             Map<String, String> newVideo = new HashMap<>();
 
-            newVideo.put("path", ((String) currentResult.get("key")));
-            newVideo.put("site", (String) currentResult.get("site"));
-            newVideo.put("type", (String) currentResult.get("type"));
-            newVideo.put("name", (String) currentResult.get("name"));
+            newVideo.put(ApiConstants.VIDEO_PATH_KEY,
+                    (String) currentResult.get(ApiConstants.VIDEO_PATH_KEY));
+
+            newVideo.put(ApiConstants.VIDEO_SITE_KEY,
+                    (String) currentResult.get(ApiConstants.VIDEO_SITE_KEY));
+
+            newVideo.put(ApiConstants.VIDEO_TYPE_KEY,
+                    (String) currentResult.get(ApiConstants.VIDEO_TYPE_KEY));
+
+            newVideo.put(ApiConstants.VIDEO_NAME_KEY,
+                    (String) currentResult.get(ApiConstants.VIDEO_NAME_KEY));
 
             videos.add(newVideo);
 
         }
 
         return videos;
-
     }
 
     public static String createVideoImagePath(String videoPath) {

@@ -25,6 +25,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.adapters.VideoAdapter;
 import com.upkipp.popularmovies.database.AppDatabase;
+import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 import com.upkipp.popularmovies.utils.network_utils.AppExecutors;
 import com.upkipp.popularmovies.view_models.DetailViewModel;
 import com.upkipp.popularmovies.view_models.DetailViewModelFactory;
@@ -326,11 +327,11 @@ public final class DetailActivity extends AppCompatActivity
     public void onReviewItemClick(int position) {
 
         Intent reviewIntent = new Intent(getApplicationContext(), ReviewActivity.class);
-        String reviewAuthor = reviewAdapter.getReviewData(position).get(ReviewAdapter.REVIEW_AUTHOR_KEY);
-        String reviewContent = reviewAdapter.getReviewData(position).get(ReviewAdapter.REVIEW_CONTENT_KEY);
+        String reviewAuthor = reviewAdapter.getReviewData(position).get(ApiConstants.REVIEW_AUTHOR_KEY);
+        String reviewContent = reviewAdapter.getReviewData(position).get(ApiConstants.REVIEW_CONTENT_KEY);
 
-        reviewIntent.putExtra(ReviewAdapter.REVIEW_AUTHOR_KEY, reviewAuthor);
-        reviewIntent.putExtra(ReviewAdapter.REVIEW_CONTENT_KEY, reviewContent);
+        reviewIntent.putExtra(ApiConstants.REVIEW_AUTHOR_KEY, reviewAuthor);
+        reviewIntent.putExtra(ApiConstants.REVIEW_CONTENT_KEY, reviewContent);
 
         startActivity(reviewIntent);
 

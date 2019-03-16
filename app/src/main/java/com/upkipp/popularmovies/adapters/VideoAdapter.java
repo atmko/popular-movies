@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.MovieDataParser;
+import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
 
 import java.util.ArrayList;
@@ -45,10 +47,12 @@ public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoA
             implements View.OnClickListener{
 
         final ImageView videoImageView;
+        final TextView videoTypeTextView;
 
         private VideoAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             videoImageView = itemView.findViewById(R.id.videoImageView);
+            videoTypeTextView = itemView.findViewById(R.id.videoTypeTextView);
 
             itemView.setOnClickListener(this);
 
@@ -78,7 +82,7 @@ public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoA
         Context context = adapterViewHolder.videoImageView.getContext();
         //get current videoData
         Map<String, String> currentVideoData = mAdapterData.get(position);
-        String path = currentVideoData.get("path");
+        String path = currentVideoData.get(ApiConstants.VIDEO_PATH_KEY);
 
         String imagePath = MovieDataParser.createVideoImagePath(path);
 
@@ -87,6 +91,9 @@ public final class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoA
                 context,
                 imagePath,
                 adapterViewHolder.videoImageView);
+
+        adapterViewHolder.videoTypeTextView
+                .setText(currentVideoData.get(ApiConstants.VIDEO_TYPE_KEY));
     }
 
     @Override

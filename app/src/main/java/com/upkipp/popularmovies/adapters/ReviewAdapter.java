@@ -19,9 +19,6 @@ public final class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.Revi
 //    private static final Object LOCK = new Object();
 //    private static ReviewAdapter sInstance;
 
-    public static final String REVIEW_AUTHOR_KEY = "author";
-    public static final String REVIEW_CONTENT_KEY = "content";
-
     private final ArrayList<Map<String, String>> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
 

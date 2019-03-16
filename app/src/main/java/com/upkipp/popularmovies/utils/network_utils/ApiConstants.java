@@ -28,4 +28,15 @@ public class ApiConstants {
     //image values
     public static final String POSTER_IMAGE_SIZE = "/w185";
     public static final String BACKDROP_IMAGE_SIZE = "/w780";
+
+    //RESULTS KEYS
+    //for videos
+    public static final String VIDEO_TYPE_KEY = "type";
+    public static final String VIDEO_PATH_KEY = "key";
+    public static final String VIDEO_NAME_KEY = "name";
+    public static final String VIDEO_SITE_KEY = "site";
+    //for reviews
+    public static final String REVIEW_AUTHOR_KEY = "author";
+    public static final String REVIEW_CONTENT_KEY = "content";
+
 }
