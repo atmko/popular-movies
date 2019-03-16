@@ -41,7 +41,6 @@ public final class SearchActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
     private final String TAG = SearchActivity.class.getSimpleName();
-    private final int columnSpan = 3;
 
     private SearchPreferences searchPreferences;
     private SearchAdapter searchAdapter;
@@ -53,14 +52,6 @@ public final class SearchActivity extends AppCompatActivity
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-
-//        ActionBar actionBar = getSupportActionBar();
-//
-//        //set action bar up(back) button
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//
-//        }
 
         defineViews();
         setupViewModel();
@@ -155,7 +146,7 @@ public final class SearchActivity extends AppCompatActivity
     }
 
     private GridLayoutManager configureLayoutManager() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, columnSpan);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.search_column_span));
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         return layoutManager;
     }

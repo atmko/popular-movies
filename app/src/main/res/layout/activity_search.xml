@@ -5,7 +5,6 @@
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/search_layout_margin"
     android:orientation="vertical"
     tools:context=".activities.SearchActivity" >
 
@@ -19,7 +18,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/searchPosterRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/search_layout_margin"
+        android:layout_marginStart="@dimen/search_layout_margin"
+        android:layout_marginRight="@dimen/search_layout_margin"
+        android:layout_marginEnd="@dimen/search_layout_margin"/>
 
 </LinearLayout>
 
