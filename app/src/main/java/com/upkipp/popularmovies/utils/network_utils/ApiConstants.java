@@ -31,7 +31,6 @@ public class ApiConstants {
     public static final String VIDEO_IMG_SIZE = "img_size";
 
     //image values
-    public static final String POSTER_IMAGE_SIZE = "/w185";
     public static final String BACKDROP_IMAGE_SIZE = "/w780";
 
     //RESULTS KEYS

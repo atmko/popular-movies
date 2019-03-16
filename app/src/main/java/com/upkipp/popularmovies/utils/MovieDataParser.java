@@ -4,6 +4,8 @@
 
 package com.upkipp.popularmovies.utils;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +26,7 @@ public class MovieDataParser {
     }
 
     @SuppressWarnings({"ConstantConditions", "unchecked"})
-    public static List<MovieData> parseData(String returnedJSONString) throws JSONException {
+    public static List<MovieData> parseData(String returnedJSONString, Context context) throws JSONException {
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
             return new ArrayList<>();
@@ -83,7 +85,9 @@ public class MovieDataParser {
 
                             (String) currentObject.get(MovieData.MovieDataKeys.OVERVIEW),
 
-                            (String) currentObject.get(MovieData.MovieDataKeys.RELEASE_DATE)
+                            (String) currentObject.get(MovieData.MovieDataKeys.RELEASE_DATE),
+
+                            context
                     );
 
             movieDataList.add(movieData);

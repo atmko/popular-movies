@@ -8,8 +8,10 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
 import java.util.List;
@@ -40,7 +42,7 @@ public class MovieData {
     public MovieData(@NonNull String id, String voteCount, boolean video, String voteAverage, String title,
                      double popularity, String posterPath, String originalLanguage,
                      String originalTitle, List<Integer> genreIds, String backdropPath,
-                     boolean adult, String overview, String releaseDate) {
+                     boolean adult, String overview, String releaseDate, Context context) {
 
         this.mId = id;
         this.mVoteCount = voteCount;
@@ -49,7 +51,7 @@ public class MovieData {
         this.mTitle = title;
         this.mPopularity = popularity;
         this.mPosterPath = ApiConstants.IMAGE_BASE_URL +
-                ApiConstants.POSTER_IMAGE_SIZE +
+                context.getResources().getString(R.string.detail_poster_size) +
                 posterPath;
         this.mOriginalLanguage = originalLanguage;
         this.mOriginalTitle = originalTitle;

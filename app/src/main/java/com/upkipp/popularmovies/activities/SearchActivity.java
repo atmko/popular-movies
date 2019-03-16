@@ -256,7 +256,8 @@ public final class SearchActivity extends AppCompatActivity
                     searchPreferences.setQueryUrlString(request.getUrl());
 
                     //parse and populate retrieved data
-                    List<MovieData> movieDataList = MovieDataParser.parseData(returnedJSONString);
+                    List<MovieData> movieDataList = MovieDataParser.parseData(returnedJSONString,
+                            SearchActivity.this);
                     searchAdapter.addAdapterData(movieDataList);
 
                 } catch (JSONException e) {

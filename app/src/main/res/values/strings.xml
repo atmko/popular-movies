@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Popular Movies</string>
 
+    <string name="detail_poster_size">/w185</string>
+
     <!--the movie db base url-->
     <string name="movie_base_url" translatable="false">https://www.themoviedb.org/movie</string>
 
