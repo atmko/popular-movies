@@ -52,6 +52,7 @@ public final class DetailActivity extends AppCompatActivity
     //index limits to truncate long text (synopsis and reviews)
     private final int overviewCutOffIndex = 262;
     public static final int REVIEW_CUT_OFF_INDEX = 85;
+
     //binding variable
     private ActivityDetailBinding mBinding;
 
@@ -65,6 +66,46 @@ public final class DetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_detail);
+
+        customizeActionBar();
+
+        //get Intent from SearchActivity
+        Intent intent = getIntent();
+        defineViews();
+
+        if (savedInstanceState == null) {
+            //if there's movie data
+            if (intent != null && intent.hasExtra(SearchActivity.SELECTED_MOVIE_KEY)) {
+                //get passed movie data from intent
+                selectedMovieData =
+                        Parcels.unwrap(intent.getParcelableExtra(SearchActivity.SELECTED_MOVIE_KEY));
+
+                setDataToViews();
+
+            } else {//if no movie data
+                //notify error
+                Snackbar.make(findViewById(R.id.topLayout),
+                        getString(R.string.detail_error_no_data_available), Snackbar.LENGTH_LONG).show();
+
+                //close activity
+                finish();
+            }
+
+        } else {//use savedInstanceState to restore values
+            selectedMovieData = Parcels.unwrap
+                    (savedInstanceState.getParcelable(SearchActivity.SELECTED_MOVIE_KEY));
+
+            assert selectedMovieData != null;
+
+            setDataToViews();
+
+        }
+
+        setupViewModelObservation();
+
+    }
+
+    private void customizeActionBar() {
         //toolbar customization
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -76,81 +117,28 @@ public final class DetailActivity extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
 
         }
-        //---------------------------------------------
-        //get Intent from SearchActivity
-        Intent intent = getIntent();
-        defineViews();
+    }
 
-        if (savedInstanceState == null) {
-            if (intent != null && intent.hasExtra(SearchActivity.SELECTED_MOVIE_KEY)) {
+    private void setDataToViews() {
+        //load images into ImageViews using glide
+        NetworkFunctions
+                .loadImage(this,
+                        selectedMovieData.getPosterPath(),
+                        mBinding.posterImageView);
 
-                selectedMovieData =
-                        Parcels.unwrap(intent.getParcelableExtra(SearchActivity.SELECTED_MOVIE_KEY));
+        //load reviews and videos
+        loadReviewsHelper(selectedMovieData.getId());
+        loadVideosHelper(selectedMovieData.getId());
 
-                //get passed values from intent
-                String movieId = selectedMovieData.getId();
-                String posterPath = selectedMovieData.getPosterPath();
-                String title = selectedMovieData.getTitle();
-                String voteAverage = selectedMovieData.getVoteAverage();
-                String releaseDate = selectedMovieData.getReleaseDate();
-                String overview = selectedMovieData.getOverview();
-
-                //load images into ImageViews using glide
-                NetworkFunctions
-                        .loadImage(this, posterPath, mBinding.posterImageView);
-
-                //load reviews and videos
-                loadReviewsHelper(movieId);
-                loadVideosHelper(movieId);
-
-                //set text in TextViews
-                mBinding.titleTextView.setText(title);
-                mBinding.voteAverageTextView.setText(voteAverage);
-                mBinding.releaseDateTextView.setText(releaseDate);
-                //use tag to store full and original text to prevent loss after limitText()
-                TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
-                overviewTextView.setTag(overview);
-                overviewTextView.setText(limitText(overviewTextView.getTag().toString(), overviewCutOffIndex));
-
-            } else {
-                //notify error
-                Snackbar.make(findViewById(R.id.topLayout),
-                        getString(R.string.detail_error_no_data_available), Snackbar.LENGTH_LONG).show();
-                finish();
-            }
-
-        } else {//use savedInstanceState to restore values
-            selectedMovieData = Parcels.unwrap
-                    (savedInstanceState.getParcelable(SearchActivity.SELECTED_MOVIE_KEY));
-
-            assert selectedMovieData != null;
-            String movieId = selectedMovieData.getId();
-            String posterPath = selectedMovieData.getPosterPath();
-            String title = selectedMovieData.getTitle();
-            String voteAverage = selectedMovieData.getVoteAverage();
-            String releaseDate = selectedMovieData.getReleaseDate();
-            String overview = selectedMovieData.getOverview();
-
-            //load images into ImageViews using glide
-            NetworkFunctions
-                    .loadImage(this, posterPath, mBinding.posterImageView);
-
-            //load reviews and videos
-            loadReviewsHelper(movieId);
-            loadVideosHelper(movieId);
-
-            //set text in TextViews
-            mBinding.titleTextView.setText(title);
-            mBinding.voteAverageTextView.setText(voteAverage);
-            mBinding.releaseDateTextView.setText(releaseDate);
-            //use tag to store full and original text to prevent loss after limitText()
-            TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
-            overviewTextView.setTag(overview);
-            overviewTextView.setText(limitText(overviewTextView.getTag().toString(),
-                    overviewCutOffIndex));
-
-        }
-
+        //set text in TextViews
+        mBinding.titleTextView.setText(selectedMovieData.getTitle());
+        mBinding.voteAverageTextView.setText(selectedMovieData.getVoteAverage());
+        mBinding.releaseDateTextView.setText(selectedMovieData.getReleaseDate());
+        //use tag to store full and original text to prevent loss after limitText()
+        TextView overviewTextView = mBinding.detailScrollView.overviewTextView;
+        overviewTextView.setTag(selectedMovieData.getOverview());
+        overviewTextView.setText(
+                limitText(overviewTextView.getTag().toString(), overviewCutOffIndex));
     }
 
     @Override
@@ -173,13 +161,53 @@ public final class DetailActivity extends AppCompatActivity
             }
         });
 
-        MovieData tempMovieData = Parcels.unwrap(getIntent().getParcelableExtra(SearchActivity.SELECTED_MOVIE_KEY));
+        //configure share button
+        mBinding.shareLinkImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareCompat.IntentBuilder
+                        /* The from method specifies the Context from which this share is coming from */
+                        .from(DetailActivity.this)
+                        .setType("text/plain")
+                        .setChooserTitle(getString(R.string.detail_share_title))
+                        .setText(NetworkFunctions
+                                .getMovieUrl(DetailActivity.this, selectedMovieData.getId()))
+                        .startChooser();
+            }
+        });
 
-        final String movieId = tempMovieData.getId();
+        //---configure RecyclerView
+        mBinding.detailScrollView.videoRecyclerView.setHasFixedSize(true);
+        mBinding.detailScrollView.reviewRecyclerView.setHasFixedSize(true);
+        //configureLayoutManager returns a LayoutManager
+        mBinding.detailScrollView.videoRecyclerView.setLayoutManager(configureLayoutManager());
+        mBinding.detailScrollView.reviewRecyclerView.setLayoutManager(configureLayoutManager());
+        //--------------
+        //disable focus
+        mBinding.detailScrollView.videoRecyclerView.setFocusable(false);
+        mBinding.detailScrollView.reviewRecyclerView.setFocusable(false);
+
+        //define video adapter
+        mVideoAdapter = new VideoAdapter(this);
+        mReviewAdapter = new ReviewAdapter(this);
+        //set adapter to RecyclerView
+        mBinding.detailScrollView.videoRecyclerView.setAdapter(mVideoAdapter);
+        mBinding.detailScrollView.reviewRecyclerView.setAdapter(mReviewAdapter);
+
+    }
+
+    private GridLayoutManager configureLayoutManager() {
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        return layoutManager;
+    }
+
+    private void setupViewModelObservation() {
         AppDatabase database = AppDatabase.getInstance(this);
 
         //configure view model
-        DetailViewModelFactory detailViewModelFactory = new DetailViewModelFactory(database, movieId);
+        DetailViewModelFactory detailViewModelFactory =
+                new DetailViewModelFactory(database, selectedMovieData.getId());
         DetailViewModel viewModel = ViewModelProviders.of(this, detailViewModelFactory)
                 .get(DetailViewModel.class);
         final LiveData<MovieData> favoriteLiveData = viewModel.getMovie();
@@ -216,45 +244,6 @@ public final class DetailActivity extends AppCompatActivity
                 }
             }
         });
-
-        //configure share button
-        mBinding.shareLinkImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShareCompat.IntentBuilder
-                        /* The from method specifies the Context from which this share is coming from */
-                        .from(DetailActivity.this)
-                        .setType("text/plain")
-                        .setChooserTitle(getString(R.string.detail_share_title))
-                        .setText(NetworkFunctions.getMovieUrl(DetailActivity.this, movieId))
-                        .startChooser();
-            }
-        });
-
-        //---configure RecyclerView
-        mBinding.detailScrollView.videoRecyclerView.setHasFixedSize(true);
-        mBinding.detailScrollView.reviewRecyclerView.setHasFixedSize(true);
-        //configureLayoutManager returns a LayoutManager
-        mBinding.detailScrollView.videoRecyclerView.setLayoutManager(configureLayoutManager());
-        mBinding.detailScrollView.reviewRecyclerView.setLayoutManager(configureLayoutManager());
-        //--------------
-        //disable focus
-        mBinding.detailScrollView.videoRecyclerView.setFocusable(false);
-        mBinding.detailScrollView.reviewRecyclerView.setFocusable(false);
-
-        //define video adapter
-        mVideoAdapter = new VideoAdapter(this);
-        mReviewAdapter = new ReviewAdapter(this);
-        //set adapter to RecyclerView
-        mBinding.detailScrollView.videoRecyclerView.setAdapter(mVideoAdapter);
-        mBinding.detailScrollView.reviewRecyclerView.setAdapter(mReviewAdapter);
-
-    }
-
-    private GridLayoutManager configureLayoutManager() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        return layoutManager;
     }
 
     private void loadReviewsHelper(String movieId) {
@@ -355,7 +344,6 @@ public final class DetailActivity extends AppCompatActivity
 
     }
 
-
     private void addToFavorites() {
         //get database instance
         final AppDatabase database = AppDatabase.getInstance(this);
@@ -395,5 +383,4 @@ public final class DetailActivity extends AppCompatActivity
             }
         });
     }
-
 }
