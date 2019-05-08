@@ -8,6 +8,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -34,6 +35,8 @@ import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
 import com.upkipp.popularmovies.utils.SearchPreferences;
 
 import org.json.JSONException;
+import org.parceler.Parcel;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -41,6 +44,7 @@ public final class SearchActivity extends AppCompatActivity
         implements SearchAdapter.OnListItemClickListener {
 
     private final String TAG = SearchActivity.class.getSimpleName();
+    public static final String SELECTED_MOVIE_KEY = "selected_movie";
 
     private SearchPreferences searchPreferences;
     private SearchAdapter searchAdapter;
@@ -158,14 +162,9 @@ public final class SearchActivity extends AppCompatActivity
         detailIntent.putExtra(DetailActivity.POSITION_KEY, position);
 
         MovieData currentMovieData = searchAdapter.getMovieData(position);
-        //paths needed to restore ImageViews on restore/rotate
-        detailIntent.putExtra(DetailActivity.ID_KEY, currentMovieData.getId());
-        detailIntent.putExtra(DetailActivity.BACKDROP_PATH_KEY, currentMovieData.getBackdropPath());
-        detailIntent.putExtra(DetailActivity.POSTER_PATH_KEY, currentMovieData.getPosterPath());
-        detailIntent.putExtra(DetailActivity.TITLE_KEY, currentMovieData.getTitle());
-        detailIntent.putExtra(DetailActivity.VOTE_AVERAGE_KEY, currentMovieData.getVoteAverage());
-        detailIntent.putExtra(DetailActivity.RELEASE_DATE_KEY, currentMovieData.getReleaseDate());
-        detailIntent.putExtra(DetailActivity.OVERVIEW_KEY, currentMovieData.getOverview());
+        Parcelable parceledMovie = Parcels.wrap(currentMovieData);
+
+        detailIntent.putExtra(SELECTED_MOVIE_KEY, parceledMovie);
 
         startActivity(detailIntent);
     }

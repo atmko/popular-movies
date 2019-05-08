@@ -77,7 +77,9 @@ public class MovieDataParser {
 
                             (String) currentObject.get(MovieData.MovieDataKeys.ORIG_TITLE),
 
-                            (List<Integer>) currentObject.get(MovieData.MovieDataKeys.GENRE_IDS),
+                            //GSON numbers default to doubles
+                            convertGenreIdsToIntegers(
+                                    (List<Double>) currentObject.get(MovieData.MovieDataKeys.GENRE_IDS)),
 
                             (String) currentObject.get(MovieData.MovieDataKeys.BACKDROP_PATH),
 
@@ -95,6 +97,16 @@ public class MovieDataParser {
         }
 
         return movieDataList;
+    }
+
+    private static List<Integer> convertGenreIdsToIntegers(List<Double> genreDoubleIds) {
+        List<Integer> genreIntegerIds = new ArrayList<>();
+
+        for (Double genreId : genreDoubleIds) {
+            genreIntegerIds.add(genreId.intValue());
+        }
+
+        return genreIntegerIds;
     }
 
     @SuppressWarnings("ConstantConditions")

@@ -39,6 +39,8 @@ import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.databinding.ActivityDetailBinding;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -47,19 +49,14 @@ public final class DetailActivity extends AppCompatActivity
 
     //intent value keys
     public static final String POSITION_KEY = "index";
-    public static final String ID_KEY = "id";
-    public static final String POSTER_PATH_KEY = "poster_path";
-    public static final String BACKDROP_PATH_KEY = "backdrop_path";
-    public static final String TITLE_KEY = "title";
-    public static final String VOTE_AVERAGE_KEY = "vote_avrg";
-    public static final String RELEASE_DATE_KEY = "release_date";
-    public static final String OVERVIEW_KEY = "overview";
-    private static final String ERROR_TEXT = MovieData.ErrorValues.STRING_ERROR;
     //index limits to truncate long text (synopsis and reviews)
     private final int overviewCutOffIndex = 262;
     public static final int REVIEW_CUT_OFF_INDEX = 85;
     //binding variable
     private ActivityDetailBinding mBinding;
+
+    private MovieData selectedMovieData;
+
     //adapters
     private VideoAdapter mVideoAdapter;
     private ReviewAdapter mReviewAdapter;
@@ -85,22 +82,22 @@ public final class DetailActivity extends AppCompatActivity
         defineViews();
 
         if (savedInstanceState == null) {
-            if (intent != null && intent.hasExtra(ID_KEY)) {
+            if (intent != null && intent.hasExtra(SearchActivity.SELECTED_MOVIE_KEY)) {
+
+                selectedMovieData =
+                        Parcels.unwrap(intent.getParcelableExtra(SearchActivity.SELECTED_MOVIE_KEY));
 
                 //get passed values from intent
-                String movieId = intent.getStringExtra(ID_KEY);
-                String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
-//                String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
-                String title = intent.getStringExtra(TITLE_KEY);
-                String voteAverage = intent.getStringExtra(VOTE_AVERAGE_KEY);
-                String releaseDate = intent.getStringExtra(RELEASE_DATE_KEY);
-                String overview = intent.getStringExtra(OVERVIEW_KEY);
+                String movieId = selectedMovieData.getId();
+                String posterPath = selectedMovieData.getPosterPath();
+                String title = selectedMovieData.getTitle();
+                String voteAverage = selectedMovieData.getVoteAverage();
+                String releaseDate = selectedMovieData.getReleaseDate();
+                String overview = selectedMovieData.getOverview();
 
                 //load images into ImageViews using glide
                 NetworkFunctions
                         .loadImage(this, posterPath, mBinding.posterImageView);
-//                NetworkFunctions
-//                        .loadImage(this, backdropPath, backdropImageView);
 
                 //load reviews and videos
                 loadReviewsHelper(movieId);
@@ -123,19 +120,20 @@ public final class DetailActivity extends AppCompatActivity
             }
 
         } else {//use savedInstanceState to restore values
-            String movieId = savedInstanceState.getString(ID_KEY, ERROR_TEXT);
-            String posterPath = savedInstanceState.getString(POSTER_PATH_KEY, ERROR_TEXT);
-//            String backdropPath = savedInstanceState.getString(BACKDROP_PATH_KEY, ERROR_TEXT);
-            String title = savedInstanceState.getString(TITLE_KEY, ERROR_TEXT);
-            String voteAverage = savedInstanceState.getString(VOTE_AVERAGE_KEY, ERROR_TEXT);
-            String releaseDate = savedInstanceState.getString(RELEASE_DATE_KEY, ERROR_TEXT);
-            String overview = savedInstanceState.getString(OVERVIEW_KEY, ERROR_TEXT);
+            selectedMovieData = Parcels.unwrap
+                    (savedInstanceState.getParcelable(SearchActivity.SELECTED_MOVIE_KEY));
+
+            assert selectedMovieData != null;
+            String movieId = selectedMovieData.getId();
+            String posterPath = selectedMovieData.getPosterPath();
+            String title = selectedMovieData.getTitle();
+            String voteAverage = selectedMovieData.getVoteAverage();
+            String releaseDate = selectedMovieData.getReleaseDate();
+            String overview = selectedMovieData.getOverview();
 
             //load images into ImageViews using glide
             NetworkFunctions
                     .loadImage(this, posterPath, mBinding.posterImageView);
-//            NetworkFunctions
-//                    .loadImage(this, backdropPath, backdropImageView);
 
             //load reviews and videos
             loadReviewsHelper(movieId);
@@ -158,24 +156,8 @@ public final class DetailActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //save TextView values
-        outState.putString(TITLE_KEY, mBinding.titleTextView.getText().toString());
-        outState.putString(VOTE_AVERAGE_KEY, mBinding.voteAverageTextView.getText().toString());
-        outState.putString(RELEASE_DATE_KEY, mBinding.releaseDateTextView.getText().toString());
-        outState.putString(OVERVIEW_KEY,
-                mBinding.detailScrollView.overviewTextView.getTag().toString());
-
-        //get values form intent
-        Intent intent = getIntent();
-        String movieId = intent.getStringExtra(ID_KEY);
-        String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
-        String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
-
-        //save id and path values
-        outState.putString(ID_KEY, movieId);
-        outState.putString(POSTER_PATH_KEY, posterPath);
-        outState.putString(BACKDROP_PATH_KEY, backdropPath);
-
+        //save MovieData object
+        outState.putParcelable(SearchActivity.SELECTED_MOVIE_KEY, Parcels.wrap(selectedMovieData));
     }
 
     //define Views
@@ -191,7 +173,9 @@ public final class DetailActivity extends AppCompatActivity
             }
         });
 
-        final String movieId = getIntent().getStringExtra(ID_KEY);
+        MovieData tempMovieData = Parcels.unwrap(getIntent().getParcelableExtra(SearchActivity.SELECTED_MOVIE_KEY));
+
+        final String movieId = tempMovieData.getId();
         AppDatabase database = AppDatabase.getInstance(this);
 
         //configure view model
@@ -246,13 +230,6 @@ public final class DetailActivity extends AppCompatActivity
                         .startChooser();
             }
         });
-
-//        upButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                NavUtils.navigateUpFromSameTask(DetailActivity.this);
-//            }
-//        });
 
         //---configure RecyclerView
         mBinding.detailScrollView.videoRecyclerView.setHasFixedSize(true);
@@ -351,7 +328,6 @@ public final class DetailActivity extends AppCompatActivity
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
-//        return true;
 
         return super.onOptionsItemSelected(item);
     }
@@ -384,22 +360,15 @@ public final class DetailActivity extends AppCompatActivity
         //get database instance
         final AppDatabase database = AppDatabase.getInstance(this);
 
-        Intent intent = getIntent();
-
-        //get values from intent
-        String movieId = intent.getStringExtra(ID_KEY);
-        String posterPath = intent.getStringExtra(POSTER_PATH_KEY);
-        String backdropPath = intent.getStringExtra(BACKDROP_PATH_KEY);
-
         //create movie date object
         final MovieData movieData =
-                new MovieData(movieId,
-                        mBinding.voteAverageTextView.getText().toString(),
-                        mBinding.titleTextView.getText().toString(),
-                        posterPath,
-                        backdropPath,
-                        mBinding.detailScrollView.overviewTextView.getTag().toString(),
-                        mBinding.releaseDateTextView.getText().toString()
+                new MovieData(selectedMovieData.getId(),
+                        selectedMovieData.getVoteAverage(),
+                        selectedMovieData.getTitle(),
+                        selectedMovieData.getPosterPath(),
+                        selectedMovieData.getBackdropPath(),
+                        selectedMovieData.getOverview(),
+                       selectedMovieData.getReleaseDate()
 
                 );
 

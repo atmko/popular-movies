@@ -14,15 +14,18 @@ import android.support.annotation.NonNull;
 import com.upkipp.popularmovies.R;
 import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 import java.util.Map;
 
+@Parcel
 @Entity(tableName = "favorites")
 public class MovieData {
 
     @PrimaryKey@NonNull
     @ColumnInfo(name = "id") private String mId;
-    @Ignore private String  mVoteCount;
+    @Ignore private String mVoteCount;
     @Ignore private boolean mVideo;
     @ColumnInfo(name = "vote_average") private String mVoteAverage;
     @ColumnInfo(name = "title") private String mTitle;
@@ -37,6 +40,12 @@ public class MovieData {
     @ColumnInfo(name = "release_date") private String mReleaseDate;
     @Ignore private List<Map<String, String>> mVideos;
     @Ignore private List<String> mReviews;
+
+    //constructor for parceler
+    @Ignore
+    public MovieData() {
+
+    }
 
     @Ignore
     public MovieData(@NonNull String id, String voteCount, boolean video, String voteAverage, String title,
