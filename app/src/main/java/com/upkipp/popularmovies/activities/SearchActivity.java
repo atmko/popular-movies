@@ -35,7 +35,6 @@ import com.upkipp.popularmovies.utils.network_utils.NetworkFunctions;
 import com.upkipp.popularmovies.utils.SearchPreferences;
 
 import org.json.JSONException;
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.List;
@@ -45,6 +44,8 @@ public final class SearchActivity extends AppCompatActivity
 
     private final String TAG = SearchActivity.class.getSimpleName();
     public static final String SELECTED_MOVIE_KEY = "selected_movie";
+    public static final String SEARCH_PREFERENCES_KEY = "search_preferences";
+    public static final String MOVIE_DATA_LIST_KEY = "movie_data_list";
 
     private SearchPreferences searchPreferences;
     private SearchAdapter searchAdapter;
@@ -54,21 +55,41 @@ public final class SearchActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        customizeActionBar();
 
         defineViews();
-        setupViewModel();
 
         if (savedInstanceState == null) {
-            //if sort value is not favorites, perform search
-            if (!searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)){
-                //execute search
-                executeMovieSearch(true);//defaults to popular movies
+            //define searchPreferences
+            searchPreferences = new SearchPreferences
+                    (SearchPreferences.SORT_BY_POPULAR, SearchPreferences.ENG_US);
 
+            //execute search
+            executeMovieSearch(true);
+
+        } else {
+            //get saved searchPreferences
+            searchPreferences = Parcels.unwrap
+                    (savedInstanceState.getParcelable(SEARCH_PREFERENCES_KEY));
+
+            //if sort value is favorites
+            if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
+                setupViewModel();
+
+            }else {
+                //get saved adapter movie list
+                List<MovieData> restoredMovieDataList = Parcels.unwrap
+                        (savedInstanceState.getParcelable(MOVIE_DATA_LIST_KEY));
+
+                //set adapter data
+                searchAdapter.addAdapterData(restoredMovieDataList);
             }
         }
+    }
 
+    private void customizeActionBar() {
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
     private void defineViews() {
@@ -120,8 +141,7 @@ public final class SearchActivity extends AppCompatActivity
         });
 
         //define search adapter and search preferences
-        searchAdapter = SearchAdapter.getInstance(this);
-        searchPreferences = SearchPreferences.getInstance();//takes api key and context
+        searchAdapter = new SearchAdapter(this);
 
         //set adapter to RecyclerView
         mSearchPosterRecyclerView.setAdapter(searchAdapter);
@@ -136,6 +156,7 @@ public final class SearchActivity extends AppCompatActivity
             searchPreferences.setTargetPage(1);
         }
 
+        //execute search
         presetMovieSearch();
     }
 
@@ -163,8 +184,10 @@ public final class SearchActivity extends AppCompatActivity
 
         MovieData currentMovieData = searchAdapter.getMovieData(position);
         Parcelable parceledMovie = Parcels.wrap(currentMovieData);
+        Parcelable parceledPreferences = Parcels.wrap(searchPreferences);
 
         detailIntent.putExtra(SELECTED_MOVIE_KEY, parceledMovie);
+        detailIntent.putExtra(SEARCH_PREFERENCES_KEY, parceledPreferences);
 
         startActivity(detailIntent);
     }
@@ -227,16 +250,12 @@ public final class SearchActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable List<MovieData> movieData) {
                 Log.d(TAG, "Receiving favorites from LiveData in ViewModel");
-                //prevents bug i.e clearing adapter for other sort values
 
-                if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
-                    searchAdapter.clearData();
+                searchAdapter.clearData();
 
-                    //check null
-                    if (movieData != null) {
-                        searchAdapter.addAdapterData(movieData);
-
-                    }
+                //check null
+                if (movieData != null) {
+                    searchAdapter.addAdapterData(movieData);
                 }
             }
         });
@@ -245,7 +264,7 @@ public final class SearchActivity extends AppCompatActivity
     private void presetMovieSearch() {
 
         //build AN request
-        final ANRequest request = NetworkFunctions.buildSearchRequest();
+        final ANRequest request = NetworkFunctions.buildSearchRequest(searchPreferences);
 
         request.getAsString(new StringRequestListener() {
             @Override
@@ -256,7 +275,8 @@ public final class SearchActivity extends AppCompatActivity
 
                     //parse and populate retrieved data
                     List<MovieData> movieDataList = MovieDataParser.parseData(returnedJSONString,
-                            SearchActivity.this);
+                            SearchActivity.this, searchPreferences);
+
                     searchAdapter.addAdapterData(movieDataList);
 
                 } catch (JSONException e) {
@@ -274,4 +294,11 @@ public final class SearchActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(SEARCH_PREFERENCES_KEY, Parcels.wrap(searchPreferences));
+        outState.putParcelable(MOVIE_DATA_LIST_KEY, Parcels.wrap(searchAdapter.getMovieDataList()));
+    }
 }

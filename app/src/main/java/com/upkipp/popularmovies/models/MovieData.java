@@ -24,22 +24,22 @@ import java.util.Map;
 public class MovieData {
 
     @PrimaryKey@NonNull
-    @ColumnInfo(name = "id") private String mId;
-    @Ignore private String mVoteCount;
-    @Ignore private boolean mVideo;
-    @ColumnInfo(name = "vote_average") private String mVoteAverage;
-    @ColumnInfo(name = "title") private String mTitle;
-    @Ignore private double mPopularity;
-    @ColumnInfo(name = "poster_path")  private String mPosterPath;
-    @Ignore private String mOriginalLanguage;
-    @Ignore private String mOriginalTitle;
-    @Ignore private List<Integer> mGenreIds;
-    @ColumnInfo(name = "backdrop_path")  private String mBackdropPath;
-    @Ignore private boolean mAdult;
-    @ColumnInfo(name = "overview") private String mOverview;
-    @ColumnInfo(name = "release_date") private String mReleaseDate;
-    @Ignore private List<Map<String, String>> mVideos;
-    @Ignore private List<String> mReviews;
+    @ColumnInfo(name = "id") String mId;
+    @Ignore String mVoteCount;
+    @Ignore boolean mVideo;
+    @ColumnInfo(name = "vote_average") String mVoteAverage;
+    @ColumnInfo(name = "title") String mTitle;
+    @Ignore double mPopularity;
+    @ColumnInfo(name = "poster_path")  String mPosterPath;
+    @Ignore String mOriginalLanguage;
+    @Ignore String mOriginalTitle;
+    @Ignore List<Integer> mGenreIds;
+    @ColumnInfo(name = "backdrop_path")  String mBackdropPath;
+    @Ignore boolean mAdult;
+    @ColumnInfo(name = "overview") String mOverview;
+    @ColumnInfo(name = "release_date") String mReleaseDate;
+    @Ignore List<Map<String, String>> mVideos;
+    @Ignore List<String> mReviews;
 
     //constructor for parceler
     @Ignore
@@ -213,7 +213,4 @@ public class MovieData {
         this.mReleaseDate = releaseDate;
     }
 
-    //    public void setVideos(List<Map<String, String>> videoList) {
-//        mVideos = videoList;
-//    }
 }

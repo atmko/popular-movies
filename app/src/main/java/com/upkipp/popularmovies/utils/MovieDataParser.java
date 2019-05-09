@@ -26,7 +26,9 @@ public class MovieDataParser {
     }
 
     @SuppressWarnings({"ConstantConditions", "unchecked"})
-    public static List<MovieData> parseData(String returnedJSONString, Context context) throws JSONException {
+    public static List<MovieData> parseData(String returnedJSONString, Context context,
+                                            SearchPreferences searchPreferences) throws JSONException {
+
         //skips code below if returnedJSONString null or empty
         if (returnedJSONString == null || returnedJSONString.equals("")){
             return new ArrayList<>();
@@ -41,7 +43,6 @@ public class MovieDataParser {
         Double totalPages = (double) returnedMap.get(MovieData.MovieDataKeys.TOTAL_PAGES_KEY);
         Double currentPage = (double) returnedMap.get(MovieData.MovieDataKeys.CURRENT_PAGE_KEY);
 
-        SearchPreferences searchPreferences = SearchPreferences.getInstance();
         searchPreferences.setTotalPages(totalPages.intValue());
         searchPreferences.setCurrentPage(currentPage.intValue());
 

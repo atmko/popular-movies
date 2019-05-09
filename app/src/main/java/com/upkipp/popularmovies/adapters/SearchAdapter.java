@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchAdapterViewHolder> {
-    //singleton variables
-    private static final Object LOCK = new Object();
-    private static SearchAdapter sInstance;
-
     private final List<MovieData> mAdapterData;
     private final OnListItemClickListener mOnListItemClickListener;
     private final boolean mUseFirstLayout;
@@ -34,20 +30,11 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
     @SuppressWarnings("FieldCanBeLocal")
     private final int STANDARD_LAYOUT_ID = 3;
 
-    private SearchAdapter(OnListItemClickListener clickListener) {
+    public SearchAdapter(OnListItemClickListener clickListener) {
         mOnListItemClickListener = clickListener;
         Context context = (Context) clickListener;
         mUseFirstLayout = context.getResources().getBoolean(R.bool.use_first_result_layout);
         mAdapterData = new ArrayList<>();
-    }
-
-    public static SearchAdapter getInstance(@Nullable OnListItemClickListener clickListener) {
-        if (sInstance == null) {
-            synchronized (LOCK) {
-                sInstance = new SearchAdapter(clickListener);
-            }
-        }
-        return sInstance;
     }
 
     public interface OnListItemClickListener {
@@ -187,6 +174,10 @@ public final class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Sear
 
     public MovieData getMovieData(int index) {
         return mAdapterData.get(index);
+    }
+
+    public List<MovieData> getMovieDataList() {
+        return mAdapterData;
     }
 
     //clears and updates adapterData

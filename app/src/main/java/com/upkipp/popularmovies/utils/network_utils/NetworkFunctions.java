@@ -18,9 +18,7 @@ import com.upkipp.popularmovies.utils.SearchPreferences;
 @SuppressWarnings("UnnecessaryLocalVariable")
 public final class NetworkFunctions {
 
-    public static ANRequest buildSearchRequest() {
-        SearchPreferences searchPreferences = SearchPreferences.getInstance();
-//
+    public static ANRequest buildSearchRequest(SearchPreferences searchPreferences) {
         //build request using Fast Android Networking
         //format: "https://{base_url}/{sort}{api_query_key}{api_key_val}{lang_query_key}{lang_val}{page_query}{page_val}"
         ANRequest request = AndroidNetworking.get(ApiConstants.SEARCH_FORMAT)
@@ -47,7 +45,7 @@ public final class NetworkFunctions {
                 .into(imageView);
     }
 
-    public static ANRequest loadVideos(String movieId) {
+    public static ANRequest loadVideos(String movieId, SearchPreferences searchPreferences) {
 //        String videoUrl = SearchPreferences.PRESET_BASE_URL + formatANNKey(MOVIE_PARAM_KEY) + "/videos" +
 //                SearchPreferences.API_QUERY_FORMAT + SearchPreferences.API_PLACEHOLDER_FORMAT;
 
@@ -57,14 +55,14 @@ public final class NetworkFunctions {
                 .addPathParameter(ApiConstants.MOVIE_ID_KEY, movieId)
                 .addPathParameter(ApiConstants.API_KEY_KEY, ApiConstants.API_KEY)
                 .addPathParameter(ApiConstants.LANG_KEY,
-                        SearchPreferences.getInstance().getLanguageValue())
+                        searchPreferences.getLanguageValue())
                 .build();
 
         return request;
 
     }
 
-    public static ANRequest loadReviews(String movieId) {
+    public static ANRequest loadReviews(String movieId, SearchPreferences searchPreferences) {
 //        String reviewUrl = SearchPreferences.PRESET_BASE_URL + formatANNKey(MOVIE_PARAM_KEY) + "/reviews" +
 //                SearchPreferences.API_QUERY_FORMAT + SearchPreferences.API_PLACEHOLDER_FORMAT;
 
@@ -74,7 +72,7 @@ public final class NetworkFunctions {
                 .addPathParameter(ApiConstants.MOVIE_ID_KEY, movieId)
                 .addPathParameter(ApiConstants.API_KEY_KEY, ApiConstants.API_KEY)
                 .addPathParameter(ApiConstants.LANG_KEY,
-                        SearchPreferences.getInstance().getLanguageValue())
+                        searchPreferences.getLanguageValue())
                 .build();
 
         return request;

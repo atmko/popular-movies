@@ -29,6 +29,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import com.upkipp.popularmovies.adapters.ReviewAdapter;
 import com.upkipp.popularmovies.adapters.VideoAdapter;
 import com.upkipp.popularmovies.databases.AppDatabase;
+import com.upkipp.popularmovies.utils.SearchPreferences;
 import com.upkipp.popularmovies.utils.network_utils.ApiConstants;
 import com.upkipp.popularmovies.utils.network_utils.AppExecutors;
 import com.upkipp.popularmovies.view_models.DetailViewModel;
@@ -56,6 +57,7 @@ public final class DetailActivity extends AppCompatActivity
     //binding variable
     private ActivityDetailBinding mBinding;
 
+    private SearchPreferences searchPreferences;
     private MovieData selectedMovieData;
 
     //adapters
@@ -77,6 +79,8 @@ public final class DetailActivity extends AppCompatActivity
             //if there's movie data
             if (intent != null && intent.hasExtra(SearchActivity.SELECTED_MOVIE_KEY)) {
                 //get passed movie data from intent
+                searchPreferences =
+                        Parcels.unwrap(intent.getParcelableExtra(SearchActivity.SEARCH_PREFERENCES_KEY));
                 selectedMovieData =
                         Parcels.unwrap(intent.getParcelableExtra(SearchActivity.SELECTED_MOVIE_KEY));
 
@@ -92,6 +96,8 @@ public final class DetailActivity extends AppCompatActivity
             }
 
         } else {//use savedInstanceState to restore values
+            searchPreferences = Parcels.unwrap
+                    (savedInstanceState.getParcelable(SearchActivity.SEARCH_PREFERENCES_KEY));
             selectedMovieData = Parcels.unwrap
                     (savedInstanceState.getParcelable(SearchActivity.SELECTED_MOVIE_KEY));
 
@@ -145,6 +151,7 @@ public final class DetailActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //save MovieData object
+        outState.putParcelable(SearchActivity.SEARCH_PREFERENCES_KEY, Parcels.wrap(searchPreferences));
         outState.putParcelable(SearchActivity.SELECTED_MOVIE_KEY, Parcels.wrap(selectedMovieData));
     }
 
@@ -247,7 +254,7 @@ public final class DetailActivity extends AppCompatActivity
     }
 
     private void loadReviewsHelper(String movieId) {
-        NetworkFunctions.loadReviews(movieId).getAsString(new StringRequestListener() {
+        NetworkFunctions.loadReviews(movieId, searchPreferences).getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
                 ArrayList<Map<String, String>> reviewList = MovieDataParser.parseReviews(response);
@@ -262,7 +269,7 @@ public final class DetailActivity extends AppCompatActivity
     }
 
     private void loadVideosHelper(String movieId) {
-        NetworkFunctions.loadVideos(movieId).getAsString(new StringRequestListener() {
+        NetworkFunctions.loadVideos(movieId, searchPreferences).getAsString(new StringRequestListener() {
             @Override
             public void onResponse(String response) {
                 ArrayList<Map<String, String>> videoList = MovieDataParser.parseVideos(response);
