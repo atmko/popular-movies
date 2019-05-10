@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--universals-->
-    <dimen name="standard_margin">8dp</dimen>
+    <!--margins-->
+    <dimen name="standard_layout_margin">8dp</dimen>
     <dimen name="double_layout_margin">16dp</dimen>
 
-    <!--searchActivity-->
-    <!--margins-->
-    <dimen name="search_layout_margin">8dp</dimen>
     <!--view dimensions-->
     <dimen name="search_poster_height">150dp</dimen>
 
     <!--detailActivity-->
-    <!--margins-->
-    <dimen name="detail_layout_margin">16dp</dimen>
-    <dimen name="detail_info_card_item_margin">8dp</dimen>
-
     <dimen name="detail_review_body_margin_top">5dp</dimen>
-    <dimen name="detail_review_item_layout_margin">8dp</dimen>
 
     <!--text sizes-->
     <dimen name="detail_title_text_size">16sp</dimen>

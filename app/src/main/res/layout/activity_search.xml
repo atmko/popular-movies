@@ -14,10 +14,10 @@
         android:id="@+id/searchPosterRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/search_layout_margin"
-        android:layout_marginStart="@dimen/search_layout_margin"
-        android:layout_marginRight="@dimen/search_layout_margin"
-        android:layout_marginEnd="@dimen/search_layout_margin"/>
+        android:layout_marginLeft="@dimen/standard_layout_margin"
+        android:layout_marginStart="@dimen/standard_layout_margin"
+        android:layout_marginRight="@dimen/standard_layout_margin"
+        android:layout_marginEnd="@dimen/standard_layout_margin"/>
 
 </LinearLayout>
 

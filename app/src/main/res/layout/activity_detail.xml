@@ -34,7 +34,7 @@
                             android:id="@+id/posterImageView"
                             android:layout_width="@dimen/detail_poster_width"
                             android:layout_height="@dimen/detail_poster_height"
-                            android:layout_margin="@dimen/detail_layout_margin"
+                            android:layout_margin="@dimen/double_layout_margin"
                             android:contentDescription="@string/poster_description"
                             android:scaleType="centerCrop"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,11 +49,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginStart="@dimen/detail_info_card_item_margin"
-                            android:layout_marginLeft="@dimen/detail_info_card_item_margin"
-                            android:layout_marginTop="@dimen/detail_info_card_item_margin"
-                            android:layout_marginEnd="@dimen/detail_info_card_item_margin"
-                            android:layout_marginRight="@dimen/detail_info_card_item_margin"
+                            android:layout_marginStart="@dimen/standard_layout_margin"
+                            android:layout_marginLeft="@dimen/standard_layout_margin"
+                            android:layout_marginTop="@dimen/standard_layout_margin"
+                            android:layout_marginEnd="@dimen/standard_layout_margin"
+                            android:layout_marginRight="@dimen/standard_layout_margin"
                             android:singleLine="false"
                             android:textAlignment="center"
                             android:textSize="@dimen/detail_title_text_size"
@@ -67,7 +67,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/detail_info_card_item_margin"
+                            android:layout_marginTop="@dimen/standard_layout_margin"
                             android:fontFamily="sans-serif-black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textSize="@dimen/detail_rating_text_size"
@@ -82,7 +82,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/standard_margin"
+                            android:layout_marginTop="@dimen/standard_layout_margin"
                             android:fontFamily="sans-serif-condensed-light"
                             android:textSize="@dimen/detail_release_date_text_size"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -96,22 +96,22 @@
                             layout="@layout/share_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/standard_margin"
-                            app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
+                            android:layout_marginTop="@dimen/standard_layout_margin"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.345"
-                            app:layout_constraintStart_toEndOf="@+id/posterImageView" />
+                            app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                            app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView" />
 
                         <include
                             android:id="@+id/favorite_button"
                             layout="@layout/favorite_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/standard_margin"
-                            app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
+                            android:layout_marginTop="@dimen/standard_layout_margin"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.649"
-                            app:layout_constraintStart_toEndOf="@+id/posterImageView" />
+                            app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                            app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView" />
 
                     </android.support.constraint.ConstraintLayout>
 

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/detail_review_card_width"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/detail_layout_margin"
-    android:layout_marginLeft="@dimen/detail_layout_margin"
-    android:layout_marginBottom="@dimen/detail_layout_margin"
+    android:layout_marginStart="@dimen/double_layout_margin"
+    android:layout_marginLeft="@dimen/double_layout_margin"
+    android:layout_marginBottom="@dimen/double_layout_margin"
     app:cardCornerRadius="@dimen/detail_review_card_corner_radius"
     app:cardBackgroundColor="@color/detail_review_card_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/detail_review_item_layout_margin"
+        android:layout_margin="@dimen/standard_layout_margin"
         android:orientation="vertical">
 
         <TextView
