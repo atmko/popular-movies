@@ -95,44 +95,25 @@
                         app:layout_constraintTop_toBottomOf="@+id/titleTextView"
                         tools:text="release date" />
 
-                    <ImageView
-                        android:id="@+id/shareLinkImageView"
-                        android:layout_width="@dimen/detail_fav_button_width"
-                        android:layout_height="@dimen/detail_fav_button_height"
-                        android:layout_margin="@dimen/detail_info_card_item_margin"
-                        android:layout_marginStart="@dimen/detail_info_card_item_margin"
-                        android:layout_marginLeft="@dimen/detail_info_card_item_margin"
-                        android:layout_marginTop="@dimen/detail_info_card_item_margin"
-                        android:layout_marginEnd="@dimen/detail_info_card_item_margin"
-                        android:layout_marginRight="@dimen/detail_info_card_item_margin"
-                        android:layout_marginBottom="@dimen/detail_info_card_item_margin"
-                        android:background="@null"
-                        android:contentDescription="@string/detail_fav_button_content_description"
-                        android:src="@android:drawable/ic_menu_share"
-                        android:tag="add favorite"
-                        app:layout_constraintBottom_toTopOf="@+id/saveFavoriteImageView"
+                    <include
+                        android:id="@+id/share_button"
+                        layout="@layout/share_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/standard_margin"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/posterImageView"
                         app:layout_constraintTop_toBottomOf="@+id/voteAverageTextView" />
 
-
-                    <ImageView
-                        android:id="@+id/saveFavoriteImageView"
-                        android:layout_width="@dimen/detail_fav_button_width"
-                        android:layout_height="@dimen/detail_fav_button_height"
-                        android:layout_margin="@dimen/detail_layout_margin"
-                        android:layout_marginStart="@dimen/detail_info_card_item_margin"
-                        android:layout_marginLeft="@dimen/detail_info_card_item_margin"
-                        android:layout_marginEnd="@dimen/detail_info_card_item_margin"
-                        android:layout_marginRight="@dimen/detail_info_card_item_margin"
-                        android:layout_marginBottom="@dimen/detail_info_card_item_margin"
-                        android:background="@null"
-                        android:contentDescription="@string/detail_fav_button_content_description"
-                        android:src="@drawable/fav_off"
-                        android:tag="add favorite"
-                        app:layout_constraintBottom_toBottomOf="@+id/posterImageView"
+                    <include
+                        android:id="@+id/favorite_button"
+                        layout="@layout/favorite_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/standard_margin"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/posterImageView" />
+                        app:layout_constraintStart_toEndOf="@+id/posterImageView"
+                        app:layout_constraintTop_toBottomOf="@+id/share_button" />
 
                 </android.support.constraint.ConstraintLayout>
 

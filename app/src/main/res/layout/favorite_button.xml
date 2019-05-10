@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/saveFavoriteImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/detail_info_card_item_margin"
+        android:layout_marginLeft="@dimen/detail_info_card_item_margin"
+        android:layout_marginEnd="@dimen/detail_info_card_item_margin"
+        android:layout_marginRight="@dimen/detail_info_card_item_margin"
+        android:layout_marginBottom="@dimen/detail_info_card_item_margin"
+        android:background="@null"
+        android:contentDescription="@string/detail_fav_button_content_description"
+        android:src="@drawable/fav_off"
+        android:tag="@string/detail_add_favorite" />
+
+</layout>

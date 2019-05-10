@@ -3,6 +3,7 @@
 
     <!--universals-->
     <dimen name="standard_margin">8dp</dimen>
+    <dimen name="double_layout_margin">16dp</dimen>
 
     <!--searchActivity-->
     <!--margins-->

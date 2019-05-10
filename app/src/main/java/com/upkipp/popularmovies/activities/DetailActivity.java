@@ -169,7 +169,7 @@ public final class DetailActivity extends AppCompatActivity
         });
 
         //configure share button
-        mBinding.shareLinkImageView.setOnClickListener(new View.OnClickListener() {
+        mBinding.shareButton.shareLinkImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShareCompat.IntentBuilder
@@ -224,27 +224,27 @@ public final class DetailActivity extends AppCompatActivity
             public void onChanged(@Nullable MovieData movieData) {
                 //update favorite icon/button in real time
                 if (movieData == null) {
-                    mBinding.saveFavoriteImageView.setTag(getString(R.string.detail_add_favorite));
-                    mBinding.saveFavoriteImageView
+                    mBinding.favoriteButton.saveFavoriteImageView.setTag(getString(R.string.detail_add_favorite));
+                    mBinding.favoriteButton.saveFavoriteImageView
                             .setImageDrawable(getResources().getDrawable(R.drawable.fav_off));
                 }else {
-                    mBinding.saveFavoriteImageView.setTag(getString(R.string.detail_remove_favorite));
-                    mBinding.saveFavoriteImageView
+                    mBinding.favoriteButton.saveFavoriteImageView.setTag(getString(R.string.detail_remove_favorite));
+                    mBinding.favoriteButton.saveFavoriteImageView
                             .setImageDrawable(getResources().getDrawable(R.drawable.fav_on));
                 }
             }
         });
 
         //configure favorite button
-        mBinding.saveFavoriteImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                mBinding.favoriteButton.saveFavoriteImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                if (mBinding.saveFavoriteImageView.getTag().toString().equals(getString(R.string.detail_add_favorite))) {
+                if (mBinding.favoriteButton.saveFavoriteImageView.getTag().toString().equals(getString(R.string.detail_add_favorite))) {
                     addToFavorites();
                     Snackbar.make(findViewById(R.id.topLayout),
                             getString(R.string.detail_add_favorite_message), Snackbar.LENGTH_LONG).show();
-                } else if (mBinding.saveFavoriteImageView.getTag().toString().equals(getString(R.string.detail_remove_favorite))) {
+                } else if (mBinding.favoriteButton.saveFavoriteImageView.getTag().toString().equals(getString(R.string.detail_remove_favorite))) {
                     deleteFavorite(favoriteLiveData.getValue());
                     Snackbar.make(findViewById(R.id.topLayout),
                             getString(R.string.detail_remove_favorite_message), Snackbar.LENGTH_LONG).show();

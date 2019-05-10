@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/shareLinkImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/detail_info_card_item_margin"
+        android:layout_marginLeft="@dimen/detail_info_card_item_margin"
+        android:layout_marginStart="@dimen/detail_info_card_item_margin"
+        android:layout_marginRight="@dimen/detail_info_card_item_margin"
+        android:layout_marginEnd="@dimen/detail_info_card_item_margin"
+        android:layout_marginBottom="@dimen/detail_info_card_item_margin"
+        android:contentDescription="@string/detail_fav_button_content_description"
+        android:src="@android:drawable/ic_menu_share" />
+
+</layout>
