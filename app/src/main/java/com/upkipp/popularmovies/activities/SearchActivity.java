@@ -251,11 +251,21 @@ public final class SearchActivity extends AppCompatActivity
             public void onChanged(@Nullable List<MovieData> movieData) {
                 Log.d(TAG, "Receiving favorites from LiveData in ViewModel");
 
-                searchAdapter.clearData();
+                //prevents bug i.e clearing adapter for other sort values
+                if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
+                    searchAdapter.clearData();
 
-                //check null
-                if (movieData != null) {
-                    searchAdapter.addAdapterData(movieData);
+                    //check null
+                    if (movieData != null) {
+                        if (movieData.size() == 0){
+                            //show empty favorites message
+                            Snackbar.make(findViewById(R.id.topLayout),
+                                    getString(R.string.search_no_favorites),
+                                    Snackbar.LENGTH_LONG).show();
+                        } else {
+                            searchAdapter.addAdapterData(movieData);
+                        }
+                    }
                 }
             }
         });
