@@ -37,7 +37,8 @@
     <string name="detail_add_favorite" translatable="false">add favorite</string>
     <string name="detail_remove_favorite" translatable="false">remove favorite</string>
     <!--snackbar messages-->
-    <string name="detail_add_favorite_message">added from favorites</string>
+    <string name="search_no_favorites">no favorites</string>
+    <string name="detail_add_favorite_message">added to favorites</string>
     <string name="detail_remove_favorite_message">removed from favorites</string>
 
     <!--ERROR VALUES-->
