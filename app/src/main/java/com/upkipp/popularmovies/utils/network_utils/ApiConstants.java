@@ -12,6 +12,8 @@ public class ApiConstants {
 
     //URLS
     private static final String BASE_URL = "https://api.themoviedb.org/3/movie";
+    private static final String SEARCH_BASE_URL = "https://api.themoviedb.org/3/search/movie";
+    public static final String MOVIE_SEARCH_FORMAT = SEARCH_BASE_URL + "/?api_key={api_key}&language={lang}&query={query}&page={page}";
     public static final String SEARCH_FORMAT = BASE_URL + "/{sort}?api_key={api_key}&language={lang}&page={page}";
     public static final String REVIEWS_URL_FORMAT = BASE_URL + "/{movie_id}/reviews?api_key={api_key}&language={lang}";
     public static final String VIDEOS_URL_FORMAT = BASE_URL + "/{movie_id}/videos?api_key={api_key}&language={lang}";
@@ -25,6 +27,7 @@ public class ApiConstants {
     public static final String API_KEY_KEY = "api_key";
     public static final String MOVIE_ID_KEY = "movie_id";
     public static final String LANG_KEY = "lang";
+    public static final String  QUERY_KEY = "query";
     public static final String PAGE_KEY = "page";
     public static final String SORT_KEY = "sort";
     public static final String VIDEO_IMG_KEY = "video_id";

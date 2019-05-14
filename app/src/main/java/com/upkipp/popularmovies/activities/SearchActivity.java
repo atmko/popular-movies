@@ -7,6 +7,7 @@ package com.upkipp.popularmovies.activities;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -19,9 +20,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.error.ANError;
@@ -46,9 +52,14 @@ public final class SearchActivity extends AppCompatActivity
     public static final String SELECTED_MOVIE_KEY = "selected_movie";
     public static final String SEARCH_PREFERENCES_KEY = "search_preferences";
     public static final String MOVIE_DATA_LIST_KEY = "movie_data_list";
+    private static final String QUERY_STRING_KEY = "query_string";
+    private static final String SHOW_SEARCH_BOX_KEY = "show_search_box";
 
     private SearchPreferences searchPreferences;
     private SearchAdapter searchAdapter;
+
+    //search box
+    private EditText searchTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +82,16 @@ public final class SearchActivity extends AppCompatActivity
             //get saved searchPreferences
             searchPreferences = Parcels.unwrap
                     (savedInstanceState.getParcelable(SEARCH_PREFERENCES_KEY));
+
+            //restore saved values
+            boolean showSearchBox = savedInstanceState.getBoolean(SHOW_SEARCH_BOX_KEY);
+            String queryString = savedInstanceState.getString(QUERY_STRING_KEY, "");
+
+            //show search bi=ox if true
+            if (showSearchBox) {
+                searchTextView.setVisibility(View.VISIBLE);
+                searchTextView.setText(queryString);
+            }
 
             //if sort value is favorites
             if (searchPreferences.getSortValue().equals(SearchPreferences.SORT_BY_FAVORITES)) {
@@ -145,6 +166,27 @@ public final class SearchActivity extends AppCompatActivity
 
         //set adapter to RecyclerView
         mSearchPosterRecyclerView.setAdapter(searchAdapter);
+
+        //define search box
+        searchTextView = findViewById(R.id.search_text_view);
+
+        //configure search box action event
+        searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                //set sort parameter
+                //note: setting parameter here is preferred instead of "on show search button" clicked
+                searchPreferences.setSortParameter(SearchPreferences.SEARCH);
+
+                hideSoftKeyboard(searchTextView);
+
+                //set focus to top layout(away from search box)
+                findViewById(R.id.topLayout).requestFocus();
+
+                executeMovieSearch(true);
+                return true;
+            }
+        });
     }
 
     private void executeMovieSearch(boolean newSearch) {
@@ -156,8 +198,12 @@ public final class SearchActivity extends AppCompatActivity
             searchPreferences.setTargetPage(1);
         }
 
-        //execute search
-        presetMovieSearch();
+        //if sort value is "search"
+        if (searchPreferences.getSortValue().equals(SearchPreferences.SEARCH)) {
+            querySearch(searchTextView.getText().toString());
+        } else {
+            presetMovieSearch();
+        }
     }
 
     private void loadNextPage(int newTargetPage) {
@@ -204,6 +250,11 @@ public final class SearchActivity extends AppCompatActivity
         popularityItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                //hide search box
+                searchTextView.setVisibility(View.GONE);
+                //clear text
+                searchTextView.setText("");
+
                 //SHOW POPULAR
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_POPULAR);
                 //execute search
@@ -218,6 +269,11 @@ public final class SearchActivity extends AppCompatActivity
         ratingItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                //hide search box
+                searchTextView.setVisibility(View.GONE);
+                //clear text
+                searchTextView.setText("");
+
                 //SHOW TOP RATED
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_TOP_RATED);
                 //execute search
@@ -232,10 +288,30 @@ public final class SearchActivity extends AppCompatActivity
         favoritesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                //hide search box
+                searchTextView.setVisibility(View.GONE);
+                //clear text
+                searchTextView.setText("");
+
                 //SHOW FAVORITES
                 searchPreferences.setSortParameter(SearchPreferences.SORT_BY_FAVORITES);
                 //setup view model
                 setupViewModel();
+                return true;
+            }
+        });
+
+        //get menu item
+        MenuItem searchItem = menu.findItem(R.id.search);
+        //set click listener
+        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //show search box
+                searchTextView.setVisibility(View.VISIBLE);
+                //show keyboard
+                showSoftKeyboard(searchTextView);
+
                 return true;
             }
         });
@@ -271,10 +347,43 @@ public final class SearchActivity extends AppCompatActivity
         });
     }
 
+    public void querySearch(String queryString) {
+
+        //build AN request
+        final ANRequest request
+                = NetworkFunctions.buildSearchMovieRequest(searchPreferences, queryString);
+
+        request.getAsString(new StringRequestListener() {
+            @Override
+            public void onResponse(String returnedJSONString) {
+                try {
+                    //set current url string path
+                    searchPreferences.setQueryUrlString(request.getUrl());
+
+                    //parse and populate retrieved data
+                    List<MovieData> movieDataList = MovieDataParser.parseData(returnedJSONString,
+                            SearchActivity.this, searchPreferences);
+
+                    searchAdapter.addAdapterData(movieDataList);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                //notify error
+                Snackbar.make(findViewById(R.id.topLayout),
+                        anError.getErrorDetail(), Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void presetMovieSearch() {
 
         //build AN request
-        final ANRequest request = NetworkFunctions.buildSearchRequest(searchPreferences);
+        final ANRequest request = NetworkFunctions.buildPresetMovieSearchRequest(searchPreferences);
 
         request.getAsString(new StringRequestListener() {
             @Override
@@ -304,11 +413,38 @@ public final class SearchActivity extends AppCompatActivity
         });
     }
 
+    public void showSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+    public void hideSoftKeyboard(View view) {
+        if (view.requestFocus()) {
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(SEARCH_PREFERENCES_KEY, Parcels.wrap(searchPreferences));
         outState.putParcelable(MOVIE_DATA_LIST_KEY, Parcels.wrap(searchAdapter.getMovieDataList()));
+
+        //save query string
+        outState.putString(QUERY_STRING_KEY, searchTextView.getText().toString());
+
+        //save keyboard visibility state
+        if (searchTextView.getVisibility() == View.VISIBLE) {
+            outState.putBoolean(SHOW_SEARCH_BOX_KEY, true);
+
+        } else {
+            outState.putBoolean(SHOW_SEARCH_BOX_KEY, false);
+        }
     }
 }

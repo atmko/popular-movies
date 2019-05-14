@@ -4,20 +4,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/popular_movies"
+        android:id="@+id/search"
         android:orderInCategory="1"
+        android:title="@string/menu_search_title"
+        android:icon="@android:drawable/ic_search_category_default"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/popular_movies"
+        android:orderInCategory="2"
         android:title="@string/menu_popular_title"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/top_rated_movies"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/menu_top_rated_title"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/favorite_movies"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="@string/menu_favorites_title"
         app:showAsAction="never"/>
 

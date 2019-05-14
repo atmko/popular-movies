@@ -7,6 +7,7 @@
     <string name="movie_base_url" translatable="false">https://www.themoviedb.org/movie</string>
 
     <!--MENU LABELS-->
+    <string name="menu_search_title">search</string>
     <string name="menu_popular_title">most popular movies</string>
     <string name="menu_top_rated_title">top rated movies</string>
     <string name="menu_favorites_title">favorite movies</string>

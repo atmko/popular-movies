@@ -17,14 +17,27 @@ import com.upkipp.popularmovies.utils.SearchPreferences;
 
 @SuppressWarnings("UnnecessaryLocalVariable")
 public final class NetworkFunctions {
-
-    public static ANRequest buildSearchRequest(SearchPreferences searchPreferences) {
+    //preset movie search request
+    public static ANRequest buildPresetMovieSearchRequest(SearchPreferences searchPreferences) {
         //build request using Fast Android Networking
         //format: "https://{base_url}/{sort}{api_query_key}{api_key_val}{lang_query_key}{lang_val}{page_query}{page_val}"
         ANRequest request = AndroidNetworking.get(ApiConstants.SEARCH_FORMAT)
                 .addPathParameter(ApiConstants.SORT_KEY, searchPreferences.getSortValue())
                 .addQueryParameter(ApiConstants.API_KEY_KEY, ApiConstants.API_KEY)
                 .addQueryParameter(ApiConstants.LANG_KEY, searchPreferences.getLanguageValue())
+                .addQueryParameter(ApiConstants.PAGE_KEY, String.valueOf(searchPreferences.getTargetPage()))
+                .build();
+
+        return request;
+    }
+
+    //movie search request
+    public static ANRequest buildSearchMovieRequest(SearchPreferences searchPreferences, String queryString) {
+        //build request using Fast Android Networking
+        ANRequest request = AndroidNetworking.get(ApiConstants.MOVIE_SEARCH_FORMAT)
+                .addQueryParameter(ApiConstants.API_KEY_KEY, ApiConstants.API_KEY)
+                .addQueryParameter(ApiConstants.LANG_KEY, searchPreferences.getLanguageValue())
+                .addQueryParameter(ApiConstants.QUERY_KEY, queryString)
                 .addQueryParameter(ApiConstants.PAGE_KEY, String.valueOf(searchPreferences.getTargetPage()))
                 .build();
 
